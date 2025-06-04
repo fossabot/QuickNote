@@ -2,66 +2,98 @@ package note
 
 import (
 	"bytes"
+	"crypto/sha256"
 	"encoding/binary"
 	"errors"
 	"fmt"
 	"io"
+
+	"github.com/Sn0wo2/QuickNote/compress"
+	"github.com/Sn0wo2/QuickNote/encrypt"
+	"github.com/Sn0wo2/QuickNote/helper"
 )
 
 const (
 	fieldTitle   = 1
 	fieldContent = 2
-	magicHeader  = "NOTE" // 4 bytes
+	magicHeader  = "NOTE"
 	magicVersion = 1
 )
 
-func (n *Note) Encode() ([]byte, error) {
+func deriveKey(key []byte) []byte {
+	sum := sha256.Sum256(key)
+	return sum[:]
+}
+
+func (n *Payload) Encode(key []byte) ([]byte, error) {
 	var buf bytes.Buffer
 	buf.WriteString(magicHeader)
 	buf.WriteByte(magicVersion)
 
-	writeField := func(id byte, data []byte) error {
-		if err := buf.WriteByte(id); err != nil {
-			return err
+	for _, field := range []struct {
+		id   byte
+		data []byte
+	}{
+		{fieldTitle, n.Title},
+		{fieldContent, n.Content},
+	} {
+		if err := buf.WriteByte(field.id); err != nil {
+			return nil, err
 		}
-		if err := binary.Write(&buf, binary.LittleEndian, uint32(len(data))); err != nil {
-			return err
+		if err := binary.Write(&buf, binary.LittleEndian, uint32(len(field.data))); err != nil {
+			return nil, err
 		}
-		_, err := buf.Write(data)
-		return err
+		if _, err := buf.Write(field.data); err != nil {
+			return nil, err
+		}
 	}
 
-	if err := writeField(fieldTitle, n.Title); err != nil {
-		return nil, err
-	}
-	if err := writeField(fieldContent, n.Content); err != nil {
-		return nil, err
+	data := buf.Bytes()
+
+	if key != nil {
+		var err error
+		data, err = encrypt.AESCTREncrypt(data, deriveKey(key))
+		if err != nil {
+			return nil, err
+		}
 	}
 
-	return buf.Bytes(), nil
+	return compress.CompressFlate(data)
 }
 
-func (n *Note) Decode(data []byte) error {
-	if len(data) < len(magicHeader)+1 || !bytes.Equal(data[:len(magicHeader)], []byte(magicHeader)) {
-		return errors.New("invalid magic header")
+func (n *Payload) Decode(data, key []byte) error {
+	var err error
+	data, err = compress.DecompressFlate(data)
+	if err != nil {
+		return fmt.Errorf("decompression failed: %w", err)
+	}
+
+	if !bytes.HasPrefix(data, helper.StringToBytes(magicHeader)) {
+		if key == nil {
+			return errors.New("data appears encrypted but no key was provided")
+		}
+		data, err = encrypt.AESCTRDecrypt(data, deriveKey(key))
+		if err != nil {
+			return fmt.Errorf("decryption failed: %w", err)
+		}
+		if !bytes.HasPrefix(data, helper.StringToBytes(magicHeader)) {
+			return errors.New("invalid magic header after decryption (possibly wrong key)")
+		}
 	}
 
 	r := bytes.NewReader(data[len(magicHeader):])
 
-	versionByte, err := r.ReadByte()
-	if err != nil {
-		return fmt.Errorf("failed to read version: %w", err)
-	}
-	if versionByte != magicVersion {
-		return fmt.Errorf("unsupported version: %d", versionByte)
+	version, err := r.ReadByte()
+	if err != nil || version != magicVersion {
+		return fmt.Errorf("unsupported or invalid version: %d", version)
 	}
 
 	for {
 		id, err := r.ReadByte()
+		if err == io.EOF {
+			break
+		}
 		if err != nil {
-			if errors.Is(err, io.EOF) {
-				break
-			}
 			return err
 		}
 
