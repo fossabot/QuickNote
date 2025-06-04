@@ -12,5 +12,5 @@ func Error(ctx *fiber.Ctx, err error) error {
 		zap.Error(err),
 		zap.String("ctx", ctx.String()),
 	)
-	return ctx.Status(fiber.StatusInternalServerError).JSON(response.New(false, err.Error()))
+	return ctx.Status(fiber.StatusInternalServerError).JSON(response.New(false, "Oops, something went wrong"))
 }
