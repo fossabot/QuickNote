@@ -10,16 +10,18 @@ import (
 	"gorm.io/gorm"
 )
 
-func New(driver, url string) gorm.Dialector {
-	switch strings.ToLower(driver) {
-	case "postgres":
-		return postgres.Open(url)
-	case "sqlite":
-		return sqlite.Open(url)
-	case "sqlserver":
-		return sqlserver.Open(url)
-	// MySQL and fallback
+func New(name, dsn string) gorm.Dialector {
+	switch strings.ToLower(name) {
+	case "postgres", "pg", "cockroach", "crdb", "alloydb":
+		return postgres.Open(dsn)
+	case "mysql", "mariadb", "tidb", "aurora":
+		return mysql.Open(dsn)
+	case "sqlite", "sqlite3":
+		return sqlite.Open(dsn)
+	case "sqlserver", "mssql":
+		return sqlserver.Open(dsn)
+	// fallback to mysql
 	default:
-		return mysql.Open(url)
+		return mysql.Open(dsn)
 	}
 }
