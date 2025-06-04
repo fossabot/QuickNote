@@ -36,8 +36,6 @@ run:
   go: '1.24.3'
 
 output:
-  formats:
-    - format: "colored-line-number"
   print-issued-lines: true
   print-linter-name: true
 
