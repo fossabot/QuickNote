@@ -23,13 +23,11 @@ func Setup(app *fiber.App) {
 	api.Group(healthPath, handler.Health(healthPath))
 	api.Group(notePath, handler.Note(notePath))
 
-	app.Use("*", func(c *fiber.Ctx) error {
+	app.Use("*", func(ctx *fiber.Ctx) error {
 		log.Instance.Warn("Route not found",
-			zap.String("method", c.Method()),
-			zap.String("path", c.Path()),
-			zap.String("ip", c.IP()),
+			zap.String("ctx", ctx.String()),
 		)
 
-		return c.Status(fiber.StatusNotFound).JSON(response.New(false, "Route not found"))
+		return ctx.Status(fiber.StatusNotFound).JSON(response.New(false, "Route not found"))
 	})
 }
