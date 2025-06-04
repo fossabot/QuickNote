@@ -6,8 +6,7 @@ import (
 	"reflect"
 	"strings"
 
-	meow "github.com/Sn0wo2/MeowLogger"
-	"github.com/Sn0wo2/MeowLogger/helper"
+	"github.com/Sn0wo2/QuickNote/helper"
 	"gopkg.in/yaml.v3"
 )
 
@@ -34,7 +33,7 @@ func Init() error {
 func (c *Config) String() string {
 	cb, err := yaml.Marshal(*c)
 	if err != nil {
-		meow.RPanic(err)
+		return ""
 	}
 
 	return helper.BytesToString(cb)
