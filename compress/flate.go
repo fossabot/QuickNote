@@ -9,7 +9,7 @@ import (
 func CompressFlate(data []byte) ([]byte, error) {
 	var b bytes.Buffer
 	// level: flate.DefaultCompression, flate.BestSpeed, etc.
-	writer, err := flate.NewWriter(&b, flate.BestCompression)
+	writer, err := flate.NewWriter(&b, flate.BestSpeed)
 	if err != nil {
 		return nil, err
 	}
