@@ -19,15 +19,19 @@ func FlateCompress(data []byte) ([]byte, error) {
 		return nil, err
 	}
 
-	writer.Close()
+	_ = writer.Close()
+
 	return b.Bytes(), nil
 }
 
 func FlateDecompress(compressed []byte) ([]byte, error) {
 	reader := flate.NewReader(bytes.NewReader(compressed))
-	defer reader.Close()
+	defer func() {
+		_ = reader.Close()
+	}()
 
 	var out bytes.Buffer
+
 	_, err := io.Copy(&out, reader)
 	if err != nil {
 		return nil, err

@@ -18,6 +18,7 @@ func Setup(app *fiber.App) {
 	api := app.Group(setup.APIVersion)
 
 	const healthPath = "health"
+
 	const notePath = "note"
 
 	api.Group(healthPath, handler.Health(healthPath))

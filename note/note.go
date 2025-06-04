@@ -5,6 +5,7 @@ func (n *Note) Write() error {
 	if err != nil {
 		return err
 	}
+
 	return SetNote(*n)
 }
 
@@ -13,6 +14,7 @@ func (n *Note) Read() error {
 	if err != nil {
 		return err
 	}
+
 	return n.Decode(no.Data, n.Key)
 }
 

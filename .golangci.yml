@@ -1,28 +1,23 @@
+version: "2"
+
 linters:
-  fast: false
   enable:
+    - staticcheck
     - bodyclose
     - errcheck
+    - rowserrcheck
     - exhaustive
     - gocritic
-    - gofmt
-    - goimports
     - goprintffuncname
-    - gosimple
     - govet
     - ineffassign
     - nolintlint
-    - rowserrcheck
-    - staticcheck
-    - stylecheck
-    - typecheck
     - unconvert
     - unparam
     - unused
     - prealloc
     - predeclared
     - asciicheck
-    - revive
     - makezero
     - dupl
     - errname
@@ -30,17 +25,41 @@ linters:
     - sloglint
 
 run:
-  deadline: 5m
+  tests: true
+  concurrency: 4
+  timeout: 5m
   issues-exit-code: 1
-  tests: false
-  go: '1.24.3'
-
-output:
-  print-issued-lines: true
-  print-linter-name: true
+  modules-download-mode: readonly
 
 issues:
-  fix: true
   max-issues-per-linter: 0
-  max-same-issues: 0
   uniq-by-line: true
+  fix: true
+
+formatters:
+  enable:
+    - gci
+    - gofumpt
+    - goimports
+    - gofmt
+
+linters-settings:
+  gocritic:
+    enabled-checks:
+      - ifElseChain
+      - captLocal
+      - typeAssertChain
+      - rangeValCopy
+  revive:
+    ignore-generated-header: true
+    severity: warning
+    rules:
+      - name: indent-error-flow
+        severity: error
+  staticcheck:
+    checks:
+      - all
+  errcheck:
+    check-type-assertions: true
+  dupl:
+    threshold: 100

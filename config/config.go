@@ -12,7 +12,7 @@ import (
 
 var Instance Config
 
-// Init or Reload config
+// Init or Reload config.
 func Init() error {
 	cf, err := os.ReadFile("config.yml")
 	if err != nil {
@@ -27,6 +27,7 @@ func Init() error {
 	if err != nil {
 		return err
 	}
+
 	return nil
 }
 
@@ -44,18 +45,22 @@ func ValidateConfig(cfg any) error {
 	if v.Kind() == reflect.Ptr {
 		v = v.Elem()
 	}
+
 	t := v.Type()
 	for i := 0; i < t.NumField(); i++ {
 		field := t.Field(i)
 		if field.PkgPath != "" {
 			continue
 		}
+
 		optional := field.Tag.Get("optional")
 		if optional == "true" {
 			continue
 		}
+
 		value := v.Field(i)
 		isEmpty := false
+
 		switch value.Kind() {
 		case reflect.String:
 			isEmpty = strings.TrimSpace(value.String()) == ""
@@ -76,9 +81,11 @@ func ValidateConfig(cfg any) error {
 		case reflect.Bool, reflect.Uintptr, reflect.Complex64, reflect.Complex128, reflect.Chan, reflect.Func, reflect.UnsafePointer, reflect.Invalid:
 		default:
 		}
+
 		if isEmpty {
 			return fmt.Errorf("config field [%s] is required but empty", field.Name)
 		}
 	}
+
 	return nil
 }

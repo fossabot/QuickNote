@@ -34,6 +34,7 @@ func Note(path string) func(ctx *fiber.Ctx) error {
 				if content == "" {
 					msg = "content is required"
 				}
+
 				return ctx.Status(fiber.StatusBadRequest).JSON(response.New(false, msg))
 			}
 
@@ -42,28 +43,34 @@ func Note(path string) func(ctx *fiber.Ctx) error {
 
 			if err := n.Write(); err != nil {
 				log.Instance.Error("Failed to write note", zap.Error(err), zap.String("ctx", ctx.String()))
+
 				return ctx.Status(fiber.StatusInternalServerError).JSON(response.New(false, "failed to write note"))
 			}
 
 			log.Instance.Info("Note created", zap.String("ctx", ctx.String()))
+
 			return ctx.Status(fiber.StatusOK).JSON(response.New(true, "success"))
 
 		case fiber.MethodDelete:
 			if err := n.Delete(); err != nil {
 				log.Instance.Warn("Failed to delete note", zap.Error(err), zap.String("ctx", ctx.String()))
+
 				return ctx.Status(fiber.StatusNotFound).JSON(response.New(false, "Failed to delete note"))
 			}
 
 			log.Instance.Info("Note deleted", zap.String("ctx", ctx.String()))
+
 			return ctx.Status(fiber.StatusOK).JSON(response.New(true, "success"))
 
 		default:
 			if err := n.Read(); err != nil {
 				log.Instance.Warn("Note not found", zap.Error(err), zap.String("ctx", ctx.String()))
+
 				return ctx.Status(fiber.StatusNotFound).JSON(response.New(false, "Note not found"))
 			}
 
 			log.Instance.Info("Note found", zap.String("ctx", ctx.String()))
+
 			return ctx.Status(fiber.StatusOK).JSON(response.New(true, "success", note.DisplayNote{
 				NID:     n.NID,
 				Title:   helper.BytesToString(n.Title),

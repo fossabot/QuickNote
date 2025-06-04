@@ -17,10 +17,12 @@ func New(dialector gorm.Dialector, config ...*gorm.Config) (*SQL, error) {
 	} else {
 		cfg = GetConfig()
 	}
+
 	db, err := gorm.Open(dialector, cfg)
 	if err != nil {
 		return nil, err
 	}
+
 	return &SQL{
 		db: db,
 	}, db.Error
@@ -35,6 +37,7 @@ func (d *SQL) Uninitialize() error {
 	if err != nil {
 		return err
 	}
+
 	return db.Close()
 }
 

@@ -25,6 +25,7 @@ func main() {
 	defer func() {
 		_ = log.Instance.Sync()
 	}()
+
 	err := config.Init()
 	if err != nil {
 		log.Instance.Fatal("Failed to load config",
@@ -43,6 +44,7 @@ func main() {
 			zap.Error(err),
 		)
 	}
+
 	err = table.Init()
 	if err != nil {
 		log.Instance.Fatal("Failed to initialize tables",

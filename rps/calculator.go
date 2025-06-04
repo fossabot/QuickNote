@@ -3,6 +3,7 @@ package rps
 import (
 	"context"
 	"fmt"
+	"strconv"
 	"time"
 
 	"github.com/Sn0wo2/QuickNote/rds"
@@ -31,11 +32,12 @@ func (r *RPS) RecordRequest() error {
 		Member: fmt.Sprintf("%d-%d", now, time.Now().UnixNano()),
 	})
 
-	pipe.ZRemRangeByScore(r.ctx, GetKey(), "-inf", fmt.Sprintf("%d", now-60))
+	pipe.ZRemRangeByScore(r.ctx, GetKey(), "-inf", strconv.FormatInt(now-60, 10))
 
 	pipe.Expire(r.ctx, GetKey(), 2*time.Minute)
 
 	_, err := pipe.Exec(r.ctx)
+
 	return err
 }
 
@@ -43,8 +45,8 @@ func (r *RPS) GetRequestsPerMinute() (int64, error) {
 	now := time.Now().Unix()
 
 	count, err := rds.Instance.Get().ZCount(r.ctx, GetKey(),
-		fmt.Sprintf("%d", now-60),
-		fmt.Sprintf("%d", now)).Result()
+		strconv.FormatInt(now-60, 10),
+		strconv.FormatInt(now, 10)).Result()
 
 	return count, err
 }

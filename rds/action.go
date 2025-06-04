@@ -31,5 +31,6 @@ func GetCompressedBytes(key string) ([]byte, error) {
 	if err != nil {
 		return nil, err
 	}
+
 	return value, nil
 }

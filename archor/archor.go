@@ -11,6 +11,7 @@ func NewAnchor() *Anchor {
 
 func (a *Anchor) Since(format string) string {
 	duration := time.Since(a.StartTime)
+
 	return FormatDuration(duration, format)
 }
 

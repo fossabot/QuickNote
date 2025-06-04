@@ -13,7 +13,9 @@ func Init(typ, url string) error {
 	if err != nil {
 		return err
 	}
+
 	Instance = db
+
 	return Instance.Get().Error
 }
 

@@ -14,6 +14,7 @@ func InitNoteSchema() error {
 func GetNote(nid string) (Note, error) {
 	var note Note
 	err := orm.Instance.Get().First(&note, "n_id = ?", nid).Error
+
 	return note, err
 }
 
@@ -24,8 +25,10 @@ func SetNote(note Note) error {
 			if errors.Is(err, gorm.ErrRecordNotFound) {
 				return tx.Create(&note).Error
 			}
+
 			return err
 		}
+
 		return tx.Model(&existing).Updates(note).Error
 	})
 }
@@ -35,6 +38,7 @@ func DeleteNote(nid string) error {
 		if err := tx.Unscoped().Where("n_id = ?", nid).Delete(&Note{}).Error; err != nil {
 			return err
 		}
+
 		return nil
 	})
 }

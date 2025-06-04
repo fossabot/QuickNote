@@ -22,11 +22,13 @@ const (
 
 func deriveKey(key []byte) []byte {
 	sum := sha256.Sum256(key)
+
 	return sum[:]
 }
 
 func (n *Note) Encode(key []byte) error {
 	var buf bytes.Buffer
+
 	buf.WriteString(magicHeader)
 	buf.WriteByte(magicVersion)
 
@@ -40,9 +42,11 @@ func (n *Note) Encode(key []byte) error {
 		if err := buf.WriteByte(field.id); err != nil {
 			return err
 		}
+
 		if err := binary.Write(&buf, binary.LittleEndian, uint32(len(field.data))); err != nil {
 			return err
 		}
+
 		if _, err := buf.Write(field.data); err != nil {
 			return err
 		}
@@ -52,23 +56,28 @@ func (n *Note) Encode(key []byte) error {
 
 	if key != nil {
 		var err error
+
 		data, err = encrypt.AESCTREncrypt(data, deriveKey(key))
 		if err != nil {
 			return err
 		}
 	}
+
 	compressData, err := compress.FlateCompress(data)
 	if err != nil {
 		return err
 	}
+
 	n.Data = compressData
 	n.Title = nil
 	n.Content = nil
+
 	return nil
 }
 
 func (n *Note) Decode(data, key []byte) error {
 	var err error
+
 	data, err = compress.FlateDecompress(data)
 	if err != nil {
 		return fmt.Errorf("decompression failed: %w", err)
@@ -78,10 +87,12 @@ func (n *Note) Decode(data, key []byte) error {
 		if key == nil {
 			return errors.New("data appears encrypted but no key was provided")
 		}
+
 		data, err = encrypt.AESCTRDecrypt(data, deriveKey(key))
 		if err != nil {
 			return fmt.Errorf("decryption failed: %w", err)
 		}
+
 		if !bytes.HasPrefix(data, helper.StringToBytes(magicHeader)) {
 			return errors.New("invalid magic header after decryption (possibly wrong key)")
 		}
@@ -103,6 +114,7 @@ func (n *Note) Decode(data, key []byte) error {
 		if err == io.EOF {
 			break
 		}
+
 		if err != nil {
 			return err
 		}
@@ -111,6 +123,7 @@ func (n *Note) Decode(data, key []byte) error {
 		if err := binary.Read(r, binary.LittleEndian, &length); err != nil {
 			return err
 		}
+
 		if int64(length) > int64(r.Len()) {
 			return fmt.Errorf("field %d length %d exceeds remaining %d", id, length, r.Len())
 		}
@@ -129,5 +142,6 @@ func (n *Note) Decode(data, key []byte) error {
 			return fmt.Errorf("unknown field id: %d", id)
 		}
 	}
+
 	return nil
 }

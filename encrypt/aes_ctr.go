@@ -34,15 +34,18 @@ func AESCTRDecrypt(encrypted, key []byte) ([]byte, error) {
 	if len(encrypted) < aes.BlockSize {
 		return nil, errors.New("ciphertext too short")
 	}
+
 	block, err := aes.NewCipher(key)
 	if err != nil {
 		return nil, err
 	}
+
 	ciphertext := encrypted[aes.BlockSize:]
 
 	plaintext := make([]byte, len(ciphertext))
 	// 2: iv
 	stream := cipher.NewCTR(block, encrypted[:aes.BlockSize])
 	stream.XORKeyStream(plaintext, ciphertext)
+
 	return plaintext, nil
 }
