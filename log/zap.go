@@ -28,14 +28,31 @@ func ZapLogger() *zap.Logger {
 			var color string
 			switch l {
 			case zapcore.DebugLevel:
+				// Purple - ANSI: \x1b[35m, Hex: #800080, RGB: (128, 0, 128)
 				color = "\x1b[35m"
 			case zapcore.InfoLevel:
+				// Green - ANSI: \x1b[32m, Hex: #008000, RGB: (0, 128, 0)
 				color = "\x1b[32m"
 			case zapcore.WarnLevel:
+				// Yellow - ANSI: \x1b[33m, Hex: #FFFF00, RGB: (255, 255, 0)
 				color = "\x1b[33m"
 			case zapcore.ErrorLevel:
+				// Red - ANSI: \x1b[31m, Hex: #FF0000, RGB: (255, 0, 0)
 				color = "\x1b[31m"
+			case zapcore.DPanicLevel:
+				// Cyan - ANSI: \x1b[36m, Hex: #00FFFF, RGB: (0, 255, 255)
+				color = "\x1b[36m"
+			case zapcore.PanicLevel:
+				// Bright Red - ANSI: \x1b[1;31m, Hex: #FF5555, RGB: (255, 85, 85)
+				color = "\x1b[1;31m"
+			case zapcore.FatalLevel:
+				// Red background with bold text - ANSI: \x1b[1;41m, approx Hex: #FFFFFF on #FF0000
+				color = "\x1b[1;41m"
+			case zapcore.InvalidLevel:
+				// Default (reset) - ANSI: \x1b[0m, Hex: default terminal color
+				color = "\x1b[0m"
 			default:
+				// Fallback to default
 				color = "\x1b[0m"
 			}
 			enc.AppendString(color + "[" + l.CapitalString() + "]" + "\x1b[0m")

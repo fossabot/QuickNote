@@ -6,7 +6,7 @@ import (
 	"io"
 )
 
-func CompressFlate(data []byte) ([]byte, error) {
+func FlateCompress(data []byte) ([]byte, error) {
 	var b bytes.Buffer
 	// level: flate.DefaultCompression, flate.BestSpeed, etc.
 	writer, err := flate.NewWriter(&b, flate.BestSpeed)
@@ -23,7 +23,7 @@ func CompressFlate(data []byte) ([]byte, error) {
 	return b.Bytes(), nil
 }
 
-func DecompressFlate(compressed []byte) ([]byte, error) {
+func FlateDecompress(compressed []byte) ([]byte, error) {
 	reader := flate.NewReader(bytes.NewReader(compressed))
 	defer reader.Close()
 

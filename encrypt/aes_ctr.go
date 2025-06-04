@@ -13,16 +13,21 @@ func AESCTREncrypt(data, key []byte) ([]byte, error) {
 	if err != nil {
 		return nil, err
 	}
-	iv := make([]byte, aes.BlockSize) // 16 bytes
-	if _, err := io.ReadFull(rand.Reader, iv); err != nil {
+
+	iv := make([]byte, aes.BlockSize) // 16
+	if _, err = io.ReadFull(rand.Reader, iv); err != nil {
 		return nil, err
 	}
+
 	ciphertext := make([]byte, len(data))
-	stream := cipher.NewCTR(block, iv)
-	stream.XORKeyStream(ciphertext, data)
+	cipher.NewCTR(block, iv).XORKeyStream(ciphertext, data)
 
 	// contains iv + encrypted data
-	return append(iv, ciphertext...), nil
+	out := make([]byte, 0, len(iv)+len(ciphertext))
+	out = append(out, iv...)
+	out = append(out, ciphertext...)
+
+	return out, nil
 }
 
 func AESCTRDecrypt(encrypted, key []byte) ([]byte, error) {
@@ -33,11 +38,11 @@ func AESCTRDecrypt(encrypted, key []byte) ([]byte, error) {
 	if err != nil {
 		return nil, err
 	}
-	iv := encrypted[:aes.BlockSize]
 	ciphertext := encrypted[aes.BlockSize:]
 
 	plaintext := make([]byte, len(ciphertext))
-	stream := cipher.NewCTR(block, iv)
+	// 2: iv
+	stream := cipher.NewCTR(block, encrypted[:aes.BlockSize])
 	stream.XORKeyStream(plaintext, ciphertext)
 	return plaintext, nil
 }

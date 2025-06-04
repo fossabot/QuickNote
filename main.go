@@ -22,7 +22,9 @@ func init() {
 }
 
 func main() {
-	defer log.Instance.Sync()
+	defer func() {
+		_ = log.Instance.Sync()
+	}()
 	err := config.Init()
 	if err != nil {
 		log.Instance.Fatal("Failed to load config",

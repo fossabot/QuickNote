@@ -13,7 +13,7 @@ func SetCompressedBytes(key string, value []byte, expire time.Duration) error {
 		return errors.New("empty value")
 	}
 
-	value, err := compress.CompressFlate(value)
+	value, err := compress.FlateCompress(value)
 	if err != nil {
 		return err
 	}
@@ -27,7 +27,7 @@ func GetCompressedBytes(key string) ([]byte, error) {
 		return nil, err
 	}
 
-	value, err = compress.DecompressFlate(value)
+	value, err = compress.FlateDecompress(value)
 	if err != nil {
 		return nil, err
 	}

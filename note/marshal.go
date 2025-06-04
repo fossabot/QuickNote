@@ -57,7 +57,7 @@ func (n *Note) Encode(key []byte) error {
 			return err
 		}
 	}
-	compressData, err := compress.CompressFlate(data)
+	compressData, err := compress.FlateCompress(data)
 	if err != nil {
 		return err
 	}
@@ -69,7 +69,7 @@ func (n *Note) Encode(key []byte) error {
 
 func (n *Note) Decode(data, key []byte) error {
 	var err error
-	data, err = compress.DecompressFlate(data)
+	data, err = compress.FlateDecompress(data)
 	if err != nil {
 		return fmt.Errorf("decompression failed: %w", err)
 	}
