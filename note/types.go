@@ -4,19 +4,15 @@ import (
 	"gorm.io/gorm"
 )
 
-type Payload struct {
-	Title   []byte `gorm:"-"`
-	Content []byte `gorm:"-"`
-}
-
 type Note struct {
 	gorm.Model
-	NID  string `gorm:"uniqueIndex"`
+	NID  string `gorm:"index"`
 	Lock bool
-	Data []byte
-	Key  []byte `gorm:"-"`
+	Data []byte // Encoded Payload
+	Key  []byte `gorm:"-"` // Encryption Decryption Key
 
-	Payload
+	Title   []byte `gorm:"-"` // Decoded Title
+	Content []byte `gorm:"-"` // Decoded Content
 }
 
 type DisplayNote struct {

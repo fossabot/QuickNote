@@ -50,8 +50,8 @@ func Note(path string) func(ctx *fiber.Ctx) error {
 
 		case fiber.MethodDelete:
 			if err := n.Delete(); err != nil {
-				log.Instance.Warn("Note not found", zap.Error(err), zap.String("ctx", ctx.String()))
-				return ctx.Status(fiber.StatusNotFound).JSON(response.New(false, err.Error()))
+				log.Instance.Warn("Failed to delete note", zap.Error(err), zap.String("ctx", ctx.String()))
+				return ctx.Status(fiber.StatusNotFound).JSON(response.New(false, "Failed to delete note"))
 			}
 
 			log.Instance.Info("Note deleted", zap.String("ctx", ctx.String()))
@@ -60,7 +60,7 @@ func Note(path string) func(ctx *fiber.Ctx) error {
 		default:
 			if err := n.Read(); err != nil {
 				log.Instance.Warn("Note not found", zap.Error(err), zap.String("ctx", ctx.String()))
-				return ctx.Status(fiber.StatusNotFound).JSON(response.New(false, err.Error()))
+				return ctx.Status(fiber.StatusNotFound).JSON(response.New(false, "Note not found"))
 			}
 
 			log.Instance.Info("Note found", zap.String("ctx", ctx.String()))

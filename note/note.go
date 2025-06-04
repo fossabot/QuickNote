@@ -1,11 +1,10 @@
 package note
 
 func (n *Note) Write() error {
-	encoded, err := n.Encode(n.Key)
+	err := n.Encode(n.Key)
 	if err != nil {
 		return err
 	}
-	n.Data = encoded
 	return SetNote(*n)
 }
 

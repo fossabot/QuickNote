@@ -25,7 +25,7 @@ func deriveKey(key []byte) []byte {
 	return sum[:]
 }
 
-func (n *Payload) Encode(key []byte) ([]byte, error) {
+func (n *Note) Encode(key []byte) error {
 	var buf bytes.Buffer
 	buf.WriteString(magicHeader)
 	buf.WriteByte(magicVersion)
@@ -38,13 +38,13 @@ func (n *Payload) Encode(key []byte) ([]byte, error) {
 		{fieldContent, n.Content},
 	} {
 		if err := buf.WriteByte(field.id); err != nil {
-			return nil, err
+			return err
 		}
 		if err := binary.Write(&buf, binary.LittleEndian, uint32(len(field.data))); err != nil {
-			return nil, err
+			return err
 		}
 		if _, err := buf.Write(field.data); err != nil {
-			return nil, err
+			return err
 		}
 	}
 
@@ -54,14 +54,20 @@ func (n *Payload) Encode(key []byte) ([]byte, error) {
 		var err error
 		data, err = encrypt.AESCTREncrypt(data, deriveKey(key))
 		if err != nil {
-			return nil, err
+			return err
 		}
 	}
-
-	return compress.CompressFlate(data)
+	compressData, err := compress.CompressFlate(data)
+	if err != nil {
+		return err
+	}
+	n.Data = compressData
+	n.Title = nil
+	n.Content = nil
+	return nil
 }
 
-func (n *Payload) Decode(data, key []byte) error {
+func (n *Note) Decode(data, key []byte) error {
 	var err error
 	data, err = compress.DecompressFlate(data)
 	if err != nil {
@@ -88,6 +94,10 @@ func (n *Payload) Decode(data, key []byte) error {
 		return fmt.Errorf("unsupported or invalid version: %d", version)
 	}
 
+	defer func() {
+		n.Data = nil
+	}()
+
 	for {
 		id, err := r.ReadByte()
 		if err == io.EOF {
@@ -106,7 +116,7 @@ func (n *Payload) Decode(data, key []byte) error {
 		}
 
 		val := make([]byte, length)
-		if _, err := io.ReadFull(r, val); err != nil {
+		if _, err = io.ReadFull(r, val); err != nil {
 			return err
 		}
 
@@ -114,7 +124,7 @@ func (n *Payload) Decode(data, key []byte) error {
 		case fieldTitle:
 			n.Title = val
 		case fieldContent:
-			n.Content = val
+			n.Title = val
 		default:
 			return fmt.Errorf("unknown field id: %d", id)
 		}
