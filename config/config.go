@@ -13,7 +13,7 @@ import (
 
 var Instance Config
 
-// Init Init/Reload config
+// Init or Reload config
 func Init() error {
 	cf, err := os.ReadFile("config.yml")
 	if err != nil {
