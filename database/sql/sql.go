@@ -10,8 +10,14 @@ type SQL struct {
 	db *gorm.DB
 }
 
-func New(dialector gorm.Dialector) (*SQL, error) {
-	db, err := gorm.Open(dialector, GetConfig())
+func New(dialector gorm.Dialector, config ...*gorm.Config) (*SQL, error) {
+	var cfg *gorm.Config
+	if len(config) > 0 {
+		cfg = config[0]
+	} else {
+		cfg = GetConfig()
+	}
+	db, err := gorm.Open(dialector, cfg)
 	if err != nil {
 		return nil, err
 	}
