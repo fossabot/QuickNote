@@ -14,21 +14,16 @@ func InitNoteSchema() error {
 func GetNote(nid string) (Note, error) {
 	var note Note
 	err := orm.Instance.Get().First(&note, "n_id = ?", nid).Error
-	if errors.Is(err, gorm.ErrRecordNotFound) {
-		return Note{}, nil
-	}
 	return note, err
 }
 
 func SetNote(note Note) error {
-	db := orm.Instance.Get()
-
-	return db.Transaction(func(tx *gorm.DB) error {
+	return orm.Instance.Get().Transaction(func(tx *gorm.DB) error {
 		var existing Note
-		err := tx.First(&existing, "n_id = ?", note.NID).Error
-		if errors.Is(err, gorm.ErrRecordNotFound) {
-			return tx.Create(&note).Error
-		} else if err != nil {
+		if err := tx.Where("n_id = ?", note.NID).First(&existing).Error; err != nil {
+			if errors.Is(err, gorm.ErrRecordNotFound) {
+				return tx.Create(&note).Error
+			}
 			return err
 		}
 		return tx.Model(&existing).Updates(note).Error
@@ -36,16 +31,10 @@ func SetNote(note Note) error {
 }
 
 func DeleteNote(nid string) error {
-	db := orm.Instance.Get()
-
-	return db.Transaction(func(tx *gorm.DB) error {
-		var note Note
-		err := tx.First(&note, "n_id = ?", nid).Error
-		if errors.Is(err, gorm.ErrRecordNotFound) {
-			return nil
-		} else if err != nil {
+	return orm.Instance.Get().Transaction(func(tx *gorm.DB) error {
+		if err := tx.Unscoped().Where("n_id = ?", nid).Delete(&Note{}).Error; err != nil {
 			return err
 		}
-		return tx.Unscoped().Delete(&note).Error
+		return nil
 	})
 }
