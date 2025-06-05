@@ -75,7 +75,7 @@ func main() {
 		zap.String("signal", sig.String()),
 	)
 
-	if err := app.Shutdown(); err != nil {
+	if err = app.Shutdown(); err != nil {
 		log.Instance.Error("Server shutdown error",
 			zap.Error(err),
 		)
