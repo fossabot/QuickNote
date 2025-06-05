@@ -19,11 +19,6 @@ func Init(typ, url string) error {
 	return Instance.Get().Error
 }
 
-type Database interface {
-	Get() *gorm.DB
-	Uninitialize() error
-}
-
 func New(typ, url string) (Database, error) {
 	return sql.New(dialer.New(typ, url))
 }

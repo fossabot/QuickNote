@@ -8,10 +8,6 @@ import (
 	"gorm.io/gorm/schema"
 )
 
-type SQL struct {
-	db *gorm.DB
-}
-
 func New(dialector gorm.Dialector, config ...*gorm.Config) (*SQL, error) {
 	var cfg *gorm.Config
 	if len(config) > 0 {
