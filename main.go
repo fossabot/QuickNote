@@ -10,10 +10,8 @@ import (
 	"github.com/Sn0wo2/QuickNote/database/orm"
 	"github.com/Sn0wo2/QuickNote/database/table"
 	"github.com/Sn0wo2/QuickNote/log"
-	"github.com/Sn0wo2/QuickNote/rds"
 	"github.com/Sn0wo2/QuickNote/router"
 	"github.com/Sn0wo2/QuickNote/setup"
-	"github.com/go-redis/redis/v8"
 	"go.uber.org/zap"
 )
 
@@ -32,11 +30,6 @@ func main() {
 			zap.Error(err),
 		)
 	}
-
-	rds.Instance.Init(&redis.Options{
-		Addr:     config.Instance.Redis.URL,
-		Password: config.Instance.Redis.Password,
-	})
 
 	err = orm.Init(config.Instance.Database.Type, config.Instance.Database.URL)
 	if err != nil {
