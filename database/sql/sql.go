@@ -1,6 +1,8 @@
 package sql
 
 import (
+	"time"
+
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
 	"gorm.io/gorm/schema"
@@ -23,6 +25,16 @@ func New(dialector gorm.Dialector, config ...*gorm.Config) (*SQL, error) {
 		return nil, err
 	}
 
+	sqlDB, err := db.DB()
+	if err != nil {
+		return nil, err
+	}
+
+	sqlDB.SetMaxOpenConns(100)
+	sqlDB.SetMaxIdleConns(10)
+	sqlDB.SetConnMaxLifetime(time.Hour)
+	sqlDB.SetConnMaxIdleTime(10 * time.Minute)
+
 	return &SQL{
 		db: db,
 	}, db.Error
@@ -43,10 +55,13 @@ func (d *SQL) Uninitialize() error {
 
 func GetConfig() *gorm.Config {
 	return &gorm.Config{
-		PrepareStmt: true,
+		PrepareStmt:            true,
+		SkipDefaultTransaction: true,
+		FullSaveAssociations:   false,
 		NamingStrategy: schema.NamingStrategy{
 			SingularTable: true,
 		},
-		Logger: logger.Default.LogMode(logger.Silent),
+		Logger:                                   logger.Default.LogMode(logger.Warn),
+		DisableForeignKeyConstraintWhenMigrating: true,
 	}
 }
