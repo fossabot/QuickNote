@@ -3,7 +3,6 @@ package orm
 import (
 	"github.com/Sn0wo2/QuickNote/database/dialer"
 	"github.com/Sn0wo2/QuickNote/database/sql"
-	"gorm.io/gorm"
 )
 
 var Instance Database
