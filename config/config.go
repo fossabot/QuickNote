@@ -23,7 +23,7 @@ func Init() error {
 		return err
 	}
 
-	err = ValidateConfig(&Instance)
+	err = validate(&Instance)
 	if err != nil {
 		return err
 	}
@@ -40,7 +40,7 @@ func (c *Config) String() string {
 	return helper.BytesToString(cb)
 }
 
-func ValidateConfig(cfg any) error {
+func validate(cfg any) error {
 	v := reflect.ValueOf(cfg)
 	if v.Kind() == reflect.Ptr {
 		v = v.Elem()
