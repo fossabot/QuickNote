@@ -1,157 +1,165 @@
-import { useEffect, useState, useRef, useCallback } from 'react';
-import MDEditor from '@uiw/react-md-editor';
-import './Note.scss';
+import { useEffect, useState, useRef, useCallback } from "react";
+import MDEditor from "@uiw/react-md-editor";
+import "./Note.scss";
 import { DarkModeToggle } from "../components/DarkModeToggle.tsx";
 import { toast, Toaster } from "react-hot-toast";
-import { getNote, saveNote } from '../services/noteAPI';
-import { useParams } from 'react-router-dom';
+import { getNote, saveNote } from "../services/noteAPI";
+import { useParams } from "react-router-dom";
 import * as React from "react";
 
 export function Note() {
-    const { id } = useParams<{ id: string }>();
-    console.log(id);
-    const [title, setTitle] = useState<string>('');
-    const [content, setContent] = useState<string>('');
-    const [mode, setMode] = useState<'edit' | 'preview' | 'both'>('both');
-    const [visible, setVisible] = useState<boolean>(false);
+  const { id } = useParams<{ id: string }>();
+  console.log(id);
+  const [title, setTitle] = useState<string>("");
+  const [content, setContent] = useState<string>("");
+  const [mode, setMode] = useState<"edit" | "preview" | "both">("both");
+  const [visible, setVisible] = useState<boolean>(false);
 
-    const prevTitleRef = useRef<string>('');
-    const prevContentRef = useRef<string>('');
-    const lastSaveTimeRef = useRef<number>(0);
-    const saveTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const prevTitleRef = useRef<string>("");
+  const prevContentRef = useRef<string>("");
+  const lastSaveTimeRef = useRef<number>(0);
+  const saveTimerRef = useRef<NodeJS.Timeout | null>(null);
 
-    const loadNote = useCallback(async () => {
-        if (!id) {
-            console.error('Note ID is not provided');
-            return;
+  const loadNote = useCallback(async () => {
+    if (!id) {
+      console.error("Note ID is not provided");
+      return;
+    }
+    try {
+      const noteData = await getNote(id);
+      if (noteData) {
+        setTitle(noteData.title);
+        setContent(noteData.content);
+        prevTitleRef.current = noteData.title;
+        prevContentRef.current = noteData.content;
+      }
+    } catch (e) {
+      toast.error("Failed to load note.");
+      console.error(e);
+    }
+    setTimeout(() => {
+      setVisible(true);
+    }, 100);
+  }, [id]);
+
+  useEffect(() => {
+    loadNote();
+  }, []);
+
+  const throttledSave = useCallback(async () => {
+    const now = Date.now();
+    const hasChanges =
+      title !== prevTitleRef.current || content !== prevContentRef.current;
+
+    if (!hasChanges) return;
+
+    if (!id) {
+      console.error("Note ID is undefined");
+      return;
+    }
+
+    if (now - lastSaveTimeRef.current >= 5000) {
+      try {
+        const success = await saveNote(id, title, content);
+        if (success) {
+          toast.success("Note saved successfully");
+          prevTitleRef.current = title;
+          prevContentRef.current = content;
+          lastSaveTimeRef.current = now;
         }
-        try {
-            const noteData = await getNote(id);
-            if (noteData) {
-                setTitle(noteData.title);
-                setContent(noteData.content);
-                prevTitleRef.current = noteData.title;
-                prevContentRef.current = noteData.content;
-            }
-        } catch (e) {
-            toast.error("Failed to load note.");
-            console.error(e);
-        }
-        setTimeout(() => {
-            setVisible(true);
-        }, 100);
-    }, [id]);
+      } catch (e) {
+        toast.error("Failed to save note.");
+        console.error(e);
+      }
+    } else {
+      if (saveTimerRef.current) clearTimeout(saveTimerRef.current);
+      const timer = setTimeout(
+        () => throttledSave(),
+        5000 - (now - lastSaveTimeRef.current),
+      );
+      saveTimerRef.current = timer;
+    }
+  }, [id, title, content]);
 
-    useEffect(() => {
-        loadNote();
-    }, []);
+  useEffect(() => {
+    throttledSave();
+    return () => {
+      if (saveTimerRef.current) {
+        clearTimeout(saveTimerRef.current);
+      }
+    };
+  }, [throttledSave]);
 
-    const throttledSave = useCallback(async () => {
-        const now = Date.now();
-        const hasChanges = (
-            title !== prevTitleRef.current ||
-            content !== prevContentRef.current
-        );
+  const SetMode = (value: "edit" | "preview" | "both") => {
+    setMode(value);
+    setVisible(false);
+    setTimeout(() => {
+      setVisible(true);
+    }, 100);
+  };
 
-        if (!hasChanges) return;
+  const handleContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setContent(e.target.value);
+  };
 
-        if (!id) {
-            console.error('Note ID is undefined');
-            return;
-        }
+  const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(e.target.value);
+  };
 
-
-        if (now - lastSaveTimeRef.current >= 5000) {
-            try {
-                const success = await saveNote(id, title, content);
-                if (success) {
-                    toast.success('Note saved successfully');
-                    prevTitleRef.current = title;
-                    prevContentRef.current = content;
-                    lastSaveTimeRef.current = now;
-                }
-            } catch (e) {
-                toast.error("Failed to save note.");
+  return (
+    <>
+      <div className="content">
+        <DarkModeToggle />
+        <div className={`note-container ${visible ? "visible" : ""}`}>
+          <div className="note-mode-toggle">
+            <button onClick={() => SetMode("edit")}>Edit Only</button>
+            <button onClick={() => SetMode("preview")}>Preview Only</button>
+            <button onClick={() => SetMode("both")}>Both</button>
+          </div>
+          <div className="note-header">
+            <input
+              type="text"
+              className="note-title"
+              value={title}
+              onChange={handleTitleChange}
+              placeholder="Note title"
+            />
+          </div>
+          <div className="note-content">
+            {(mode === "edit" || mode === "both") && (
+              <textarea
+                className="note-editor"
+                value={content}
+                onChange={handleContentChange}
+                placeholder="Write your note here (Markdown)..."
+              />
+            )}
+            {(mode === "preview" || mode === "both") && (
+              <div className="note-preview" data-color-mode="light">
+                <h1>{title}</h1>
+                <MDEditor.Markdown source={content} />
+              </div>
+            )}
+          </div>
+        </div>
+        <Toaster position="top-right" />
+        <button
+          onClick={() => {
+            navigator.clipboard
+              .writeText(window.location.href)
+              .then(() => {
+                toast.success("Copied to clipboard!");
+              })
+              .catch((e) => {
                 console.error(e);
-            }
-        } else {
-            if (saveTimerRef.current) clearTimeout(saveTimerRef.current);
-            const timer = setTimeout(() => throttledSave(), 5000 - (now - lastSaveTimeRef.current));
-            saveTimerRef.current = timer;
-        }
-    }, [id, title, content]);
-
-    useEffect(() => {
-        throttledSave();
-        return () => {
-            if (saveTimerRef.current) {
-                clearTimeout(saveTimerRef.current);
-            }
-        };
-    }, [throttledSave]);
-
-    const SetMode = (value: 'edit' | 'preview' | 'both') => {
-        setMode(value);
-        setVisible(false);
-        setTimeout(() => {
-            setVisible(true);
-        }, 100);
-    };
-
-    const handleContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-        setContent(e.target.value);
-    };
-
-    const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setTitle(e.target.value);
-    };
-
-    return (
-        <>
-            <div className="content">
-                <DarkModeToggle />
-                <div className={`note-container ${visible ? "visible" : ""}`}>
-                    <div className="note-mode-toggle">
-                        <button onClick={() => SetMode('edit')}>Edit Only</button>
-                        <button onClick={() => SetMode('preview')}>Preview Only</button>
-                        <button onClick={() => SetMode('both')}>Both</button>
-                    </div>
-                    <div className="note-header">
-                        <input
-                            type="text"
-                            className="note-title"
-                            value={title}
-                            onChange={handleTitleChange}
-                            placeholder="Note title"
-                        />
-                    </div>
-                    <div className="note-content">
-                        {(mode === 'edit' || mode === 'both') && (
-                            <textarea
-                                className="note-editor"
-                                value={content}
-                                onChange={handleContentChange}
-                                placeholder="Write your note here (Markdown)..."
-                            />
-                        )}
-                        {(mode === 'preview' || mode === 'both') && (
-                            <div className="note-preview" data-color-mode="light">
-                                <h1>{title}</h1>
-                                <MDEditor.Markdown source={content} />
-                            </div>
-                        )}
-                    </div>
-                </div>
-                <Toaster position="top-right" />
-                <button onClick={() => {
-                    navigator.clipboard.writeText(window.location.href).then(() => {
-                        toast.success('Copied to clipboard!');
-                    }).catch(e => {
-                        console.error(e)
-                        toast.error(e instanceof Error ? e.message : String(e))
-                    })
-                }} className="url">{window.location.host + window.location.pathname}</button>
-            </div>
-        </>
-    );
+                toast.error(e instanceof Error ? e.message : String(e));
+              });
+          }}
+          className="url"
+        >
+          {window.location.host + window.location.pathname}
+        </button>
+      </div>
+    </>
+  );
 }

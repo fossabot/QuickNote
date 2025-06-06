@@ -3,80 +3,80 @@
 // 基础颜色定义
 $light-colors: (
   // 背景相关
-        bg-primary: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%),
-        bg-secondary: #ffffff,
-        bg-surface: #f8f9fa,
-        bg-elevated: #ffffff,
+  bg-primary: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%),
+  bg-secondary: #ffffff,
+  bg-surface: #f8f9fa,
+  bg-elevated: #ffffff,
 
   // 文本相关
-        text-primary: #212529,
-        text-secondary: #495057,
-        text-tertiary: #6c757d,
-        text-on-accent: #ffffff,
+  text-primary: #212529,
+  text-secondary: #495057,
+  text-tertiary: #6c757d,
+  text-on-accent: #ffffff,
 
   // 链接相关
-        link-primary: #646cff,
-        link-hover: #535bf2,
-        link-visited: #9146ff,
+  link-primary: #646cff,
+  link-hover: #535bf2,
+  link-visited: #9146ff,
 
   // 交互状态
-        interactive: #646cff,
-        interactive-hover: #535bf2,
-        interactive-pressed: #4249db,
-        interactive-disabled: #adb5bd,
+  interactive: #646cff,
+  interactive-hover: #535bf2,
+  interactive-pressed: #4249db,
+  interactive-disabled: #adb5bd,
 
   // 强调色
-        accent-primary: #00ffff,
-        accent-secondary: #00e6e6,
+  accent-primary: #00ffff,
+  accent-secondary: #00e6e6,
 
   // 边框
-        border-primary: #e9ecef,
-        border-secondary: #dee2e6,
+  border-primary: #e9ecef,
+  border-secondary: #dee2e6,
 
   // 反馈色
-        success: #28a745,
-        warning: #ffc107,
-        danger: #dc3545,
-        info: #17a2b8
+  success: #28a745,
+  warning: #ffc107,
+  danger: #dc3545,
+  info: #17a2b8
 );
 
 $dark-colors: (
   // 背景相关
-        bg-primary: linear-gradient(135deg, #0d0d0d 0%, #1a1a1a 100%),
-        bg-secondary: #242424,
-        bg-surface: #1e1e1e,
-        bg-elevated: #2d2d2d,
+  bg-primary: linear-gradient(135deg, #0d0d0d 0%, #1a1a1a 100%),
+  bg-secondary: #242424,
+  bg-surface: #1e1e1e,
+  bg-elevated: #2d2d2d,
 
   // 文本相关
-        text-primary: #f8f9fa,
-        text-secondary: #e9ecef,
-        text-tertiary: #adb5bd,
-        text-on-accent: #212529,
+  text-primary: #f8f9fa,
+  text-secondary: #e9ecef,
+  text-tertiary: #adb5bd,
+  text-on-accent: #212529,
 
   // 链接相关
-        link-primary: #bb86fc,
-        link-hover: #9d65fc,
-        link-visited: #b197fc,
+  link-primary: #bb86fc,
+  link-hover: #9d65fc,
+  link-visited: #b197fc,
 
   // 交互状态
-        interactive: #bb86fc,
-        interactive-hover: #9d65fc,
-        interactive-pressed: #7d4dfc,
-        interactive-disabled: #495057,
+  interactive: #bb86fc,
+  interactive-hover: #9d65fc,
+  interactive-pressed: #7d4dfc,
+  interactive-disabled: #495057,
 
   // 强调色
-        accent-primary: #00c8c8,
-        accent-secondary: #00aaaa,
+  accent-primary: #00c8c8,
+  accent-secondary: #00aaaa,
 
   // 边框
-        border-primary: #343a40,
-        border-secondary: #495057,
+  border-primary: #343a40,
+  border-secondary: #495057,
 
   // 反馈色
-        success: #38d9a9,
-        warning: #ffd43b,
-        danger: #ff6b6b,
-        info: #4dabf7
+  success: #38d9a9,
+  warning: #ffd43b,
+  danger: #ff6b6b,
+  info: #4dabf7
 );
 
 @mixin set-css-vars($map) {
