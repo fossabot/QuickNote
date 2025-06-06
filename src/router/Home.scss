@@ -1,0 +1,127 @@
+@use "../components/DarkMode.scss";
+
+a {
+  color: var(--link-primary);
+
+  &:hover {
+    color: var(--link-hover);
+  }
+}
+
+.content {
+  position: fixed;
+  inset: 0;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  transition: all 0.3s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.background {
+  position: relative;
+  width: 50vmin;
+  height: 50vmin;
+  background: var(--bg-secondary);
+  border-radius: 25px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  aspect-ratio: 1 / 1;
+  max-width: 90%;
+  max-height: 90%;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  opacity: 0;
+  transform: scale(0.9);
+  transition: opacity 0.5s ease,
+  transform 0.5s ease,
+  background-color 0.3s ease;
+  padding-top: 3rem;
+  padding-bottom: 2.5rem;
+}
+
+.background.visible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.title {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 10%;
+  background-color: var(--accent-primary);
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  padding: 0;
+  border-top-left-radius: 25px;
+  border-top-right-radius: 25px;
+  z-index: 2;
+}
+
+.logo {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 150px;
+  height: 150px;
+  object-fit: contain;
+  pointer-events: none;
+  z-index: 3;
+  transform: translate(-50%, -50%);
+}
+
+.input-container {
+  margin-top: auto;
+  width: 80%;
+  display: inline-flex;
+  align-items: center;
+  border-radius: 9999px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-primary);
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.uuid-input {
+  flex-grow: 1;
+  border: none;
+  padding: 0.5rem 1rem;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 1rem;
+  color: var(--text-primary);
+  background: transparent;
+  outline: none;
+}
+
+.uuid-input::placeholder {
+  color: var(--text-tertiary);
+}
+
+.uuid-input:focus {
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.submit-btn {
+  flex-shrink: 0;
+  width: 2.8rem;
+  height: 2.8rem;
+  border: none;
+  border-radius: 50%;
+  background-color: var(--interactive);
+  color: var(--text-on-accent);
+  font-size: 1.4rem;
+  line-height: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.submit-btn:hover {
+  background-color: var(--interactive-hover);
+}

@@ -1,0 +1,146 @@
+@use "sass:map";
+
+// 基础颜色定义
+$light-colors: (
+  // 背景相关
+        bg-primary: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%),
+        bg-secondary: #ffffff,
+        bg-surface: #f8f9fa,
+        bg-elevated: #ffffff,
+
+  // 文本相关
+        text-primary: #212529,
+        text-secondary: #495057,
+        text-tertiary: #6c757d,
+        text-on-accent: #ffffff,
+
+  // 链接相关
+        link-primary: #646cff,
+        link-hover: #535bf2,
+        link-visited: #9146ff,
+
+  // 交互状态
+        interactive: #646cff,
+        interactive-hover: #535bf2,
+        interactive-pressed: #4249db,
+        interactive-disabled: #adb5bd,
+
+  // 强调色
+        accent-primary: #00ffff,
+        accent-secondary: #00e6e6,
+
+  // 边框
+        border-primary: #e9ecef,
+        border-secondary: #dee2e6,
+
+  // 反馈色
+        success: #28a745,
+        warning: #ffc107,
+        danger: #dc3545,
+        info: #17a2b8
+);
+
+$dark-colors: (
+  // 背景相关
+        bg-primary: linear-gradient(135deg, #0d0d0d 0%, #1a1a1a 100%),
+        bg-secondary: #242424,
+        bg-surface: #1e1e1e,
+        bg-elevated: #2d2d2d,
+
+  // 文本相关
+        text-primary: #f8f9fa,
+        text-secondary: #e9ecef,
+        text-tertiary: #adb5bd,
+        text-on-accent: #212529,
+
+  // 链接相关
+        link-primary: #bb86fc,
+        link-hover: #9d65fc,
+        link-visited: #b197fc,
+
+  // 交互状态
+        interactive: #bb86fc,
+        interactive-hover: #9d65fc,
+        interactive-pressed: #7d4dfc,
+        interactive-disabled: #495057,
+
+  // 强调色
+        accent-primary: #00c8c8,
+        accent-secondary: #00aaaa,
+
+  // 边框
+        border-primary: #343a40,
+        border-secondary: #495057,
+
+  // 反馈色
+        success: #38d9a9,
+        warning: #ffd43b,
+        danger: #ff6b6b,
+        info: #4dabf7
+);
+
+@mixin set-css-vars($map) {
+  @each $prop, $val in $map {
+    --#{$prop}: #{$val};
+  }
+}
+
+:root {
+  @include set-css-vars($light-colors);
+  --ripple-bg: #{map.get($dark-colors, bg-primary)};
+}
+
+:root[data-theme="dark"] {
+  @include set-css-vars($dark-colors);
+  --ripple-bg: #{map.get($light-colors, bg-primary)};
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    @include set-css-vars($dark-colors);
+    --ripple-bg: #{map.get($light-colors, bg-primary)};
+  }
+}
+
+.theme-toggle {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: transparent;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  color: var(--text-primary);
+  transition: all 0.3s;
+  z-index: 1000;
+
+  &:hover {
+    transform: scale(1.5);
+  }
+}
+
+.ripple {
+  position: fixed;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: var(--ripple-bg);
+  pointer-events: none;
+  z-index: 999;
+  transform: translate(-50%, -50%);
+  animation: rippleExpand 0.6s ease-out forwards;
+}
+
+@keyframes rippleExpand {
+  from {
+    width: 0;
+    height: 0;
+    opacity: 0.5;
+  }
+  to {
+    width: 1500px;
+    height: 1500px;
+    opacity: 0;
+  }
+}
