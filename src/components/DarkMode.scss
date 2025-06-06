@@ -1,55 +1,55 @@
-@use "sass:map";
+@use 'sass:map';
 
 $light-colors: (
-        bg-primary: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%),
-        bg-secondary: #ffffff,
-        bg-surface: #f8f9fa,
-        bg-elevated: #ffffff,
-        text-primary: #212529,
-        text-secondary: #495057,
-        text-tertiary: #6c757d,
-        text-on-accent: #ffffff,
-        link-primary: #646cff,
-        link-hover: #535bf2,
-        link-visited: #9146ff,
-        interactive: #646cff,
-        interactive-hover: #535bf2,
-        interactive-pressed: #4249db,
-        interactive-disabled: #adb5bd,
-        accent-primary: #00ffff,
-        accent-secondary: #00e6e6,
-        border-primary: #e9ecef,
-        border-secondary: #dee2e6,
-        success: #28a745,
-        warning: #ffc107,
-        danger: #dc3545,
-        info: #17a2b8,
+  bg-primary: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%),
+  bg-secondary: #ffffff,
+  bg-surface: #f8f9fa,
+  bg-elevated: #ffffff,
+  text-primary: #212529,
+  text-secondary: #495057,
+  text-tertiary: #6c757d,
+  text-on-accent: #ffffff,
+  link-primary: #646cff,
+  link-hover: #535bf2,
+  link-visited: #9146ff,
+  interactive: #646cff,
+  interactive-hover: #535bf2,
+  interactive-pressed: #4249db,
+  interactive-disabled: #adb5bd,
+  accent-primary: #00ffff,
+  accent-secondary: #00e6e6,
+  border-primary: #e9ecef,
+  border-secondary: #dee2e6,
+  success: #28a745,
+  warning: #ffc107,
+  danger: #dc3545,
+  info: #17a2b8,
 );
 
 $dark-colors: (
-        bg-primary: linear-gradient(135deg, #0d1117 0%, #161b22 100%),
-        bg-secondary: #242424,
-        bg-surface: #1e1e1e,
-        bg-elevated: #2d2d2d,
-        text-primary: #f0f6fc,
-        text-secondary: #c9d1d9,
-        text-tertiary: #8b949e,
-        text-on-accent: #212529,
-        link-primary: #bb86fc,
-        link-hover: #9d65fc,
-        link-visited: #b197fc,
-        interactive: #bb86fc,
-        interactive-hover: #9d65fc,
-        interactive-pressed: #7d4dfc,
-        interactive-disabled: #495057,
-        accent-primary: #00c8c8,
-        accent-secondary: #00aaaa,
-        border-primary: #30363d,
-        border-secondary: #8b949e,
-        success: #38d9a9,
-        warning: #ffd43b,
-        danger: #ff6b6b,
-        info: #4dabf7,
+  bg-primary: linear-gradient(135deg, #0d1117 0%, #161b22 100%),
+  bg-secondary: #242424,
+  bg-surface: #1e1e1e,
+  bg-elevated: #2d2d2d,
+  text-primary: #f0f6fc,
+  text-secondary: #c9d1d9,
+  text-tertiary: #8b949e,
+  text-on-accent: #212529,
+  link-primary: #bb86fc,
+  link-hover: #9d65fc,
+  link-visited: #b197fc,
+  interactive: #bb86fc,
+  interactive-hover: #9d65fc,
+  interactive-pressed: #7d4dfc,
+  interactive-disabled: #495057,
+  accent-primary: #00c8c8,
+  accent-secondary: #00aaaa,
+  border-primary: #30363d,
+  border-secondary: #8b949e,
+  success: #38d9a9,
+  warning: #ffd43b,
+  danger: #ff6b6b,
+  info: #4dabf7,
 );
 
 @mixin set-css-vars($map) {
@@ -63,13 +63,13 @@ $dark-colors: (
   --ripple-bg: #{map.get($dark-colors, bg-primary)};
 }
 
-:root[data-theme="dark"] {
+:root[data-theme='dark'] {
   @include set-css-vars($dark-colors);
   --ripple-bg: #{map.get($light-colors, bg-primary)};
 }
 
 @media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
+  :root:not([data-theme='light']) {
     @include set-css-vars($dark-colors);
     --ripple-bg: #{map.get($light-colors, bg-primary)};
   }
@@ -87,7 +87,9 @@ $dark-colors: (
   color: var(--text-primary);
   z-index: 1000;
   border-radius: 50%;
-  transition: transform 0.3s ease, filter 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    filter 0.3s ease;
   -webkit-tap-highlight-color: transparent;
 
   &:hover {
@@ -112,8 +114,9 @@ $dark-colors: (
     }
     .sun-beams {
       transform-origin: center center;
-      transition: transform 0.5s cubic-bezier(0.5, 1.5, 0.75, 1.25),
-      opacity 0.3s ease-out;
+      transition:
+        transform 0.5s cubic-bezier(0.5, 1.5, 0.75, 1.25),
+        opacity 0.3s ease-out;
     }
     .moon-mask {
       transform-origin: center center;
@@ -124,7 +127,7 @@ $dark-colors: (
   }
 }
 
-:root[data-theme="dark"] .theme-toggle {
+:root[data-theme='dark'] .theme-toggle {
   &:hover {
     transform: scale(1.2) rotate(-15deg);
   }

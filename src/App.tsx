@@ -1,6 +1,6 @@
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import { Home } from "./router/Home.tsx";
-import { Note } from "./router/Note.tsx";
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
+import { Home } from './router/Home.tsx'
+import { Note } from './router/Note.tsx'
 
 export function App() {
   return (
@@ -11,5 +11,5 @@ export function App() {
         <Route path="*" element={<Home />} />
       </Routes>
     </Router>
-  );
+  )
 }

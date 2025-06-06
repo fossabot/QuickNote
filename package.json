@@ -10,7 +10,15 @@
     "dev": "vite",
     "build": "eslint . && tsc -b && vite build",
     "lint": "eslint .",
+    "format": "prettier -w .",
     "preview": "vite preview"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Sn0wo2/QuickNote-WEB"
+  },
+  "bugs": {
+    "url": "https://github.com/Sn0wo2/QuickNote-WEB/issues"
   },
   "dependencies": {
     "@uiw/react-markdown-preview": "^5.1.4",

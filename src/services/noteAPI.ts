@@ -1,60 +1,56 @@
-import { toast } from "react-hot-toast";
+import { toast } from 'react-hot-toast'
 
-const API_BASE = "http://localhost:3000/v1";
+const API_BASE = 'http://localhost:3000/v1'
 
 export interface NoteData {
-  nid: string;
-  title: string;
-  content: string;
+  nid: string
+  title: string
+  content: string
 }
 
 export const getNote = async (id: string): Promise<NoteData | null> => {
   try {
-    const response = await fetch(`${API_BASE}/note/${id}`);
+    const response = await fetch(`${API_BASE}/note/${id}`)
     if (response.status === 404) {
-      return null;
+      return null
     }
     if (!response.ok) {
-      throw new Error("Failed to fetch note");
+      throw new Error('Failed to fetch note')
     }
-    const data = await response.json();
+    const data = await response.json()
     return {
       nid: data.data.nid,
-      title: data.data.title || " ",
-      content: data.data.content || " ",
-    };
+      title: data.data.title || ' ',
+      content: data.data.content || ' ',
+    }
   } catch (error) {
-    console.error("Fetch error:", error);
-    toast.error("Failed to load note");
-    return null;
+    console.error('Fetch error:', error)
+    toast.error('Failed to load note')
+    return null
   }
-};
+}
 
-export const saveNote = async (
-  id: string,
-  title: string,
-  content: string,
-): Promise<boolean> => {
+export const saveNote = async (id: string, title: string, content: string): Promise<boolean> => {
   try {
-    const url = new URL(`${API_BASE}/note/${id}`);
+    const url = new URL(`${API_BASE}/note/${id}`)
 
-    url.searchParams.append("title", title);
-    url.searchParams.append("content", content);
+    url.searchParams.append('title', title)
+    url.searchParams.append('content', content)
 
     const response = await fetch(url.toString(), {
-      method: "POST",
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
-    });
+    })
 
     if (!response.ok) {
-      throw new Error("Failed to save note");
+      throw new Error('Failed to save note')
     }
-    return true;
+    return true
   } catch (error) {
-    console.error("Save error:", error);
-    toast.error("Failed to save note");
-    return false;
+    console.error('Save error:', error)
+    toast.error('Failed to save note')
+    return false
   }
-};
+}
