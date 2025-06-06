@@ -1,9 +1,8 @@
 // Note.scss
-@use "../components/DarkMode.scss";
+@use '../components/DarkMode.scss';
 
 $font-stack:
-  -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue",
-  Arial, sans-serif;
+  -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
 $bg-color: var(--bg-primary);
 $panel-bg: var(--bg-secondary);
 $border-color: var(--border-primary);
@@ -72,22 +71,6 @@ $preview-bg: var(--bg-surface);
 
 .note-title {
   flex: 1;
-  padding: 8px 12px;
-  font-size: 16px;
-  border: 1px solid $border-color;
-  border-radius: 6px;
-  background: $preview-bg;
-  color: $text-color;
-  outline: none;
-  transition: border-color 0.2s ease;
-
-  &:focus {
-    border-color: var(--interactive);
-  }
-}
-
-.note-key {
-  width: 200px;
   padding: 8px 12px;
   font-size: 16px;
   border: 1px solid $border-color;
