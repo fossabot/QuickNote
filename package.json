@@ -7,11 +7,11 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "eslint . && tsc -b && vite build",
-    "lint": "eslint .",
-    "format": "prettier -w .",
-    "preview": "vite preview"
+    "dev": "bun vite",
+    "build": "bun eslint . && tsc -b && vite build",
+    "lint": "bun eslint .",
+    "format": "bun prettier -w .",
+    "preview": "bun vite preview"
   },
   "repository": {
     "type": "git",
