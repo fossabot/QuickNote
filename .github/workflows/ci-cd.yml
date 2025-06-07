@@ -1,76 +1,79 @@
-name: CI/CD
+name: 'CI/CD'
 
-on:
-  push:
-    branches: [main]
-  pull_request:
-    branches: [main]
-  workflow_dispatch:
+on: [push, pull_request, workflow_dispatch]
+
+env:
+  NODE_VERSION: '22'
+  CONTAINER_REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
 
 jobs:
-  setup:
-    name: Setup and Install
+  npm:
+    name: install dependencies (npm)
     runs-on: ubuntu-latest
     steps:
       - name: Git checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@main
+
+      - name: Use Node.js ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@main
         with:
-          fetch-depth: 0
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
 
-      - name: Install latest Bun
-        uses: oven-sh/setup-bun@main
-        with:
-          bun-version: 'latest'
+      - name: Install node dependencies
+        run: npm i
 
-      - name: Cache Bun dependencies
-        uses: actions/cache@v3
-        with:
-          path: |
-            ~/.bun
-            node_modules
-          key: ${{ runner.os }}-bun-${{ hashFiles('**/bun.lockb') }}
-          restore-keys: |
-            ${{ runner.os }}-bun-
-
-      - name: Install dependencies
-        run: bun install
-
-  lint:
-    name: Lint and Format
-    needs: setup
+  es-lint:
+    name: check linting (es-lint)
+    needs: [npm]
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+      - name: Git checkout
+        uses: actions/checkout@main
+
+      - name: Use Node.js ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@main
         with:
-          fetch-depth: 0
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
 
-      - name: Install latest Bun
-        uses: oven-sh/setup-bun@main
+      - name: Install node dependencies
+        run: npm i
+
+      - name: Check ESlint
+        run: npm run lint
+
+  prettier:
+    name: check format (prettier)
+    needs: [npm]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Git checkout
+        uses: actions/checkout@master
+
+      - name: Use Node.js ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@master
         with:
-          bun-version: 'latest'
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
 
-      - name: Run ESLint
-        run: bun run lint
+      - name: Install node dependencies
+        run: npm i
 
-      - name: Run Prettier Check
-        run: bun run format -- --check
+      - name: Check Prettier
+        run: npm run format:fix
 
-      - name: Auto-fix and commit formatting
-        if: github.ref == 'refs/heads/main' && !github.event.pull_request
+      - name: Commit prettier changes
+        if: ${{ !github.head_ref }}
+        continue-on-error: true
         run: |
-          bun run format
-          git config --global user.name 'github-actions[bot]'
-          git config --global user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add .
-          git diff --quiet && git diff --staged --quiet || (git commit -m "style: make prettier happy" && git push)
+          git config --local user.name 'github-actions[bot]'
+          git config --local user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add --all
+          git commit -m "style: make prettier happy"
 
-      - name: Create Prettier Fix PR
-        if: github.ref != 'refs/heads/main' && !github.event.pull_request
-        uses: peter-evans/create-pull-request@v4
-        with:
-          commit-message: "style: make prettier happy"
-          title: "style: Prettier formatting fixes"
-          body: "Automated formatting fixes from Prettier"
-          branch: "prettier-fixes/${{ github.run_id }}"
-          delete-branch: true
+      - name: Create commit lint change pr
+        if: ${{ !github.head_ref }}
+        continue-on-error: true
+        uses: peter-evans/create-pull-request@main
