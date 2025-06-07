@@ -1,7 +1,7 @@
 package note
 
 func (n *Note) Write() error {
-	err := n.Encode(n.Key)
+	err := n.Encode()
 	if err != nil {
 		return err
 	}
@@ -15,7 +15,7 @@ func (n *Note) Read() error {
 		return err
 	}
 
-	return n.Decode(no.Data, n.Key)
+	return n.Decode(no.Data)
 }
 
 func (n *Note) Delete() error {

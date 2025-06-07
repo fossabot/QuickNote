@@ -7,9 +7,7 @@ import (
 type Note struct {
 	gorm.Model
 	NID  string `gorm:"index"`
-	Lock bool
 	Data []byte // Encoded Payload
-	Key  []byte `gorm:"-"` // Encryption Decryption Key
 
 	Title   []byte `gorm:"-"` // Decoded Title
 	Content []byte `gorm:"-"` // Decoded Content

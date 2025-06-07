@@ -21,22 +21,12 @@ func Note(path string) func(ctx *fiber.Ctx) error {
 
 		n := note.Note{
 			NID: notePath,
-			Key: helper.StringToBytes(ctx.Query("key")),
 		}
 
 		switch ctx.Method() {
 		case fiber.MethodPost:
 			title := ctx.Query("title")
 			content := ctx.Query("content")
-
-			if title == "" || content == "" {
-				msg := "title is required"
-				if content == "" {
-					msg = "content is required"
-				}
-
-				return ctx.Status(fiber.StatusBadRequest).JSON(response.New(false, msg))
-			}
 
 			n.Title = helper.StringToBytes(title)
 			n.Content = helper.StringToBytes(content)

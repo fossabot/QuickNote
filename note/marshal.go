@@ -2,14 +2,12 @@ package note
 
 import (
 	"bytes"
-	"crypto/sha256"
 	"encoding/binary"
 	"errors"
 	"fmt"
 	"io"
 
 	"github.com/Sn0wo2/QuickNote/compress"
-	"github.com/Sn0wo2/QuickNote/encrypt"
 	"github.com/Sn0wo2/QuickNote/helper"
 )
 
@@ -20,13 +18,7 @@ const (
 	magicVersion = 1
 )
 
-func deriveKey(key []byte) []byte {
-	sum := sha256.Sum256(key)
-
-	return sum[:]
-}
-
-func (n *Note) Encode(key []byte) error {
+func (n *Note) Encode() error {
 	var buf bytes.Buffer
 
 	buf.WriteString(magicHeader)
@@ -52,18 +44,7 @@ func (n *Note) Encode(key []byte) error {
 		}
 	}
 
-	data := buf.Bytes()
-
-	if key != nil {
-		var err error
-
-		data, err = encrypt.AESCTREncrypt(data, deriveKey(key))
-		if err != nil {
-			return err
-		}
-	}
-
-	compressData, err := compress.FlateCompress(data)
+	compressData, err := compress.FlateCompress(buf.Bytes())
 	if err != nil {
 		return err
 	}
@@ -75,7 +56,7 @@ func (n *Note) Encode(key []byte) error {
 	return nil
 }
 
-func (n *Note) Decode(data, key []byte) error {
+func (n *Note) Decode(data []byte) error {
 	var err error
 
 	data, err = compress.FlateDecompress(data)
@@ -84,18 +65,7 @@ func (n *Note) Decode(data, key []byte) error {
 	}
 
 	if !bytes.HasPrefix(data, helper.StringToBytes(magicHeader)) {
-		if key == nil {
-			return errors.New("data appears encrypted but no key was provided")
-		}
-
-		data, err = encrypt.AESCTRDecrypt(data, deriveKey(key))
-		if err != nil {
-			return fmt.Errorf("decryption failed: %w", err)
-		}
-
-		if !bytes.HasPrefix(data, helper.StringToBytes(magicHeader)) {
-			return errors.New("invalid magic header after decryption (possibly wrong key)")
-		}
+		return errors.New("invalid magic header")
 	}
 
 	r := bytes.NewReader(data[len(magicHeader):])
@@ -137,7 +107,7 @@ func (n *Note) Decode(data, key []byte) error {
 		case fieldTitle:
 			n.Title = val
 		case fieldContent:
-			n.Title = val
+			n.Content = val
 		default:
 			return fmt.Errorf("unknown field id: %d", id)
 		}
