@@ -22,7 +22,7 @@ jobs:
           cache: 'npm'
 
       - name: Install node dependencies
-        run: npm i
+        run: npm install --force
 
   es-lint:
     name: check linting (es-lint)
@@ -39,7 +39,7 @@ jobs:
           cache: 'npm'
 
       - name: Install node dependencies
-        run: npm i
+        run: npm install --force
 
       - name: Check ESlint
         run: npm run lint
@@ -59,7 +59,7 @@ jobs:
           cache: 'npm'
 
       - name: Install node dependencies
-        run: npm i
+        run: npm install --force
 
       - name: Check Prettier
         run: npm run format:fix
