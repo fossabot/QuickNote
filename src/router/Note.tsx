@@ -1,15 +1,28 @@
-import { useEffect, useState, useRef, useCallback } from 'react'
+import * as React from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import MDEditor from '@uiw/react-md-editor'
 import './Note.scss'
 import { DarkModeToggle } from '../components/DarkModeToggle.tsx'
 import { toast, Toaster } from 'react-hot-toast'
 import { getNote, saveNote } from '../services/noteAPI'
 import { useParams } from 'react-router-dom'
-import * as React from 'react'
+
+function useCtrlS(callback: () => void) {
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+        e.preventDefault()
+        callback()
+      }
+    }
+
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [callback])
+}
 
 export function Note() {
   const { id } = useParams<{ id: string }>()
-  console.log(id)
   const [title, setTitle] = useState<string>('')
   const [content, setContent] = useState<string>('')
   const [mode, setMode] = useState<'edit' | 'preview' | 'both'>('both')
@@ -43,42 +56,48 @@ export function Note() {
   }, [id])
 
   useEffect(() => {
-    loadNote()
-  }, [])
+    void loadNote()
+  }, [loadNote])
 
-  const throttledSave = useCallback(async () => {
-    const now = Date.now()
-    const hasChanges = title !== prevTitleRef.current || content !== prevContentRef.current
+  const now = Date.now()
 
-    if (!hasChanges) return
-
+  const save = useCallback(async () => {
     if (!id) {
       console.error('Note ID is undefined')
       return
     }
+    try {
+      const success = await saveNote(id, title, content)
+      if (success) {
+        toast.success('Note saved successfully')
+        prevTitleRef.current = title
+        prevContentRef.current = content
+        lastSaveTimeRef.current = now
+      }
+    } catch (e) {
+      toast.error('Failed to save note.')
+      console.error(e)
+    }
+  }, [id, title, content, now])
+
+  const throttledSave = useCallback(async () => {
+    const hasChanges = title !== prevTitleRef.current || content !== prevContentRef.current
+
+    if (!hasChanges) return
 
     if (now - lastSaveTimeRef.current >= 5000) {
-      try {
-        const success = await saveNote(id, title, content)
-        if (success) {
-          toast.success('Note saved successfully')
-          prevTitleRef.current = title
-          prevContentRef.current = content
-          lastSaveTimeRef.current = now
-        }
-      } catch (e) {
-        toast.error('Failed to save note.')
-        console.error(e)
-      }
+      await save()
     } else {
       if (saveTimerRef.current) clearTimeout(saveTimerRef.current)
-      const timer = setTimeout(() => throttledSave(), 5000 - (now - lastSaveTimeRef.current))
-      saveTimerRef.current = timer
+      saveTimerRef.current = setTimeout(
+        () => throttledSave(),
+        5000 - (now - lastSaveTimeRef.current),
+      )
     }
-  }, [id, title, content])
+  }, [title, content, now, save])
 
   useEffect(() => {
-    throttledSave()
+    void throttledSave()
     return () => {
       if (saveTimerRef.current) {
         clearTimeout(saveTimerRef.current)
@@ -101,6 +120,10 @@ export function Note() {
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value)
   }
+
+  useCtrlS(() => {
+    void save()
+  })
 
   return (
     <>

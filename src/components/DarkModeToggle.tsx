@@ -1,7 +1,7 @@
+import * as React from 'react'
 import { useState } from 'react'
 import { useDarkMode } from '../hooks/useDarkMode'
 import './DarkMode.scss'
-import * as React from 'react'
 
 type Ripple = {
   key: number
