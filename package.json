@@ -7,11 +7,14 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "dev": "bun vite",
-    "build": "bun eslint . && tsc -b && vite build",
-    "lint": "bun eslint .",
-    "format": "bun prettier -w .",
-    "preview": "bun vite preview"
+    "dev": "vite",
+    "build": "eslint . && tsc -b && vite build",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --check .",
+    "format:fix": "prettier --write .",
+    "preview": "vite preview",
+    "eslint": "eslint"
   },
   "repository": {
     "type": "git",
@@ -30,6 +33,7 @@
     "react-hot-toast": "^2.5.2",
     "react-quill": "^2.0.0",
     "react-router-dom": "^7.6.2",
+    "typescript-eslint": "^8.33.1",
     "use-dark-mode": "^2.3.1"
   },
   "devDependencies": {
@@ -38,15 +42,18 @@
     "@types/react": "^19.1.6",
     "@types/react-dom": "^19.1.6",
     "@vitejs/plugin-react": "^4.5.1",
+    "@typescript-eslint/eslint-plugin": "^8.33.1",
+    "@typescript-eslint/parser": "^8.33.1",
     "eslint": "^9.28.0",
     "eslint-config-prettier": "^10.1.5",
+    "eslint-config-react": "^1.1.7",
+    "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.20",
     "globals": "^16.2.0",
     "prettier": "^3.5.3",
     "sass-embedded": "^1.89.1",
     "typescript": "~5.8.3",
-    "typescript-eslint": "^8.33.1",
     "vite": "^6.3.5"
   }
 }
