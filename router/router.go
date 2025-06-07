@@ -11,6 +11,7 @@ import (
 	"github.com/Sn0wo2/QuickNote/setup"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/compress"
+	"github.com/gofiber/fiber/v2/middleware/cors"
 	"go.uber.org/zap"
 )
 
@@ -18,6 +19,8 @@ func Setup(app *fiber.App) {
 	app.Use(compress.New(compress.Config{
 		Level: compress.LevelBestSpeed,
 	}))
+
+	app.Use(cors.New())
 
 	api := app.Group(setup.APIVersion)
 	const healthPath = "health"
