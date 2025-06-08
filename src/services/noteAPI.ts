@@ -20,8 +20,8 @@ export const getNote = async (id: string): Promise<NoteData | null> => {
     const data = await response.json()
     return {
       nid: data.data.nid,
-      title: data.data.title || ' ',
-      content: data.data.content || ' ',
+      title: data.data.title,
+      content: data.data.content,
     }
   } catch (error) {
     console.error('Fetch error:', error)
