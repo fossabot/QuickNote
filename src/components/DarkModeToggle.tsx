@@ -1,5 +1,4 @@
-import * as React from 'react'
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { useDarkMode } from '../hooks/useDarkMode'
 import './DarkMode.scss'
 
@@ -12,18 +11,23 @@ type Ripple = {
 export function DarkModeToggle() {
   const { isDarkMode, toggleDarkMode } = useDarkMode()
   const [ripples, setRipples] = useState<Ripple[]>([])
+  const buttonRef = useRef<HTMLButtonElement>(null)
 
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    const { clientX, clientY } = event
+  const handleClick = () => {
+    if (buttonRef.current) {
+      const rect = buttonRef.current.getBoundingClientRect()
+      const centerX = rect.left + rect.width / 2
+      const centerY = rect.top + rect.height / 2
 
-    setRipples((prevRipples) => [
-      ...prevRipples,
-      {
-        key: Date.now(),
-        x: clientX,
-        y: clientY,
-      },
-    ])
+      setRipples((prevRipples) => [
+        ...prevRipples,
+        {
+          key: Date.now(),
+          x: centerX,
+          y: centerY,
+        },
+      ])
+    }
     toggleDarkMode()
   }
 
@@ -34,6 +38,7 @@ export function DarkModeToggle() {
   return (
     <>
       <button
+        ref={buttonRef}
         className="theme-toggle"
         onClick={handleClick}
         aria-label={isDarkMode ? 'Activate light mode' : 'Activate dark mode'}
@@ -48,7 +53,7 @@ export function DarkModeToggle() {
           >
             <mask className="moon-mask" id="moon-mask">
               <rect x="0" y="0" width="100%" height="100%" fill="white" />
-              <circle cx="24" cy="10" r="8" fill="black" />
+              <circle cx="24" cy="10" r="5" fill="black" />
             </mask>
             <circle
               className="sun"
