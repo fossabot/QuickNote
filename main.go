@@ -12,6 +12,7 @@ import (
 	"github.com/Sn0wo2/QuickNote/log"
 	"github.com/Sn0wo2/QuickNote/router"
 	"github.com/Sn0wo2/QuickNote/setup"
+	"github.com/gofiber/fiber/v2"
 	"go.uber.org/zap"
 )
 
@@ -24,24 +25,35 @@ func main() {
 		_ = log.Instance.Sync()
 	}()
 
-	err := config.Init()
-	if err != nil {
-		log.Instance.Fatal("Failed to load config",
-			zap.Error(err),
-		)
-	}
+	if !fiber.IsChild() {
+		err := config.Init()
+		if err != nil {
+			log.Instance.Fatal("Failed to load config",
+				zap.Error(err),
+			)
+		}
 
-	err = orm.Init(config.Instance.Database.Type, config.Instance.Database.URL)
-	if err != nil {
-		log.Instance.Fatal("Failed to initialize database",
-			zap.Error(err),
-		)
-	}
+		err = orm.Init(config.Instance.Database.Type, config.Instance.Database.URL)
+		if err != nil {
+			log.Instance.Fatal("Failed to initialize database",
+				zap.Error(err),
+			)
+		}
 
-	err = table.Init()
-	if err != nil {
-		log.Instance.Fatal("Failed to initialize tables",
-			zap.Error(err),
+		err = table.Init()
+		if err != nil {
+			log.Instance.Fatal("Failed to initialize tables",
+				zap.Error(err),
+			)
+		}
+
+		log.Instance.Info("Starting server",
+			zap.String("address", "0.0.0.0:3000"),
+			zap.Int("pid", os.Getpid()),
+		)
+	} else {
+		log.Instance.Info("Child server starting",
+			zap.Int("pid", os.Getpid()),
 		)
 	}
 
@@ -52,10 +64,6 @@ func main() {
 	signal.Notify(shutdownChan, os.Interrupt, syscall.SIGTERM)
 
 	go func() {
-		log.Instance.Info("Starting server",
-			zap.String("address", "0.0.0.0:3000"),
-		)
-
 		if err := app.Listen(":3000"); err != nil {
 			log.Instance.Fatal("Server failed to start",
 				zap.Error(err),
@@ -68,7 +76,7 @@ func main() {
 		zap.String("signal", sig.String()),
 	)
 
-	if err = app.Shutdown(); err != nil {
+	if err := app.Shutdown(); err != nil {
 		log.Instance.Error("Server shutdown error",
 			zap.Error(err),
 		)
