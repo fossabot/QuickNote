@@ -1,0 +1,78 @@
+$light-colors: (
+  bg-primary: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%),
+  bg-secondary: #ffffff,
+  bg-surface: #f8f9fa,
+  bg-elevated: #ffffff,
+  text-primary: #212529,
+  text-secondary: #495057,
+  text-tertiary: #6c757d,
+  text-on-accent: #ffffff,
+  link-primary: #646cff,
+  link-hover: #535bf2,
+  link-visited: #9146ff,
+  interactive: #646cff,
+  interactive-hover: #535bf2,
+  interactive-pressed: #4249db,
+  interactive-disabled: #adb5bd,
+  accent-primary: #00ffff,
+  accent-secondary: #00e6e6,
+  border-primary: #e9ecef,
+  border-secondary: #dee2e6,
+  success: #28a745,
+  warning: #ffc107,
+  danger: #dc3545,
+  info: #17a2b8,
+);
+
+$dark-colors: (
+  bg-primary: linear-gradient(135deg, #0d1117 0%, #161b22 100%),
+  bg-secondary: #242424,
+  bg-surface: #1e1e1e,
+  bg-elevated: #2d2d2d,
+  text-primary: #f0f6fc,
+  text-secondary: #c9d1d9,
+  text-tertiary: #8b949e,
+  text-on-accent: #212529,
+  link-primary: #bb86fc,
+  link-hover: #9d65fc,
+  link-visited: #b197fc,
+  interactive: #bb86fc,
+  interactive-hover: #9d65fc,
+  interactive-pressed: #7d4dfc,
+  interactive-disabled: #495057,
+  accent-primary: #00c8c8,
+  accent-secondary: #00aaaa,
+  border-primary: #30363d,
+  border-secondary: #8b949e,
+  success: #38d9a9,
+  warning: #ffd43b,
+  danger: #ff6b6b,
+  info: #4dabf7,
+);
+
+$font-stack:
+  -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+$font-ui: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+$color-transition:
+  color 0.3s ease,
+  background-color 0.3s ease,
+  border-color 0.3s ease,
+  box-shadow 0.3s ease;
+$transform-transition: transform 0.3s ease;
+$opacity-transition: opacity 0.3s ease;
+
+$border-radius: 12px;
+$border-radius-small: 6px;
+$border-radius-large: 25px;
+$border-radius-full: 9999px;
+
+$shadow-sm: 0 2px 5px rgba(0, 0, 0, 0.2);
+$shadow-md: 0 4px 10px rgba(0, 0, 0, 0.3);
+$shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.3);
+
+$z-index-base: 1;
+$z-index-middle: 100;
+$z-index-high: 999;
+$z-index-top: 1000;
+$z-index-max: 10000;
