@@ -25,28 +25,28 @@ func main() {
 		_ = log.Instance.Sync()
 	}()
 
+	err := config.Init()
+	if err != nil {
+		log.Instance.Fatal("Failed to load config",
+			zap.Error(err),
+		)
+	}
+
+	err = orm.Init(config.Instance.Database.Type, config.Instance.Database.URL)
+	if err != nil {
+		log.Instance.Fatal("Failed to initialize database",
+			zap.Error(err),
+		)
+	}
+
+	err = table.Init()
+	if err != nil {
+		log.Instance.Fatal("Failed to initialize tables",
+			zap.Error(err),
+		)
+	}
+
 	if !fiber.IsChild() {
-		err := config.Init()
-		if err != nil {
-			log.Instance.Fatal("Failed to load config",
-				zap.Error(err),
-			)
-		}
-
-		err = orm.Init(config.Instance.Database.Type, config.Instance.Database.URL)
-		if err != nil {
-			log.Instance.Fatal("Failed to initialize database",
-				zap.Error(err),
-			)
-		}
-
-		err = table.Init()
-		if err != nil {
-			log.Instance.Fatal("Failed to initialize tables",
-				zap.Error(err),
-			)
-		}
-
 		log.Instance.Info("Starting server",
 			zap.String("address", "0.0.0.0:3000"),
 			zap.Int("pid", os.Getpid()),
