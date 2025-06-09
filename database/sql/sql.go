@@ -3,6 +3,8 @@ package sql
 import (
 	"time"
 
+	"github.com/Sn0wo2/QuickNote/log"
+	"go.uber.org/zap"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
 	"gorm.io/gorm/schema"
@@ -57,7 +59,12 @@ func GetConfig() *gorm.Config {
 		NamingStrategy: schema.NamingStrategy{
 			SingularTable: true,
 		},
-		Logger:                                   logger.Default.LogMode(logger.Warn),
+		Logger: logger.New(zap.NewStdLog(log.Instance), logger.Config{
+			SlowThreshold:             100 * time.Millisecond,
+			Colorful:                  true,
+			IgnoreRecordNotFoundError: true,
+			LogLevel:                  logger.Warn,
+		}),
 		DisableForeignKeyConstraintWhenMigrating: true,
 	}
 }
