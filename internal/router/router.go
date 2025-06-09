@@ -23,11 +23,9 @@ func Setup(app *fiber.App) {
 	app.Use(cors.New())
 
 	api := app.Group(setup.APIVersion)
-	const healthPath = "health"
-	const notePath = "note"
 
-	api.Group(healthPath, handler.Health(healthPath))
-	api.Group(notePath, handler.Note(notePath))
+	api.Group("health", handler.Health())
+	api.Group("note/:id", handler.Note())
 
 	api.Use("*", func(ctx *fiber.Ctx) error {
 		log.Instance.Warn("API route not found", zap.String("ctx", ctx.String()))
