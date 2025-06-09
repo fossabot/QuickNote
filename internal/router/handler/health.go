@@ -1,7 +1,7 @@
 package handler
 
 import (
-	"github.com/Sn0wo2/QuickNote/response"
+	"github.com/Sn0wo2/QuickNote/pkg/response"
 	"github.com/gofiber/fiber/v2"
 )
 

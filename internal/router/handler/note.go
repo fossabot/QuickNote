@@ -3,11 +3,11 @@ package handler
 import (
 	"strings"
 
-	"github.com/Sn0wo2/QuickNote/helper"
-	"github.com/Sn0wo2/QuickNote/log"
-	"github.com/Sn0wo2/QuickNote/note"
-	"github.com/Sn0wo2/QuickNote/response"
-	"github.com/Sn0wo2/QuickNote/setup"
+	"github.com/Sn0wo2/QuickNote/internal/note"
+	"github.com/Sn0wo2/QuickNote/internal/setup"
+	"github.com/Sn0wo2/QuickNote/pkg/helper"
+	"github.com/Sn0wo2/QuickNote/pkg/log"
+	"github.com/Sn0wo2/QuickNote/pkg/response"
 	"github.com/gofiber/fiber/v2"
 	"go.uber.org/zap"
 )
@@ -25,11 +25,16 @@ func Note(path string) func(ctx *fiber.Ctx) error {
 
 		switch ctx.Method() {
 		case fiber.MethodPost:
-			title := ctx.Query("title")
-			content := ctx.Query("content")
+			var postNote note.DisplayNote
 
-			n.Title = helper.StringToBytes(title)
-			n.Content = helper.StringToBytes(content)
+			if err := ctx.BodyParser(&postNote); err != nil {
+				log.Instance.Error("Failed to parse note", zap.Error(err), zap.String("ctx", ctx.String()))
+
+				return ctx.Status(fiber.StatusBadRequest).JSON(response.New(false, "failed to parse note"))
+			}
+
+			n.Title = helper.StringToBytes(postNote.Title)
+			n.Content = helper.StringToBytes(postNote.Content)
 
 			if err := n.Write(); err != nil {
 				log.Instance.Error("Failed to write note", zap.Error(err), zap.String("ctx", ctx.String()))
@@ -37,7 +42,7 @@ func Note(path string) func(ctx *fiber.Ctx) error {
 				return ctx.Status(fiber.StatusInternalServerError).JSON(response.New(false, "failed to write note"))
 			}
 
-			log.Instance.Info("Note created", zap.String("ctx", ctx.String()))
+			log.Instance.Info("Note updated", zap.String("ctx", ctx.String()))
 
 			return ctx.Status(fiber.StatusOK).JSON(response.New(true, "success"))
 

@@ -3,7 +3,7 @@ package sql
 import (
 	"time"
 
-	"github.com/Sn0wo2/QuickNote/log"
+	"github.com/Sn0wo2/QuickNote/pkg/log"
 	"go.uber.org/zap"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"

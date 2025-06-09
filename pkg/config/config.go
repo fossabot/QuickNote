@@ -6,7 +6,7 @@ import (
 	"reflect"
 	"strings"
 
-	"github.com/Sn0wo2/QuickNote/helper"
+	"github.com/Sn0wo2/QuickNote/pkg/helper"
 	"gopkg.in/yaml.v3"
 )
 

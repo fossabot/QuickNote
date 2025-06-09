@@ -6,12 +6,12 @@ import (
 	"runtime"
 	"syscall"
 
-	"github.com/Sn0wo2/QuickNote/config"
-	"github.com/Sn0wo2/QuickNote/database/orm"
-	"github.com/Sn0wo2/QuickNote/database/table"
-	"github.com/Sn0wo2/QuickNote/log"
-	"github.com/Sn0wo2/QuickNote/router"
-	"github.com/Sn0wo2/QuickNote/setup"
+	"github.com/Sn0wo2/QuickNote/internal/router"
+	"github.com/Sn0wo2/QuickNote/internal/setup"
+	"github.com/Sn0wo2/QuickNote/pkg/config"
+	"github.com/Sn0wo2/QuickNote/pkg/database/orm"
+	"github.com/Sn0wo2/QuickNote/pkg/database/table"
+	"github.com/Sn0wo2/QuickNote/pkg/log"
 	"github.com/gofiber/fiber/v2"
 	"go.uber.org/zap"
 )

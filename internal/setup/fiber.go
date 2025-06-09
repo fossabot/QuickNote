@@ -3,7 +3,7 @@ package setup
 import (
 	"time"
 
-	"github.com/Sn0wo2/QuickNote/router/errorhandler"
+	"github.com/Sn0wo2/QuickNote/internal/router/errorhandler"
 	"github.com/gofiber/fiber/v2"
 )
 
