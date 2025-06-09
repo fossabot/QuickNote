@@ -44,7 +44,7 @@ func Note() func(ctx *fiber.Ctx) error {
 			return ctx.Status(fiber.StatusOK).JSON(response.New(true, "success"))
 
 		case fiber.MethodDelete:
-			// error. if not found dont return error
+			// error. if not found don't return error
 			if err := n.Delete(); err != nil {
 				log.Instance.Warn("Failed to delete note", zap.Error(err), zap.String("ctx", ctx.String()))
 
