@@ -32,6 +32,7 @@ func (n *Note) Encode() error {
 
 	writeField := func(id byte, data []byte) {
 		buf.WriteByte(id)
+		//nolint:gosec
 		_ = binary.Write(buf, binary.LittleEndian, uint32(len(data)))
 		buf.Write(data)
 	}
@@ -70,11 +71,13 @@ func (n *Note) Decode(data []byte) error {
 	}
 
 	buf := make([]byte, 4)
+
 	for {
 		id, err := r.ReadByte()
 		if err == io.EOF {
 			break
 		}
+
 		if err != nil {
 			return fmt.Errorf("read field id: %w", err)
 		}
@@ -84,6 +87,7 @@ func (n *Note) Decode(data []byte) error {
 		}
 
 		length := binary.LittleEndian.Uint32(buf)
+
 		value := make([]byte, length)
 		if _, err := io.ReadFull(r, value); err != nil {
 			return fmt.Errorf("read field %d: %w", id, err)
@@ -100,5 +104,6 @@ func (n *Note) Decode(data []byte) error {
 	}
 
 	n.Data = nil
+
 	return nil
 }

@@ -5,7 +5,7 @@ import (
 	"time"
 )
 
-func NewAnchor() *Anchor {
+func New() *Anchor {
 	return &Anchor{StartTime: time.Now()}
 }
 

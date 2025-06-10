@@ -2,27 +2,87 @@ version: "2"
 
 linters:
   enable:
-    - staticcheck
-    - bodyclose
-    - errcheck
-    - rowserrcheck
-    - exhaustive
-    - gocritic
-    - goprintffuncname
     - govet
-    - ineffassign
+    - errcheck
+    - staticcheck
+    - unused
+    - gosec
+    - nilnesserr
+    - sqlclosecheck
+    - errchkjson
+    - musttag
+    - goconst
+    - gocritic
+    - prealloc
+    - thelper
+    - paralleltest
+    - durationcheck
+    - gosmopolitan
+    - whitespace
+    - tagalign
+    - dupl
     - nolintlint
+    - maintidx
+    - wsl
+    - decorder
+    - asciicheck
+    - bidichk
+    - forbidigo
+    - testifylint
+    - zerologlint
+    - asasalint
+    - bodyclose
+    - canonicalheader
+    - contextcheck
+    - copyloopvar
+    - dupword
+    - errname
+    - errorlint
+    - exptostd
+    - fatcontext
+    - forcetypeassert
+    - funcorder
+    - ginkgolinter
+    - gocheckcompilerdirectives
+    - gochecksumtype
+    - gomoddirectives
+    - goprintffuncname
+    - importas
+    - inamedparam
+    - intrange
+    - ireturn
+    - loggercheck
+    - makezero
+    - mirror
+    - nakedret
+    - nilerr
+    - nilnil
+    - nlreturn
+    - nosprintfhostport
+    - perfsprint
+    - predeclared
+    - promlinter
+    - protogetter
+    - reassign
+    - recvcheck
+    - rowserrcheck
+    - sloglint
+    - spancheck
+    - tagliatelle
+    - testableexamples
     - unconvert
     - unparam
-    - unused
-    - prealloc
-    - predeclared
-    - asciicheck
-    - makezero
-    - dupl
-    - errname
-    - sqlclosecheck
-    - sloglint
+    - usestdlibvars
+    - usetesting
+    - wastedassign
+    - exhaustive
+    - gochecknoglobals
+    - goheader
+    - grouper
+    - iface
+    - interfacebloat
+    - misspell
+    - tparallel
 
 run:
   tests: true

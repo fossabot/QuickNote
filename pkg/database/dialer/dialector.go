@@ -18,7 +18,7 @@ func New(name, dsn string) gorm.Dialector {
 		return sqlite.Open(dsn)
 	case "sqlserver", "mssql":
 		return sqlserver.Open(dsn)
-	// fallback to mysql
+	// fallback or mysql
 	// "mysql", "mariadb", "tidb", "aurora"
 	default:
 		return mysql.Open(dsn)
