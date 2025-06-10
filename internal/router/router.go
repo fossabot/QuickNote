@@ -4,6 +4,7 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
+	"time"
 
 	"github.com/Sn0wo2/QuickNote/internal/router/handler"
 	"github.com/Sn0wo2/QuickNote/internal/setup"
@@ -29,20 +30,22 @@ func Setup(app *fiber.App) {
 
 	api.Use("*", func(ctx *fiber.Ctx) error {
 		log.Instance.Warn("API route not found", zap.String("ctx", ctx.String()))
-		return ctx.Status(fiber.StatusNotFound).JSON(response.New(false, "API endpoint not found"))
+
+		return ctx.Status(fiber.StatusNotFound).JSON(response.New(false, "api endpoint not found"))
 	})
 
 	const staticRoot = "./static"
+
 	app.Static("/", staticRoot, fiber.Static{
 		Compress:  true,
 		ByteRange: true,
-		Index:     "index.html",
-	})
+		// index default: index.html
+		CacheDuration: 60 * time.Second,
+		MaxAge:        60})
 
 	app.Use("*", func(ctx *fiber.Ctx) error {
 		if ctx.Method() != fiber.MethodGet {
-			log.Instance.Warn("Global route not found", zap.String("ctx", ctx.String()))
-			return ctx.Status(fiber.StatusNotFound).JSON(response.New(false, "Resource not found"))
+			return ctx.Next()
 		}
 
 		path := strings.TrimPrefix(ctx.Path(), "/")
@@ -65,8 +68,12 @@ func Setup(app *fiber.App) {
 		if _, err := os.Stat(defaultIndex); err == nil {
 			return ctx.SendFile(defaultIndex)
 		}
+		return ctx.Next()
+	})
 
-		log.Instance.Warn("Global route not found", zap.String("ctx", ctx.String()))
-		return ctx.Status(fiber.StatusNotFound).JSON(response.New(false, "Resource not found"))
+	app.Use("*", func(ctx *fiber.Ctx) error {
+		log.Instance.Warn("Router not found", zap.String("ctx", ctx.String()))
+
+		return ctx.Status(fiber.StatusNotFound).JSON(response.New(false, "router not found"))
 	})
 }

@@ -48,7 +48,7 @@ func Note() func(ctx *fiber.Ctx) error {
 			if err := n.Delete(); err != nil {
 				log.Instance.Warn("Failed to delete note", zap.Error(err), zap.String("ctx", ctx.String()))
 
-				return ctx.Status(fiber.StatusInternalServerError).JSON(response.New(false, "Failed to delete note"))
+				return ctx.Status(fiber.StatusInternalServerError).JSON(response.New(false, "failed to delete note"))
 			}
 
 			log.Instance.Info("Note deleted", zap.String("ctx", ctx.String()))
@@ -57,9 +57,11 @@ func Note() func(ctx *fiber.Ctx) error {
 
 		default:
 			msg := "success"
+
 			if err := n.Read(); err != nil {
 				log.Instance.Warn("Note not found", zap.Error(err), zap.String("ctx", ctx.String()))
-				msg = "Note not found"
+
+				msg = "note not found"
 			}
 
 			log.Instance.Info("Note found", zap.String("ctx", ctx.String()))
