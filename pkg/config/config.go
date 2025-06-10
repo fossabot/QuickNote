@@ -47,7 +47,7 @@ func validate(cfg any) error {
 	}
 
 	t := v.Type()
-	for i := 0; i < t.NumField(); i++ {
+	for i := range t.NumField() {
 		field := t.Field(i)
 		if field.PkgPath != "" {
 			continue
