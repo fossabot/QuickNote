@@ -49,7 +49,6 @@ linters:
     - importas
     - inamedparam
     - intrange
-    - ireturn
     - loggercheck
     - makezero
     - mirror
