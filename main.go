@@ -4,6 +4,7 @@ import (
 	"os"
 	"os/signal"
 	"runtime"
+	"runtime/debug"
 	"syscall"
 
 	"github.com/Sn0wo2/QuickNote/internal/router"
@@ -18,6 +19,8 @@ import (
 
 func init() {
 	runtime.GOMAXPROCS(runtime.NumCPU())
+	// stw
+	debug.SetGCPercent(50)
 }
 
 func main() {
@@ -51,10 +54,6 @@ func main() {
 			zap.String("address", "0.0.0.0:3000"),
 			zap.Int("pid", os.Getpid()),
 		)
-	} else {
-		log.Instance.Info("Child server starting",
-			zap.Int("pid", os.Getpid()),
-		)
 	}
 
 	app := setup.Fiber()
@@ -64,23 +63,18 @@ func main() {
 	signal.Notify(shutdownChan, os.Interrupt, syscall.SIGTERM)
 
 	go func() {
-		if err := app.Listen(":3000"); err != nil {
+		if err = app.Listen(":3000"); err != nil {
 			log.Instance.Fatal("Server failed to start",
 				zap.Error(err),
 			)
 		}
 	}()
 
-	sig := <-shutdownChan
-	log.Instance.Info("Received shutdown signal",
-		zap.String("signal", sig.String()),
-	)
+	<-shutdownChan
 
-	if err := app.Shutdown(); err != nil {
+	if err = app.Shutdown(); err != nil {
 		log.Instance.Error("Server shutdown error",
 			zap.Error(err),
 		)
-	} else {
-		log.Instance.Info("Server gracefully stopped")
 	}
 }
