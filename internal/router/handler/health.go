@@ -7,6 +7,6 @@ import (
 
 func Health() func(ctx *fiber.Ctx) error {
 	return func(c *fiber.Ctx) error {
-		return c.JSON(response.New(true, "success"))
+		return c.JSON(response.New("success"))
 	}
 }

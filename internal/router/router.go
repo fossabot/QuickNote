@@ -26,7 +26,7 @@ func Setup(app *fiber.App) {
 	api := app.Group(setup.APIVersion)
 
 	api.Group("health", handler.Health())
-	api.Group("note/:id", handler.Note())
+	api.Group("notes/*", handler.Note())
 
 	api.Use("*", func(ctx *fiber.Ctx) error {
 		log.Instance.Warn("API route not found", zap.String("ctx", ctx.String()))
@@ -41,7 +41,8 @@ func Setup(app *fiber.App) {
 		ByteRange: true,
 		// index default: index.html
 		CacheDuration: 60 * time.Second,
-		MaxAge:        60})
+		MaxAge:        60,
+	})
 
 	app.Use("*", func(ctx *fiber.Ctx) error {
 		if ctx.Method() != fiber.MethodGet {
@@ -68,6 +69,7 @@ func Setup(app *fiber.App) {
 		if _, err := os.Stat(defaultIndex); err == nil {
 			return ctx.SendFile(defaultIndex)
 		}
+
 		return ctx.Next()
 	})
 
