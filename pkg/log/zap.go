@@ -20,7 +20,7 @@ var levelColors = map[zapcore.Level]string{
 	zapcore.ErrorLevel:  ansi.ColorCode("red+b"),
 	zapcore.DPanicLevel: ansi.ColorCode("cyan+b"),
 	zapcore.PanicLevel:  ansi.ColorCode("white+b+h:red"),
-	zapcore.FatalLevel:  ansi.ColorCode("red+b+h:red"),
+	zapcore.FatalLevel:  ansi.ColorCode("white+b:red"),
 }
 
 func NewLogger() *zap.Logger {
