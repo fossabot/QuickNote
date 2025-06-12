@@ -35,7 +35,7 @@ func Note() func(ctx *fiber.Ctx) error {
 			n.Content = helper.StringToBytes(postNote.Content)
 
 			if len(n.Title) == 0 && len(n.Content) == 0 {
-				log.Instance.Warn("Empty note override method -> DELETE", zap.String("nid", nid), zap.String("ctx", ctx.String()))
+				log.Instance.Warn("Empty note, override method -> DELETE", zap.String("nid", nid), zap.String("ctx", ctx.String()))
 
 				ctx.Method(fiber.MethodDelete)
 
