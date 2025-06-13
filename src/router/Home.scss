@@ -1,8 +1,12 @@
-@use '../assets/styles/variables' as vars;
+@use '../assets/styles/variables';
+
+html {
+  font-size: clamp(14px, 1.2vw + 0.5rem, 18px);
+}
 
 a {
   color: var(--link-primary);
-  transition: vars.$color-transition;
+  transition: variables.$color-transition;
 
   &:hover {
     color: var(--link-hover);
@@ -17,30 +21,30 @@ a {
   display: flex;
   justify-content: center;
   align-items: center;
-  transition: vars.$color-transition;
+  transition: variables.$color-transition;
 }
 
 .background {
-  position: relative;
   width: 50vmin;
-  height: 50vmin;
+  aspect-ratio: 1;
+  max-width: 90vmin;
+  max-height: 90vmin;
   background: var(--bg-secondary);
-  border-radius: vars.$border-radius-large;
+  border-radius: 3vmin;
+  box-shadow: variables.$shadow-lg;
+  padding: 0 3vmin 3vmin;
   display: flex;
   flex-direction: column;
   align-items: center;
-  aspect-ratio: 1 / 1;
-  max-width: 90%;
-  max-height: 90%;
-  box-shadow: vars.$shadow-lg;
+  position: relative;
   opacity: 0;
   transform: scale(0.9);
   transition:
-    vars.$opacity-transition,
+    variables.$opacity-transition,
     transform 0.5s ease,
-    vars.$color-transition;
-  padding-top: 3rem;
-  padding-bottom: 2.5rem;
+    variables.$color-transition;
+  overflow: hidden;
+  font-size: 2.2vmin;
 }
 
 .background.visible {
@@ -53,88 +57,155 @@ a {
   top: 0;
   left: 0;
   width: 100%;
-  height: 10%;
+  height: 15%;
   background-color: var(--accent-primary);
-  font-family: vars.$font-ui;
-  margin: 0;
-  padding: 0;
-  border-top-left-radius: vars.$border-radius-large;
-  border-top-right-radius: vars.$border-radius-large;
-  z-index: vars.$z-index-base;
+  font-family: variables.$font-ui;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: variables.$z-index-base;
+  border-radius: 3vmin 3vmin 0 0;
+
+  .logo {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 30%;
+    aspect-ratio: 1;
+    background-image: url('/logo.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    pointer-events: none;
+    user-select: none;
+  }
+
+  .github {
+    position: absolute;
+    right: 2vmin;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 5%;
+    height: 5%;
+    min-width: 24px;
+    min-height: 24px;
+    background-image: url('/github-mark.svg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    pointer-events: auto;
+    user-select: none;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+
+    &:hover {
+      transform: translateY(-50%) scale(1.1);
+    }
+  }
 }
 
-.logo {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: clamp(100px, 30%, 180px);
-  aspect-ratio: 1 / 1;
-  background-image: url('/logo.png');
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
-  pointer-events: none;
-  user-select: none;
+.subtitle {
+  width: 100%;
+  text-align: center;
+  font-family: variables.$font-ui;
+  color: var(--text-secondary);
+  padding: 0 2vmin;
+  box-sizing: border-box;
+  line-height: 1.5;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  margin: 20% 0 0;
+  gap: 1vmin;
+
+  .highlight {
+    color: var(--accent-primary);
+    font-size: 5vmin;
+    font-weight: bold;
+    display: block;
+    margin-bottom: 1vmin;
+    white-space: nowrap;
+  }
+
+  .note {
+    color: #013f87;
+    font-size: 1.8vmin;
+    display: block;
+  }
+
+  .warning {
+    color: #ff0000;
+    font-size: 2vmin;
+    display: block;
+    margin-top: 4vmin;
+  }
 }
 
 .input-container {
-  position: relative;
   margin-top: auto;
   width: 80%;
-  display: block;
-  border-radius: vars.$border-radius-full;
+  border-radius: 3vmin;
   background: var(--bg-surface);
   border: 1px solid var(--border-primary);
-  transition: vars.$color-transition;
-  overflow: hidden;
-}
+  transition: variables.$color-transition;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  padding-right: 0.5vmin;
 
-.input-container:hover {
-  border-color: var(--interactive);
-}
+  &:hover {
+    border-color: var(--interactive);
+  }
 
-.input-container:focus-within {
-  border-color: var(--interactive);
+  &:focus-within {
+    border-color: var(--interactive);
+  }
 }
 
 .uuid-input {
+  flex: 1;
+  min-width: 0;
   width: 100%;
   border: none;
-  padding: 0.5rem 2.5rem 0.5rem 0.75rem;
-  font-family: vars.$font-ui;
-  font-size: 1rem;
+  padding: 1vmin 1.5vmin;
+  font-family: variables.$font-ui;
+  font-size: 2.2vmin;
   color: var(--text-primary);
   background: transparent;
-  transition: vars.$color-transition;
-}
+  transition: variables.$color-transition;
+  height: 5.5vmin;
 
-.uuid-input:focus {
-  outline: none;
+  &:focus {
+    outline: none;
+  }
 }
 
 .submit-btn {
-  position: absolute;
-  top: 50%;
-  right: -1px;
-  transform: translateY(-50%);
-  width: 2.4rem;
-  height: 2.4rem;
+  width: 6.5vmin;
+  height: 6.5vmin;
+  flex-shrink: 0;
   border: none;
   border-radius: 50%;
   background-color: var(--interactive);
   color: var(--text-on-accent);
-  font-size: 1.2rem;
+  font-size: 3vmin;
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  z-index: vars.$z-index-base;
-  box-shadow: vars.$shadow-sm;
+  z-index: variables.$z-index-base;
+  box-shadow: variables.$shadow-sm;
   user-select: none;
-  transition: vars.$color-transition;
-}
+  transition:
+    background-color 0.2s ease,
+    transform 0.2s ease;
 
-.submit-btn:hover {
-  background-color: var(--interactive-hover);
+  &:hover {
+    background-color: var(--interactive-hover);
+    transform: scale(1.05);
+  }
 }

@@ -1,26 +1,41 @@
 @use 'sass:map';
-@use '../assets/styles/variables' as vars;
+@use 'sass:string';
+@use 'sass:meta';
+@use '../assets/styles/variables';
 
 @mixin set-css-vars($map) {
   @each $prop, $val in $map {
-    --#{$prop}: #{$val};
+    @if meta.type-of($val) ==
+      'string' and
+      (
+        string.index($val, '.svg') or
+          string.index($val, '.png') or
+          string.index($val, '.jpg') or
+          string.index($val, '.jpeg') or
+          string.index($val, '/')
+      )
+    {
+      --#{$prop}: url('#{$val}');
+    } @else {
+      --#{$prop}: #{$val};
+    }
   }
 }
 
 :root {
-  @include set-css-vars(vars.$light-colors);
-  --ripple-bg: #{map.get(vars.$dark-colors, bg-primary)};
+  @include set-css-vars(variables.$light-colors);
+  --ripple-bg: #{map.get(variables.$dark-colors, bg-primary)};
 }
 
 :root[data-theme='dark'] {
-  @include set-css-vars(vars.$dark-colors);
-  --ripple-bg: #{map.get(vars.$light-colors, bg-primary)};
+  @include set-css-vars(variables.$dark-colors);
+  --ripple-bg: #{map.get(variables.$light-colors, bg-primary)};
 }
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme='light']) {
-    @include set-css-vars(vars.$dark-colors);
-    --ripple-bg: #{map.get(vars.$light-colors, bg-primary)};
+    @include set-css-vars(variables.$dark-colors);
+    --ripple-bg: #{map.get(variables.$light-colors, bg-primary)};
   }
 }
 
@@ -34,10 +49,10 @@
   cursor: pointer;
   padding: 0.5rem;
   color: var(--text-primary);
-  z-index: vars.$z-index-top;
+  z-index: variables.$z-index-top;
   border-radius: 50%;
   transition:
-    vars.$transform-transition,
+    variables.$transform-transition,
     filter 0.3s ease;
   -webkit-tap-highlight-color: transparent;
 
@@ -67,7 +82,7 @@
       transform-origin: center center;
       transition:
         transform 0.5s cubic-bezier(0.5, 1.5, 0.75, 1.25),
-        vars.$opacity-transition;
+        variables.$opacity-transition;
     }
 
     .moon-mask {
@@ -110,7 +125,7 @@
   border-radius: 50%;
   background: var(--ripple-bg);
   pointer-events: none;
-  z-index: vars.$z-index-high;
+  z-index: variables.$z-index-high;
   transform: translate(-50%, -50%);
   animation: rippleExpand 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
 }
