@@ -8,12 +8,9 @@ export interface NoteData {
   content: string
 }
 
-export const getNote = async (id: string): Promise<NoteData | null> => {
+export const getNote = async (nid: string): Promise<NoteData | null> => {
   try {
-    const response = await fetch(`${API_BASE}/note/${id}`)
-    if (response.status === 404) {
-      return null
-    }
+    const response = await fetch(`${API_BASE}/notes/${nid}`)
     if (!response.ok) {
       throw new Error('Failed to fetch note')
     }
@@ -30,18 +27,17 @@ export const getNote = async (id: string): Promise<NoteData | null> => {
   }
 }
 
-export const saveNote = async (id: string, title: string, content: string): Promise<boolean> => {
+export const saveNote = async (nid: string, title: string, content: string): Promise<boolean> => {
   try {
-    const url = new URL(`${API_BASE}/note/${id}`)
-
-    url.searchParams.append('title', title)
-    url.searchParams.append('content', content)
-
-    const response = await fetch(url.toString(), {
+    const response = await fetch(`${API_BASE}/notes/${nid}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
+      body: JSON.stringify({
+        title,
+        content,
+      }),
     })
 
     if (!response.ok) {

@@ -1,14 +1,4 @@
-@use '../components/DarkMode.scss';
-
-$font-stack:
-  -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-$bg-color: var(--bg-primary);
-$panel-bg: var(--bg-secondary);
-$border-color: var(--border-primary);
-$primary-color: var(--interactive);
-$text-color: var(--text-primary);
-$text-tertiary: var(--text-tertiary);
-$preview-bg: var(--bg-surface);
+@use '../assets/styles/variables' as vars;
 
 .note-container {
   position: fixed;
@@ -18,16 +8,17 @@ $preview-bg: var(--bg-surface);
   right: 10px;
   display: flex;
   flex-direction: column;
-  background-color: $panel-bg;
-  border-radius: 12px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-  font-family: $font-stack;
+  background-color: var(--bg-secondary);
+  border-radius: vars.$border-radius;
+  box-shadow: vars.$shadow-md;
+  font-family: vars.$font-stack;
   overflow: hidden;
   opacity: 0;
   transform: scale(0.9);
   transition:
-    opacity 0.3s ease,
-    transform 0.3s ease;
+    vars.$opacity-transition,
+    transform 0.3s ease,
+    vars.$color-transition;
 }
 
 .note-container.visible {
@@ -39,19 +30,27 @@ $preview-bg: var(--bg-surface);
   display: flex;
   gap: 10px;
   padding: 12px 16px;
-  background: $panel-bg;
-  border-bottom: 1px solid $border-color;
+  background: var(--bg-secondary);
+  border-bottom: 1px solid var(--border-primary);
+  justify-content: flex-start;
+  align-items: center;
+  height: 30px;
+  overflow: visible;
+  z-index: vars.$z-index-middle;
+  position: sticky;
+  top: 0;
+  transition: vars.$color-transition;
 }
 
 .note-mode-toggle button {
-  background: $panel-bg;
-  border: 1px solid $border-color;
-  border-radius: 6px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-primary);
+  border-radius: vars.$border-radius-small;
   padding: 6px 14px;
   font-size: 14px;
-  color: $text-color;
+  color: var(--text-primary);
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: vars.$color-transition;
 }
 
 .note-mode-toggle button:hover {
@@ -60,24 +59,46 @@ $preview-bg: var(--bg-surface);
   border-color: var(--interactive-hover);
 }
 
+.note-logo {
+  position: absolute;
+  left: 50%;
+  right: auto;
+  top: -10px;
+  transform: translateX(calc(-50% - 10px));
+  height: 80px;
+  width: 80px;
+  background-image: url('/logo.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  pointer-events: none;
+  z-index: vars.$z-index-max;
+  background-origin: content-box;
+
+  @media (max-width: 650px) {
+    display: none;
+  }
+}
+
 .note-header {
   display: flex;
   gap: 10px;
   padding: 12px 16px;
-  background: $panel-bg;
-  border-bottom: 1px solid $border-color;
+  background: var(--bg-secondary);
+  border-bottom: 1px solid var(--border-primary);
+  transition: vars.$color-transition;
 }
 
 .note-title {
   flex: 1;
   padding: 8px 12px;
   font-size: 16px;
-  border: 1px solid $border-color;
-  border-radius: 6px;
-  background: $preview-bg;
-  color: $text-color;
+  border: 1px solid var(--border-primary);
+  border-radius: vars.$border-radius-small;
+  background: var(--bg-surface);
+  color: var(--text-primary);
   outline: none;
-  transition: border-color 0.2s ease;
+  transition: vars.$color-transition;
 
   &:focus {
     border-color: var(--interactive);
@@ -88,7 +109,8 @@ $preview-bg: var(--bg-surface);
   flex: 1;
   display: flex;
   height: 100%;
-  background-color: $preview-bg;
+  background-color: var(--bg-surface);
+  transition: vars.$color-transition;
 }
 
 .note-content.mode-edit .note-preview,
@@ -102,30 +124,74 @@ $preview-bg: var(--bg-surface);
   outline: none;
   padding: 20px;
   font-size: 16px;
-  font-family: $font-stack;
+  font-family: vars.$font-stack;
   resize: none;
-  background-color: $preview-bg;
-  color: $text-color;
-  border-right: 1px solid $border-color;
+  background-color: var(--bg-surface);
+  color: var(--text-primary);
+  border-right: 1px solid var(--border-primary);
+  scrollbar-width: thin;
+  scrollbar-color: var(--text-primary) transparent;
+  transition: vars.$color-transition;
+
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+    transition: vars.$color-transition;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+  }
 }
 
 .note-preview {
   flex: 1;
   padding: 20px;
   overflow-y: auto;
-  background-color: $preview-bg;
-  color: $text-color;
+  background-color: var(--bg-surface);
+  color: var(--text-primary);
+  scrollbar-width: thin;
+  scrollbar-color: var(--text-primary) transparent;
+  transition: vars.$color-transition;
+
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+    transition: vars.$color-transition;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+  }
 }
 
 .note-preview .wmde-markdown {
-  background-color: $preview-bg;
-  color: $text-color;
+  background-color: var(--bg-surface);
+  color: var(--text-primary);
+  transition: vars.$color-transition;
 }
 
 .note-preview h1 {
   margin-top: 0;
   padding-bottom: 0.3em;
-  border-bottom: 1px solid $border-color;
+  border-bottom: 1px solid var(--border-primary);
+  transition: vars.$color-transition;
 }
 
 .note-preview .wmde-markdown h1,
@@ -142,8 +208,9 @@ $preview-bg: var(--bg-surface);
 .note-preview .wmde-markdown table,
 .note-preview .wmde-markdown td,
 .note-preview .wmde-markdown th {
-  color: $text-color;
+  color: var(--text-primary);
   background-color: transparent;
+  transition: vars.$color-transition;
 }
 
 .note-preview h1,
@@ -151,8 +218,9 @@ $preview-bg: var(--bg-surface);
 .note-preview h3 {
   margin-top: 1.5em;
   margin-bottom: 0.5em;
-  border-bottom: 1px solid $border-color;
+  border-bottom: 1px solid var(--border-primary);
   padding-bottom: 0.3em;
+  transition: vars.$color-transition;
 }
 
 .note-preview code {
@@ -161,7 +229,8 @@ $preview-bg: var(--bg-surface);
   border-radius: 4px;
   font-family: monospace;
   font-size: 0.95em;
-  color: $text-color;
+  color: var(--text-primary);
+  transition: vars.$color-transition;
 }
 
 .note-preview pre {
@@ -169,14 +238,16 @@ $preview-bg: var(--bg-surface);
   padding: 12px;
   border-radius: 6px;
   overflow-x: auto;
-  color: $text-color;
+  color: var(--text-primary);
+  transition: vars.$color-transition;
 }
 
 .note-preview blockquote {
   border-left: 4px solid var(--interactive);
   padding-left: 12px;
   font-style: italic;
-  background-color: var(--bg-elevated);
+  background: var(--bg-elevated);
+  transition: vars.$color-transition;
 }
 
 .note-preview ul,
@@ -188,18 +259,21 @@ $preview-bg: var(--bg-surface);
   border-collapse: collapse;
   width: 100%;
   margin-top: 1em;
-  background-color: $preview-bg;
+  background-color: var(--bg-surface);
+  transition: vars.$color-transition;
 }
 
 .note-preview th,
 .note-preview td {
-  border: 1px solid $border-color;
+  border: 1px solid var(--border-primary);
   padding: 8px;
   text-align: left;
+  transition: vars.$color-transition;
 }
 
 .note-preview th {
   background-color: var(--bg-elevated);
+  transition: vars.$color-transition;
 }
 
 .url {
@@ -210,17 +284,18 @@ $preview-bg: var(--bg-surface);
   text-align: center;
   padding: 6px 0;
   margin: 0;
-  color: $text-tertiary;
+  color: var(--text-tertiary);
   font-size: 0.8em;
   font-weight: 600;
   background: transparent;
   border: none;
   cursor: pointer;
   text-decoration: none;
+  transition: vars.$color-transition;
 
   &:hover {
     text-decoration: underline;
-    color: $text-color;
+    color: var(--text-primary);
     opacity: 0.7;
   }
 }

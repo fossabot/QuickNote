@@ -27,7 +27,6 @@ export function Note() {
   const [content, setContent] = useState<string>('')
   const [mode, setMode] = useState<'edit' | 'preview' | 'both'>('both')
   const [visible, setVisible] = useState<boolean>(false)
-
   const prevTitleRef = useRef<string>('')
   const prevContentRef = useRef<string>('')
   const lastSaveTimeRef = useRef<number>(0)
@@ -57,7 +56,19 @@ export function Note() {
 
   useEffect(() => {
     void loadNote()
-  }, [loadNote])
+
+    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+      if (title !== prevTitleRef.current || content !== prevContentRef.current) {
+        e.preventDefault()
+        return ''
+      }
+    }
+
+    window.addEventListener('beforeunload', handleBeforeUnload)
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload)
+    }
+  }, [])
 
   const now = Date.now()
 
@@ -134,6 +145,7 @@ export function Note() {
             <button onClick={() => SetMode('edit')}>Edit Only</button>
             <button onClick={() => SetMode('preview')}>Preview Only</button>
             <button onClick={() => SetMode('both')}>Both</button>
+            <div className="note-logo" />
           </div>
           <div className="note-header">
             <input
