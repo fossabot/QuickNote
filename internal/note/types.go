@@ -14,7 +14,9 @@ type Note struct {
 }
 
 type DisplayNote struct {
-	NID     string `json:"nid"`
+	// Return sql NID, because may not Input NID == SQL NID
+	NID string `json:"nid"`
+
 	Title   string `json:"title"`
 	Content string `json:"content"`
 }

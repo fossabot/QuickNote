@@ -23,6 +23,8 @@ func Note() func(ctx *fiber.Ctx) error {
 	method:
 		switch ctx.Method() {
 		case fiber.MethodPost:
+			// postNote NID will be ignored.
+			// Always use path NID
 			var postNote note.DisplayNote
 
 			if err := ctx.BodyParser(&postNote); err != nil {
