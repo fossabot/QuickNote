@@ -60,11 +60,13 @@ func GetStaticFile(index, staticRoot, reqPath string) string {
 			if _, err = os.Stat(idx); err == nil {
 				return idx
 			}
+
 			return defaultIndex
 
 		case mode.IsRegular():
 			return base
 		}
 	}
+
 	return defaultIndex
 }

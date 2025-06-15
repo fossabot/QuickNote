@@ -3,6 +3,7 @@ import { DarkModeToggle } from '../components/DarkModeToggle'
 import './Home.scss'
 import { useNavigate } from 'react-router-dom'
 import * as React from 'react'
+import Watermark from "../components/Watermark.tsx";
 
 export function Home() {
   const [visible, setVisible] = useState(false)
@@ -17,7 +18,7 @@ export function Home() {
   const handleNavigation = () => {
     setVisible(false)
     setTimeout(() => {
-      navigate('/note/' + uuid)
+      navigate(`/note/${uuid}`)
     }, 500)
   }
 
@@ -29,6 +30,7 @@ export function Home() {
 
   return (
     <>
+      <Watermark text={uuid} fontSize={20} gapX={150} gapY={150} />
       <DarkModeToggle />
       <div className="content">
         <div className={`background ${visible ? 'visible' : ''}`}>

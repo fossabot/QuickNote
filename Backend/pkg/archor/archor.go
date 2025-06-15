@@ -20,7 +20,6 @@ func (a *Anchor) Duration() time.Duration {
 }
 
 func FormatDuration(duration time.Duration, format string) string {
-
 	switch format {
 	case "ms":
 		return fmt.Sprintf("%.2fms", float64(duration.Nanoseconds())/float64(time.Millisecond)) // 1,000,000(1e6)

@@ -1,6 +1,6 @@
 import { toast } from 'react-hot-toast'
 
-const API_BASE = 'http://localhost:3000/v1'
+const API_BASE = '/v1'
 
 export interface NoteData {
   nid: string
