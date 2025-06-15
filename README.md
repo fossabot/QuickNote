@@ -8,7 +8,7 @@ Create and share notes quickly and easily.
 
 ---
 
-[![License](https://img.shields.io/badge/license-GPL3.0-green.svg)](LICENSE)
+[![License](https://img.shields.io/badge/license-GPL3.0-green.svg)](Backend/LICENSE)
 [![ci](https://github.com/Sn0wo2/QuickNote/actions/workflows/ci.yml/badge.svg)](https://github.com/Sn0wo2/QuickNote/actions/workflows/ci.yml)
 [![lint](https://github.com/Sn0wo2/QuickNote/actions/workflows/lint.yml/badge.svg)](https://github.com/Sn0wo2/QuickNote/actions/workflows/lint.yml)
 [![go-release](https://github.com/Sn0wo2/QuickNote/actions/workflows/release.yml/badge.svg)](https://github.com/Sn0wo2/QuickNote/actions/workflows/release.yml)
@@ -34,7 +34,7 @@ Create and share notes quickly and easily.
 
 ### Support Database:
 
-- MySQL, MariaDB, TIDB, Aurora
+- MySQL, MariaDB, TiDB, Aurora
 - PostgreSQL, CockroachDB, AlloyDB
 - SQLite3
 - Microsoft SQL Server
