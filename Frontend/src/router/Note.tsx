@@ -117,7 +117,7 @@ export function Note() {
     }
   }, [throttledSave])
 
-  const SetMode = (value: 'edit' | 'preview' | 'both') => {
+  const handleModeChange = (value: 'edit' | 'preview' | 'both') => {
     setMode(value)
     setVisible(false)
     setTimeout(() => {
@@ -149,9 +149,9 @@ export function Note() {
         <DarkModeToggle />
         <div className={`note-container ${visible ? 'visible' : ''}`}>
           <div className="note-mode-toggle">
-            <button onClick={() => SetMode('edit')}>Edit Only</button>
-            <button onClick={() => SetMode('preview')}>Preview Only</button>
-            <button onClick={() => SetMode('both')}>Both</button>
+            <button onClick={() => handleModeChange('edit')}>Edit Only</button>
+            <button onClick={() => handleModeChange('preview')}>Preview Only</button>
+            <button onClick={() => handleModeChange('both')}>Both</button>
             <div className="note-logo" />
           </div>
           <div className="note-header">
