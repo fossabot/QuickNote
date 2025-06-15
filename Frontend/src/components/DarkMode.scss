@@ -1,0 +1,144 @@
+@use 'sass:map';
+@use 'sass:string';
+@use 'sass:meta';
+@use '../assets/styles/variables';
+
+@mixin set-css-vars($map) {
+  @each $prop, $val in $map {
+    @if meta.type-of($val) ==
+      'string' and
+      (
+        string.index($val, '.svg') or
+          string.index($val, '.png') or
+          string.index($val, '.jpg') or
+          string.index($val, '.jpeg') or
+          string.index($val, '/')
+      )
+    {
+      --#{$prop}: url('#{$val}');
+    } @else {
+      --#{$prop}: #{$val};
+    }
+  }
+}
+
+:root {
+  @include set-css-vars(variables.$light-colors);
+  --ripple-bg: #{map.get(variables.$dark-colors, bg-primary)};
+}
+
+:root[data-theme='dark'] {
+  @include set-css-vars(variables.$dark-colors);
+  --ripple-bg: #{map.get(variables.$light-colors, bg-primary)};
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    @include set-css-vars(variables.$dark-colors);
+    --ripple-bg: #{map.get(variables.$light-colors, bg-primary)};
+  }
+}
+
+.theme-toggle {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  background: transparent;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  color: var(--text-primary);
+  z-index: variables.$z-index-top;
+  border-radius: 50%;
+  transition:
+    variables.$transform-transition,
+    filter 0.3s ease;
+  -webkit-tap-highlight-color: transparent;
+
+  &:hover {
+    transform: scale(1.2) rotate(15deg);
+    filter: brightness(1.2);
+  }
+
+  .icon-container {
+    width: 1.5em;
+    height: 1.5em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform-origin: center center;
+  }
+
+  .sun-and-moon {
+    overflow: visible;
+
+    .sun {
+      transform-origin: center center;
+      transition: transform 0.5s cubic-bezier(0.5, 1.25, 0.75, 1.25);
+    }
+
+    .sun-beams {
+      transform-origin: center center;
+      transition:
+        transform 0.5s cubic-bezier(0.5, 1.5, 0.75, 1.25),
+        variables.$opacity-transition;
+    }
+
+    .moon-mask {
+      transform-origin: center center;
+
+      circle {
+        transition: transform 0.4s cubic-bezier(0, 0, 0, 1);
+      }
+    }
+  }
+}
+
+:root[data-theme='dark'] .theme-toggle {
+  &:hover {
+    transform: scale(1.2) rotate(-15deg);
+  }
+
+  .sun-and-moon {
+    .sun {
+      transform: scale(1.75);
+    }
+
+    .sun-beams {
+      transform: rotateZ(-90deg);
+      opacity: 0;
+    }
+
+    .moon-mask {
+      circle {
+        transform: translateX(-14px);
+      }
+    }
+  }
+}
+
+.ripple {
+  position: fixed;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: var(--ripple-bg);
+  pointer-events: none;
+  z-index: variables.$z-index-high;
+  transform: translate(-50%, -50%);
+  animation: rippleExpand 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+@keyframes rippleExpand {
+  from {
+    width: 0;
+    height: 0;
+    opacity: 0.5;
+  }
+  to {
+    width: 10vmax;
+    height: 10vmax;
+    opacity: 0;
+  }
+}

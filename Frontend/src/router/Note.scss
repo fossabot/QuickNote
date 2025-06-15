@@ -1,0 +1,301 @@
+@use '../assets/styles/variables' as vars;
+
+.note-container {
+  position: fixed;
+  top: 10px;
+  bottom: 30px;
+  left: 10px;
+  right: 10px;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--bg-secondary);
+  border-radius: vars.$border-radius;
+  box-shadow: vars.$shadow-md;
+  font-family: vars.$font-stack;
+  overflow: hidden;
+  opacity: 0;
+  transform: scale(0.9);
+  transition:
+    vars.$opacity-transition,
+    transform 0.3s ease,
+    vars.$color-transition;
+}
+
+.note-container.visible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.note-mode-toggle {
+  display: flex;
+  gap: 10px;
+  padding: 12px 16px;
+  background: var(--bg-secondary);
+  border-bottom: 1px solid var(--border-primary);
+  justify-content: flex-start;
+  align-items: center;
+  height: 30px;
+  overflow: visible;
+  z-index: vars.$z-index-middle;
+  position: sticky;
+  top: 0;
+  transition: vars.$color-transition;
+}
+
+.note-mode-toggle button {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-primary);
+  border-radius: vars.$border-radius-small;
+  padding: 6px 14px;
+  font-size: 14px;
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: vars.$color-transition;
+}
+
+.note-mode-toggle button:hover {
+  background: var(--interactive);
+  color: var(--text-on-accent);
+  border-color: var(--interactive-hover);
+}
+
+.note-logo {
+  position: absolute;
+  left: 50%;
+  right: auto;
+  top: -10px;
+  transform: translateX(calc(-50% - 10px));
+  height: 80px;
+  width: 80px;
+  background-image: url('/logo.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  pointer-events: none;
+  z-index: vars.$z-index-max;
+  background-origin: content-box;
+
+  @media (max-width: 650px) {
+    display: none;
+  }
+}
+
+.note-header {
+  display: flex;
+  gap: 10px;
+  padding: 12px 16px;
+  background: var(--bg-secondary);
+  border-bottom: 1px solid var(--border-primary);
+  transition: vars.$color-transition;
+}
+
+.note-title {
+  flex: 1;
+  padding: 8px 12px;
+  font-size: 16px;
+  border: 1px solid var(--border-primary);
+  border-radius: vars.$border-radius-small;
+  background: var(--bg-surface);
+  color: var(--text-primary);
+  outline: none;
+  transition: vars.$color-transition;
+
+  &:focus {
+    border-color: var(--interactive);
+  }
+}
+
+.note-content {
+  flex: 1;
+  display: flex;
+  height: 100%;
+  background-color: var(--bg-surface);
+  transition: vars.$color-transition;
+}
+
+.note-content.mode-edit .note-preview,
+.note-content.mode-preview .note-editor {
+  display: none;
+}
+
+.note-editor {
+  flex: 1;
+  border: none;
+  outline: none;
+  padding: 20px;
+  font-size: 16px;
+  font-family: vars.$font-stack;
+  resize: none;
+  background-color: var(--bg-surface);
+  color: var(--text-primary);
+  border-right: 1px solid var(--border-primary);
+  scrollbar-width: thin;
+  scrollbar-color: var(--text-primary) transparent;
+  transition: vars.$color-transition;
+
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+    transition: vars.$color-transition;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+  }
+}
+
+.note-preview {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+  background-color: var(--bg-surface);
+  color: var(--text-primary);
+  scrollbar-width: thin;
+  scrollbar-color: var(--text-primary) transparent;
+  transition: vars.$color-transition;
+
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+    transition: vars.$color-transition;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+  }
+}
+
+.note-preview .wmde-markdown {
+  background-color: var(--bg-surface);
+  color: var(--text-primary);
+  transition: vars.$color-transition;
+}
+
+.note-preview h1 {
+  margin-top: 0;
+  padding-bottom: 0.3em;
+  border-bottom: 1px solid var(--border-primary);
+  transition: vars.$color-transition;
+}
+
+.note-preview .wmde-markdown h1,
+.note-preview .wmde-markdown h2,
+.note-preview .wmde-markdown h3,
+.note-preview .wmde-markdown h4,
+.note-preview .wmde-markdown h5,
+.note-preview .wmde-markdown h6,
+.note-preview .wmde-markdown p,
+.note-preview .wmde-markdown li,
+.note-preview .wmde-markdown blockquote,
+.note-preview .wmde-markdown code,
+.note-preview .wmde-markdown pre,
+.note-preview .wmde-markdown table,
+.note-preview .wmde-markdown td,
+.note-preview .wmde-markdown th {
+  color: var(--text-primary);
+  background-color: transparent;
+  transition: vars.$color-transition;
+}
+
+.note-preview h1,
+.note-preview h2,
+.note-preview h3 {
+  margin-top: 1.5em;
+  margin-bottom: 0.5em;
+  border-bottom: 1px solid var(--border-primary);
+  padding-bottom: 0.3em;
+  transition: vars.$color-transition;
+}
+
+.note-preview code {
+  background: var(--bg-elevated);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: monospace;
+  font-size: 0.95em;
+  color: var(--text-primary);
+  transition: vars.$color-transition;
+}
+
+.note-preview pre {
+  background: var(--bg-elevated);
+  padding: 12px;
+  border-radius: 6px;
+  overflow-x: auto;
+  color: var(--text-primary);
+  transition: vars.$color-transition;
+}
+
+.note-preview blockquote {
+  border-left: 4px solid var(--interactive);
+  padding-left: 12px;
+  font-style: italic;
+  background: var(--bg-elevated);
+  transition: vars.$color-transition;
+}
+
+.note-preview ul,
+.note-preview ol {
+  padding-left: 1.5em;
+}
+
+.note-preview table {
+  border-collapse: collapse;
+  width: 100%;
+  margin-top: 1em;
+  background-color: var(--bg-surface);
+  transition: vars.$color-transition;
+}
+
+.note-preview th,
+.note-preview td {
+  border: 1px solid var(--border-primary);
+  padding: 8px;
+  text-align: left;
+  transition: vars.$color-transition;
+}
+
+.note-preview th {
+  background-color: var(--bg-elevated);
+  transition: vars.$color-transition;
+}
+
+.url {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  text-align: center;
+  padding: 6px 0;
+  margin: 0;
+  color: var(--text-tertiary);
+  font-size: 0.8em;
+  font-weight: 600;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  transition: vars.$color-transition;
+
+  &:hover {
+    text-decoration: underline;
+    color: var(--text-primary);
+    opacity: 0.7;
+  }
+}
