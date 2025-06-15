@@ -23,7 +23,6 @@ jobs:
         uses: golangci/golangci-lint-action@main
         with:
           version: latest
-          args: --timeout=10m
 
       - name: Commit lint changes
         if: ${{ !github.head_ref }}
