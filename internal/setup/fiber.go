@@ -19,7 +19,6 @@ func Fiber() *fiber.App {
 		Prefork:               true,
 		ReadTimeout:           10 * time.Second,
 		ReduceMemoryUsage:     true,
-		ServerHeader:          "Fiber",
 		StrictRouting:         true,
 		WriteTimeout:          10 * time.Second,
 	})
