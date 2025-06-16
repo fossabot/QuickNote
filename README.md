@@ -72,7 +72,7 @@ bun run build
 # Rename dist → static and move it to Backend directory
 
 # 2️⃣ Build Backend
-cd Backend
+cd ../Backend
 
 go build -mod=readonly -trimpath \
   -o="QuickNote(.exe)" \
