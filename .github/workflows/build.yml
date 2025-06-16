@@ -25,27 +25,32 @@ jobs:
       run:
         working-directory: Backend
     steps:
-      - name: Checkout
-        uses: actions/checkout@main
-        with:
-          fetch-depth: 0
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
       - name: Setup Go
-        uses: actions/setup-go@main
+        uses: actions/setup-go@v5
         with:
           go-version: ${{ env.GO_VERSION }}
+
       - name: Dependencies
         run: go mod tidy
+
       - name: Build
         run: go build -v ./...
+
       - name: Test
         run: go test $(go list ./...)
+
       - name: Vet
         run: go vet $(go list ./...)
+
       - name: Run golangci-lint
-        uses: golangci/golangci-lint-action@main
+        uses: golangci/golangci-lint-action@v8
         with:
           version: latest
           working-directory: Backend
+
       - name: Commit lint changes
         if: ${{ !github.head_ref }}
         continue-on-error: true
@@ -59,7 +64,7 @@ jobs:
       - name: Create commit lint change pr
         if: ${{ !github.head_ref }}
         continue-on-error: true
-        uses: peter-evans/create-pull-request@main
+        uses: peter-evans/create-pull-request@v7
         with:
           path: .
           signoff: true
@@ -73,13 +78,11 @@ jobs:
       run:
         working-directory: Frontend
     steps:
-      - name: Checkout
-        uses: actions/checkout@main
-        with:
-          fetch-depth: 0
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
       - name: Install Bun
-        uses: oven-sh/setup-bun@main
+        uses: oven-sh/setup-bun@v2
         with:
           bun-version: latest
 
@@ -105,7 +108,7 @@ jobs:
       - name: Create commit prettier change pr
         if: ${{ !github.head_ref }}
         continue-on-error: true
-        uses: peter-evans/create-pull-request@main
+        uses: peter-evans/create-pull-request@v7
         with:
           path: .
           signoff: true
@@ -121,13 +124,11 @@ jobs:
         working-directory: Frontend
     if: startsWith(github.ref, 'refs/tags/')
     steps:
-      - name: Checkout
-        uses: actions/checkout@main
-        with:
-          fetch-depth: 0
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
       - name: Install Bun
-        uses: oven-sh/setup-bun@main
+        uses: oven-sh/setup-bun@v2
         with:
           bun-version: latest
 
@@ -138,7 +139,7 @@ jobs:
         run: bun run build
 
       - name: Setup Go
-        uses: actions/setup-go@main
+        uses: actions/setup-go@v5
         with:
           go-version: ${{ env.GO_VERSION }}
 
@@ -149,7 +150,7 @@ jobs:
         working-directory: Backend
 
       - name: Run GoReleaser
-        uses: goreleaser/goreleaser-action@master
+        uses: goreleaser/goreleaser-action@v6
         with:
           distribution: goreleaser
           version: latest
