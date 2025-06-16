@@ -3,7 +3,7 @@
 > Create and share notes quickly and easily.
 
 [![License](https://img.shields.io/badge/license-GPL3.0-green.svg)](LICENSE)
-[![Build](https://github.com/Sn0wo2/QuickNote/actions/workflows/Build.yml/badge.svg)](https://github.com/Sn0wo2/QuickNote/actions/workflows/Build.yml)
+[![Build](https://github.com/Sn0wo2/QuickNote/actions/workflows/build.yml/badge.svg)](https://github.com/Sn0wo2/QuickNote/actions/workflows/Build.yml)
 [![Dependabot Updates](https://github.com/Sn0wo2/QuickNote/actions/workflows/dependabot/dependabot-updates/badge.svg)](https://github.com/Sn0wo2/QuickNote/actions/workflows/dependabot/dependabot-updates)
 
 ---
