@@ -1,4 +1,4 @@
-module github.com/Sn0wo2/QuickNote
+module github.com/Sn0wo2/QuickNote/Backend
 
 go 1.24.4
 

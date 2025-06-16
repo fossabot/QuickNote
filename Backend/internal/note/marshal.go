@@ -7,7 +7,7 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/Sn0wo2/QuickNote/pkg/compress"
+	"github.com/Sn0wo2/QuickNote/Backend/pkg/compress"
 )
 
 const (

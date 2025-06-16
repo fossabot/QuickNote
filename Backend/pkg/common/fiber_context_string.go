@@ -5,7 +5,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/Sn0wo2/QuickNote/pkg/helper"
+	"github.com/Sn0wo2/QuickNote/Backend/pkg/helper"
 	"github.com/gofiber/fiber/v2"
 )
 

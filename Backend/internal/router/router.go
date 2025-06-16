@@ -1,10 +1,10 @@
 package router
 
 import (
-	"github.com/Sn0wo2/QuickNote/internal/router/handler"
-	"github.com/Sn0wo2/QuickNote/internal/router/notfound"
-	"github.com/Sn0wo2/QuickNote/internal/router/static"
-	"github.com/Sn0wo2/QuickNote/internal/setup"
+	"github.com/Sn0wo2/QuickNote/Backend/internal/router/handler"
+	"github.com/Sn0wo2/QuickNote/Backend/internal/router/notfound"
+	"github.com/Sn0wo2/QuickNote/Backend/internal/router/static"
+	"github.com/Sn0wo2/QuickNote/Backend/internal/setup"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/compress"
 	"github.com/gofiber/fiber/v2/middleware/cors"

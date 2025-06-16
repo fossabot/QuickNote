@@ -1,7 +1,7 @@
 package table
 
 import (
-	"github.com/Sn0wo2/QuickNote/internal/note"
+	"github.com/Sn0wo2/QuickNote/Backend/internal/note"
 )
 
 func Init() error {

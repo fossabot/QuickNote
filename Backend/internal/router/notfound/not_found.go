@@ -3,8 +3,8 @@ package notfound
 import (
 	"strings"
 
-	"github.com/Sn0wo2/QuickNote/pkg/common"
-	"github.com/Sn0wo2/QuickNote/pkg/log"
+	"github.com/Sn0wo2/QuickNote/Backend/pkg/common"
+	"github.com/Sn0wo2/QuickNote/Backend/pkg/log"
 	"github.com/gofiber/fiber/v2"
 	"go.uber.org/zap"
 )

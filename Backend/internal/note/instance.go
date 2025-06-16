@@ -3,7 +3,7 @@ package note
 import (
 	"errors"
 
-	"github.com/Sn0wo2/QuickNote/pkg/database/orm"
+	"github.com/Sn0wo2/QuickNote/Backend/pkg/database/orm"
 	"gorm.io/gorm"
 )
 

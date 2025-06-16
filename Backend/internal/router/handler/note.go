@@ -1,11 +1,11 @@
 package handler
 
 import (
-	"github.com/Sn0wo2/QuickNote/internal/note"
-	"github.com/Sn0wo2/QuickNote/pkg/common"
-	"github.com/Sn0wo2/QuickNote/pkg/helper"
-	"github.com/Sn0wo2/QuickNote/pkg/log"
-	"github.com/Sn0wo2/QuickNote/pkg/response"
+	"github.com/Sn0wo2/QuickNote/Backend/internal/note"
+	"github.com/Sn0wo2/QuickNote/Backend/pkg/common"
+	"github.com/Sn0wo2/QuickNote/Backend/pkg/helper"
+	"github.com/Sn0wo2/QuickNote/Backend/pkg/log"
+	"github.com/Sn0wo2/QuickNote/Backend/pkg/response"
 	"github.com/gofiber/fiber/v2"
 	"go.uber.org/zap"
 )

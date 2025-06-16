@@ -1,8 +1,8 @@
 package orm
 
 import (
-	"github.com/Sn0wo2/QuickNote/pkg/database/dialer"
-	"github.com/Sn0wo2/QuickNote/pkg/database/sql"
+	"github.com/Sn0wo2/QuickNote/Backend/pkg/database/dialer"
+	"github.com/Sn0wo2/QuickNote/Backend/pkg/database/sql"
 )
 
 var Instance Database
