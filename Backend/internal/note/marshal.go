@@ -82,14 +82,14 @@ func (n *Note) Decode(data []byte) error {
 			return fmt.Errorf("read field id: %w", err)
 		}
 
-		if _, err := io.ReadFull(r, buf); err != nil {
+		if _, err = io.ReadFull(r, buf); err != nil {
 			return fmt.Errorf("read field %d length: %w", id, err)
 		}
 
 		length := binary.LittleEndian.Uint32(buf)
 
 		value := make([]byte, length)
-		if _, err := io.ReadFull(r, value); err != nil {
+		if _, err = io.ReadFull(r, value); err != nil {
 			return fmt.Errorf("read field %d: %w", id, err)
 		}
 
