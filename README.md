@@ -1,92 +1,98 @@
-# QuickNote
+# 📒 **QuickNote**
 
-Create and share notes quickly and easily.
+> Create and share notes quickly and easily.
 
-## Frontend
-
-> [Sn0wo2/QuickNote-WEB](https://github.com/Sn0wo2/QuickNote-WEB)
-
----
-
-[![License](https://img.shields.io/badge/license-GPL3.0-green.svg)](Backend/LICENSE)
-[![ci](https://github.com/Sn0wo2/QuickNote/actions/workflows/ci.yml/badge.svg)](https://github.com/Sn0wo2/QuickNote/actions/workflows/ci.yml)
-[![lint](https://github.com/Sn0wo2/QuickNote/actions/workflows/lint.yml/badge.svg)](https://github.com/Sn0wo2/QuickNote/actions/workflows/lint.yml)
-[![go-release](https://github.com/Sn0wo2/QuickNote/actions/workflows/release.yml/badge.svg)](https://github.com/Sn0wo2/QuickNote/actions/workflows/release.yml)
+[![License](https://img.shields.io/badge/license-GPL3.0-green.svg)](LICENSE)
+[![Build](https://github.com/Sn0wo2/QuickNote/actions/workflows/Build.yml/badge.svg)](https://github.com/Sn0wo2/QuickNote/actions/workflows/Build.yml)
 [![Dependabot Updates](https://github.com/Sn0wo2/QuickNote/actions/workflows/dependabot/dependabot-updates/badge.svg)](https://github.com/Sn0wo2/QuickNote/actions/workflows/dependabot/dependabot-updates)
 
+---
+
+## 🚀 **Project Status**
+
+| Status | `Developing` |
+| ------ | ------------ |
 
 ---
 
-* Progress: `Developing`
+## ✅ **Features**
 
---- 
+* ✔️ No login required
+* ✔️ High performance
+* ✔️ Simple UI
+* ✔️ Markdown preview support
+* ✔️ Dark Mode
+* ✔️ Note sharing
 
-## Features
+**Planned:**
 
-- [X] No login
-- [X] High performance
-- [ ] Encryption
-- [ ] Compression
-- [X] Markdown preview support
-- [ ] Dark mode
-- [X] Note Sharing
-- [ ] Note history
-
-### Support Database:
-
-- MySQL, MariaDB, TiDB, Aurora
-- PostgreSQL, CockroachDB, AlloyDB
-- SQLite3
-- Microsoft SQL Server
+* 🔒 Encryption
+* 📦 Compression
+* 🕑 Note history
 
 ---
 
-## Docs
+## 🗃️ **Supported Databases**
 
-- `Developing`
+* **Relational:**
+
+    * MySQL, MariaDB, TiDB, Aurora
+    * PostgreSQL, CockroachDB, AlloyDB
+    * SQLite3
+    * Microsoft SQL Server
+
 ---
 
-## Build Instructions
+## 📚 **Docs**
+
+> Documentation: `Developing`
+
+---
+
+## ⚙️ **Build Instructions**
+
+### ✅ **Using GitHub Actions**
+
+Check:
+
+* [`Build.yml`](https://github.com/Sn0wo2/QuickNote/blob/main/.github/workflows/Build.yml)
+* [`.goreleaser.yml`](https://github.com/Sn0wo2/QuickNote/blob/main/LICENSE)
+
+---
+
+### 🔧 **Manual Build**
 
 ```bash
-# Install dependencies (if not already installed)
-npm install
+# 1️⃣ Build Frontend
+cd Frontend
 
-# Build the production-ready frontend files
-npm run build
-````
+bun run install
+bun run build
 
-After building the frontend, move the generated static files to the backend's `./static` directory. This ensures the backend can serve the frontend correctly.
+# Rename dist → static and move it to Backend directory
 
-```bash
-# Create static directory if it doesn't exist
-mkdir -p ./static
+# 2️⃣ Build Backend
+cd Backend
 
-# Copy the build output to the static directory
-cp -r ./frontend/dist/* ./static/
+go build -mod=readonly -trimpath \
+  -o="QuickNote(.exe)" \
+  -ldflags="-s -w -buildid= -extldflags=-static" \
+  -gcflags="all=-d=ssa/check_bce/debug=0" \
+  -asmflags="-trimpath" main.go
+
+# 3️⃣ Run
+./QuickNote(.exe)
 ```
 
-```bash
-# Compile the Go backend
-go build -trimpath -o="QuickNote.exe" -ldflags="-s -w -buildid=" main.go
-```
-
-> **Note:**
->
-> * Make sure the `./static` directory is in the same directory as your backend executable.
-> * Adjust the frontend build output path (`./frontend/dist`) to match your actual project structure.
-
-After these steps, run your backend executable (`./QuickNote`), and it will serve the frontend from the `./static` directory.
-
 ---
 
-## Contributors
+## 👥 **Contributors**
 
 ![Contributors](https://contrib.rocks/image?repo=Sn0wo2/QuickNote)
 
 ---
 
-## Star History
+## ⭐ **Star History**
 
 <a href="https://www.star-history.com/#Sn0wo2/QuickNote&Date">
  <picture>
@@ -95,3 +101,9 @@ After these steps, run your backend executable (`./QuickNote`), and it will serv
    <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=Sn0wo2/QuickNote&type=Date" />
  </picture>
 </a>
+
+---
+
+## 📄 **License**
+
+Licensed under [GPL 3.0](LICENSE).
