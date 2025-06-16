@@ -13,16 +13,6 @@ import (
 
 var Instance = NewLogger()
 
-var levelColors = map[zapcore.Level]string{
-	zapcore.DebugLevel:  ansi.ColorCode("magenta"),
-	zapcore.InfoLevel:   ansi.ColorCode("green"),
-	zapcore.WarnLevel:   ansi.ColorCode("yellow+b"),
-	zapcore.ErrorLevel:  ansi.ColorCode("red+b"),
-	zapcore.DPanicLevel: ansi.ColorCode("cyan+b"),
-	zapcore.PanicLevel:  ansi.ColorCode("white+b+h:red"),
-	zapcore.FatalLevel:  ansi.ColorCode("white+b:red"),
-}
-
 func NewLogger() *zap.Logger {
 	return zap.New(zapcore.NewCore(
 		zapcore.NewConsoleEncoder(zapcore.EncoderConfig{
@@ -39,7 +29,15 @@ func NewLogger() *zap.Logger {
 			},
 			EncodeLevel: func(l zapcore.Level, enc zapcore.PrimitiveArrayEncoder) {
 				label := l.CapitalString()
-				if color, ok := levelColors[l]; ok {
+				if color, ok := map[zapcore.Level]string{
+					zapcore.DebugLevel:  ansi.ColorCode("magenta"),
+					zapcore.InfoLevel:   ansi.ColorCode("green"),
+					zapcore.WarnLevel:   ansi.ColorCode("yellow+b"),
+					zapcore.ErrorLevel:  ansi.ColorCode("red+b"),
+					zapcore.DPanicLevel: ansi.ColorCode("cyan+b"),
+					zapcore.PanicLevel:  ansi.ColorCode("white+b+h:red"),
+					zapcore.FatalLevel:  ansi.ColorCode("white+b:red"),
+				}[l]; ok {
 					enc.AppendString("[" + color + label + ansi.Reset + "]")
 				} else {
 					enc.AppendString("[" + ansi.DefaultBG + label + ansi.Reset + "]")
