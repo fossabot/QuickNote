@@ -2,7 +2,8 @@
 
 > Create and share notes quickly and easily.
 
-[![License](https://img.shields.io/badge/license-GPL3.0-green.svg)](LICENSE)
+[![GitHub License](https://img.shields.io/github/license/Sn0wo2/QuickNote)](LICENSE)
+
 [![Build](https://github.com/Sn0wo2/QuickNote/actions/workflows/build.yml/badge.svg)](https://github.com/Sn0wo2/QuickNote/actions/workflows/Build.yml)
 [![Dependabot Updates](https://github.com/Sn0wo2/QuickNote/actions/workflows/dependabot/dependabot-updates/badge.svg)](https://github.com/Sn0wo2/QuickNote/actions/workflows/dependabot/dependabot-updates)
 
@@ -55,7 +56,7 @@
 
 Check:
 
-* [`Build.yml`](https://github.com/Sn0wo2/QuickNote/blob/main/.github/workflows/Build.yml)
+* [`build.yml`](https://github.com/Sn0wo2/QuickNote/blob/main/.github/workflows/build.yml)
 * [`.goreleaser.yml`](https://github.com/Sn0wo2/QuickNote/blob/main/LICENSE)
 
 ---
