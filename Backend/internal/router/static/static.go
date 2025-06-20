@@ -12,10 +12,6 @@ import (
 )
 
 func Setup(router fiber.Router) {
-	const staticRoot = "./static"
-
-	const index = "index.html"
-
 	/*router.Static("/", staticRoot, fiber.Static{
 		Compress:      true,
 		ByteRange:     true,
@@ -28,12 +24,13 @@ func Setup(router fiber.Router) {
 			return false
 		},
 	})*/
+
 	router.Use("*", func(ctx *fiber.Ctx) error {
 		if ctx.Method() != fiber.MethodGet {
 			return ctx.Next()
 		}
 
-		if path := GetStaticFile(index, staticRoot, ctx.Path()); path != "" {
+		if path := GetStaticFile("index.html", "./static", ctx.Path()); path != "" {
 			log.Instance.Info("Send static file",
 				zap.String("file", path),
 				zap.String("ctx", common.FiberContextString(ctx)))
@@ -45,6 +42,7 @@ func Setup(router fiber.Router) {
 	})
 }
 
+// GetStaticFile react router
 func GetStaticFile(index, staticRoot, reqPath string) string {
 	base := filepath.Join(staticRoot, strings.TrimPrefix(reqPath, "/"))
 	defaultIndex := filepath.Join(staticRoot, index)
