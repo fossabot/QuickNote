@@ -14,7 +14,7 @@ type Note struct {
 }
 
 type DisplayNote struct {
-	// Return sql NID, because may not Input NID == SQL NID
+	// Return sql NID, because may Input NID != SQL NID
 	NID string `json:"nid"`
 
 	Title   string `json:"title"`
