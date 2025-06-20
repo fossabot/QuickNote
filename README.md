@@ -45,9 +45,17 @@
 
 ---
 
+## 🎉 **Demo**
+
+| Status | `Developing` |
+|--------|--------------|
+
+---
+
 ## 📚 **Docs**
 
-> Documentation: `Developing`
+| Status | `Developing` |
+|--------|--------------|
 
 ---
 
