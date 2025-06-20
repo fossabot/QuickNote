@@ -1,3 +1,5 @@
+listener:
+  address: :3000
 logger:
   level: debug
 database:

@@ -51,7 +51,7 @@ func main() {
 
 	if !fiber.IsChild() {
 		log.Instance.Info("Starting server",
-			zap.String("address", "0.0.0.0:3000"),
+			zap.String("address", config.Instance.Listener.Address),
 			zap.Int("pid", os.Getpid()),
 		)
 	}
@@ -63,7 +63,7 @@ func main() {
 	signal.Notify(shutdownChan, os.Interrupt, syscall.SIGTERM)
 
 	go func() {
-		if err = app.Listen(":3000"); err != nil {
+		if err = app.Listen(config.Instance.Listener.Address); err != nil {
 			log.Instance.Fatal("Server failed to start",
 				zap.Error(err),
 			)

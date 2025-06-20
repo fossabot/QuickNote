@@ -1,6 +1,9 @@
 package config
 
 type Config struct {
+	Listener struct {
+		Address string `yaml:"address"`
+	} `yaml:"listener"`
 	Logger struct {
 		Level string `yaml:"level"`
 	} `yaml:"logger"`
