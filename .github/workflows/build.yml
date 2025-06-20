@@ -18,12 +18,9 @@ env:
   base: main
 
 jobs:
-  build-test-vet-lint:
-    name: Build & Test & Vet & Lint (Go)
+  build-test-vet:
+    name: Build & Test & Vet (Go)
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: Backend
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -36,25 +33,29 @@ jobs:
       - name: Dependencies
         run: go mod tidy
 
-      - name: Build
-        run: go build -v ./...
-
       - name: Test
         run: go test $(go list ./...)
 
       - name: Vet
         run: go vet $(go list ./...)
 
+      - name: Build
+        run: go build -v ./...
+  lint:
+    name: Lint (Go)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
       - name: Run golangci-lint
         uses: golangci/golangci-lint-action@v8
         with:
           version: latest
-          working-directory: Backend
 
       - name: Commit lint changes
         if: ${{ !github.head_ref }}
         continue-on-error: true
-        working-directory: .
         run: |
           git config --local user.name 'github-actions[bot]'
           git config --local user.email '41898282+github-actions[bot]@users.noreply.github.com'
@@ -115,9 +116,9 @@ jobs:
           sign-commits: true
           base: ${{ env.base }}
 
-  build-and-release:
+  frontend-build-and-release:
     name: Build Frontend and Release
-    needs: [build-test-vet-lint, frontend-lint-format]
+    needs: [ build-test-vet, lint, frontend-lint-format ]
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -143,18 +144,12 @@ jobs:
         with:
           go-version: ${{ env.GO_VERSION }}
 
-      - name: Move files
-        run: |
-          cp ../LICENSE .
-          cp -r ../Frontend/dist ./static
-        working-directory: Backend
-
       - name: Run GoReleaser
         uses: goreleaser/goreleaser-action@v6
         with:
           distribution: goreleaser
           version: latest
           args: release --clean
-          workdir: Backend
+          workdir: .
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

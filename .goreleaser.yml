@@ -1,0 +1,71 @@
+version: 2
+
+project_name: QuickNote
+
+builds:
+  - id: QuickNote
+    main: ./main.go
+    binary: QuickNote
+    goos:
+      - windows
+      - linux
+      - darwin
+    goarch:
+      - amd64
+      - arm64
+    flags:
+      - -mod=readonly
+      - -trimpath
+    asmflags:
+      - -trimpath
+    gcflags:
+      - all=-d=ssa/check_bce/debug=0
+    ldflags:
+      - -s -w -buildid=
+      - -extldflags=-static
+      - -linkmode internal
+      - -X main.version={{.Version}}
+      - -X main.commit={{.Commit}}
+      - -X main.date={{.Date}}
+
+archives:
+  - id: default
+    format_overrides:
+      - goos: windows
+        formats: [ 'zip' ]
+    name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
+    files:
+      - src: ./README.md
+        dst: README.md
+      - src: ./config.yml
+        dst: config.yml
+      - src: ./LICENSE
+        dst: LICENSE
+      - src: ./Frontend/dist
+        dst: static
+
+changelog:
+  disable: false
+  use: github
+  sort: asc
+  groups:
+    - title: "✨ Features"
+      regexp: "^feat"
+      order: 0
+    - title: "🐛 Bug Fixes"
+      regexp: "^fix"
+      order: 1
+    - title: "🛠️ Refactoring"
+      regexp: "^refactor"
+      order: 2
+    - title: "📦 Chores"
+      regexp: "^chore"
+      order: 3
+    - title: "📄 Documentation"
+      regexp: "^docs"
+      order: 4
+    - title: "✅ Tests"
+      regexp: "^test"
+      order: 5
+    - title: Others
+      order: 999

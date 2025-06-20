@@ -163,9 +163,6 @@ go.work.sum
 .idea/
 .vscode/
 
-# Config
-config.yml
-
 # Database test
 *.db
 
