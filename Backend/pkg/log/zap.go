@@ -1,10 +1,10 @@
 package log
 
 import (
-	"os"
 	"strings"
 	"time"
 
+	"github.com/Sn0wo2/QuickNote/Backend/pkg/config"
 	"github.com/mattn/go-colorable"
 	"github.com/mgutz/ansi"
 	"go.uber.org/zap"
@@ -48,9 +48,7 @@ func NewLogger() *zap.Logger {
 		}),
 		zapcore.AddSync(colorable.NewColorableStdout()),
 		func() zapcore.Level {
-			switch strings.ToLower(os.Getenv("LOG_LEVEL")) {
-			case "debug":
-				return zapcore.DebugLevel
+			switch strings.ToLower(config.Instance.Logger.Level) {
 			case "info":
 				return zapcore.InfoLevel
 			case "warn", "warning":
@@ -63,6 +61,8 @@ func NewLogger() *zap.Logger {
 				return zapcore.PanicLevel
 			case "fatal":
 				return zapcore.FatalLevel
+
+			// debug: fallback
 			default:
 				return zapcore.DebugLevel
 			}
