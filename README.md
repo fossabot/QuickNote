@@ -3,6 +3,7 @@
 > Create and share notes quickly and easily.
 
 [![GitHub License](https://img.shields.io/github/license/Sn0wo2/QuickNote)](LICENSE)
+![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/Sn0wo2/QuickNote/total)
 
 [![Build](https://github.com/Sn0wo2/QuickNote/actions/workflows/build.yml/badge.svg)](https://github.com/Sn0wo2/QuickNote/actions/workflows/Build.yml)
 [![Dependabot Updates](https://github.com/Sn0wo2/QuickNote/actions/workflows/dependabot/dependabot-updates/badge.svg)](https://github.com/Sn0wo2/QuickNote/actions/workflows/dependabot/dependabot-updates)
@@ -50,6 +51,12 @@
 
 ---
 
+## 📥 **Download**
+
+[![GitHub release](https://img.shields.io/github/v/release/Sn0wo2/QuickNote?logo=github)](https://github.com/Sn0wo2/QuickNote/releases)
+
+---
+
 ## ⚙️ **Build Instructions**
 
 ### ✅ **Using GitHub Actions**
@@ -64,25 +71,20 @@ Check:
 ### 🔧 **Manual Build**
 
 ```bash
-# 1️⃣ Build Frontend
-cd Frontend
-
-bun run install
-bun run build
-
-# Rename dist → static and move it to Backend directory
-
-# 2️⃣ Build Backend
-cd ../Backend
-
 go build -mod=readonly -trimpath \
-  -o="QuickNote(.exe)" \
+  -o="QuickNote" \
   -ldflags="-s -w -buildid= -extldflags=-static" \
   -gcflags="all=-d=ssa/check_bce/debug=0" \
   -asmflags="-trimpath" main.go
 
-# 3️⃣ Run
-./QuickNote(.exe)
+cd Frontend
+
+bun install
+bun run build
+
+mv dist/* ../
+
+cd ../ && ./QuickNote(.exe)
 ```
 
 ---
