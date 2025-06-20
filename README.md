@@ -25,11 +25,11 @@
 * ✔️ Markdown preview support
 * ✔️ Dark Mode
 * ✔️ Note sharing
+* ️️✔️ Compression
 
 **Planned:**
 
 * 🔒 Encryption
-* 📦 Compression
 * 🕑 Note history
 
 ---
