@@ -51,21 +51,22 @@ func (n *Note) Decode(data []byte) error {
 	if n == nil {
 		return errors.New("nil note")
 	}
+	var err error
 
-	decompressed, err := compress.FlateDecompress(data)
+	data, err = compress.FlateDecompress(data)
 	if err != nil {
 		return fmt.Errorf("decompress: %w", err)
 	}
 
-	if len(decompressed) < len(magicHeader)+1 {
+	if len(data) < len(magicHeader)+1 {
 		return errors.New("data too short")
 	}
 
-	if !bytes.Equal(decompressed[:len(magicHeader)], magicHeader[:]) {
+	if !bytes.Equal(data[:len(magicHeader)], magicHeader[:]) {
 		return errors.New("invalid magic header")
 	}
 
-	r := bytes.NewReader(decompressed[len(magicHeader):])
+	r := bytes.NewReader(data[len(magicHeader):])
 	if v, err := r.ReadByte(); err != nil || v != magicVersion {
 		return fmt.Errorf("invalid version: %w", err)
 	}
