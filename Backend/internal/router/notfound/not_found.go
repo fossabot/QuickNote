@@ -10,10 +10,8 @@ import (
 )
 
 func Setup(msg string, router fiber.Router) {
-	if msg == "" {
+	if msg = strings.ToLower(msg); msg == "" {
 		msg = "page not found"
-	} else {
-		msg = strings.ToLower(msg)
 	}
 
 	router.Use("*", func(ctx *fiber.Ctx) error {
