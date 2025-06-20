@@ -12,7 +12,7 @@ import (
 
 var Instance Config
 
-// Init or Reload config.
+// Init contains validation config
 func Init() error {
 	cf, err := os.ReadFile("config.yml")
 	if err != nil {
@@ -59,7 +59,7 @@ func validate(cfg any) error {
 		}
 
 		value := v.Field(i)
-		isEmpty := false
+		var isEmpty bool
 
 		switch value.Kind() {
 		case reflect.String:
@@ -75,10 +75,10 @@ func validate(cfg any) error {
 		case reflect.Slice, reflect.Map, reflect.Array:
 			isEmpty = value.Len() == 0
 		case reflect.Struct:
-			/*if err := ValidateConfig(value.Addr().Interface()); err != nil {
+			if err := validate(value.Addr().Interface()); err != nil {
 				return fmt.Errorf("%s.%s: %w", t.Name(), field.Name, err)
-			}*/
-		case reflect.Bool, reflect.Uintptr, reflect.Complex64, reflect.Complex128, reflect.Chan, reflect.Func, reflect.UnsafePointer, reflect.Invalid:
+			}
+		// reflect.Bool, reflect.Uintptr, reflect.Complex64, reflect.Complex128, reflect.Chan, reflect.Func, reflect.UnsafePointer, reflect.Invalid
 		default:
 		}
 
