@@ -16,6 +16,7 @@ builds:
     flags:
       - -mod=readonly
       - -trimpath
+      - -tags=mysql postgres sqlite sqlserver
     asmflags:
       - -trimpath
     gcflags:

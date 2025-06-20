@@ -80,6 +80,7 @@ Check:
 
 ```bash
 go build -mod=readonly -trimpath \
+  -tags="mysql postgres sqlite sqlserver" \
   -o="QuickNote" \
   -ldflags="-s -w -buildid= -extldflags=-static" \
   -gcflags="all=-d=ssa/check_bce/debug=0" \
