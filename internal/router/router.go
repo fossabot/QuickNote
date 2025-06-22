@@ -21,6 +21,7 @@ func Setup(router fiber.Router) {
 
 	api.Group("health", handler.Health())
 	api.Group("notes/*", handler.Note())
+	api.Group("export/*", handler.Export())
 
 	notfound.Setup("api not found", api)
 
