@@ -24,6 +24,7 @@ func Export() func(ctx *fiber.Ctx) error {
 			return ctx.Status(fiber.StatusBadRequest).JSON(response.New("invalid nid"))
 		}
 
+		// perf
 		n, err := note.GetNote(nid)
 		if err != nil {
 			if errors.Is(err, gorm.ErrRecordNotFound) {
