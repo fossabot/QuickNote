@@ -17,7 +17,7 @@ func Note() func(ctx *fiber.Ctx) error {
 			log.Instance.Warn("Invalid nid",
 				zap.String("ctx", common.FiberContextString(ctx)))
 
-			return ctx.Status(fiber.StatusBadRequest).JSON(response.New(false, "invalid nid"))
+			return ctx.Status(fiber.StatusBadRequest).JSON(response.New("invalid nid"))
 		}
 
 		n := note.Note{
@@ -84,7 +84,7 @@ func Note() func(ctx *fiber.Ctx) error {
 
 			return ctx.Status(fiber.StatusOK).JSON(response.New("success"))
 
-		default:
+		case fiber.MethodGet:
 			msg := "success"
 
 			if err := n.Read(); err != nil {
@@ -104,6 +104,13 @@ func Note() func(ctx *fiber.Ctx) error {
 				Title:   helper.BytesToString(n.Title),
 				Content: helper.BytesToString(n.Content),
 			}))
+		// TODO: Too late for fallback method...
+		default:
+			log.Instance.Warn("Invalid method",
+				zap.String("nid", nid),
+				zap.String("ctx", common.FiberContextString(ctx)))
+
+			return ctx.Next()
 		}
 	}
 }
