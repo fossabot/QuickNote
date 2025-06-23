@@ -1,0 +1,52 @@
+name: React CI
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'Frontend/**'
+      - '.github/workflows/react.yml'
+  pull_request:
+    paths:
+      - 'Frontend/**'
+      - '.github/workflows/react.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+defaults:
+  run:
+    working-directory: Frontend
+
+jobs:
+  lint:
+    name: Frontend Lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install dependencies
+        run: bun install
+
+      - name: Check linting (ESLint)
+        run: bun run lint:fix
+
+      - name: Create Pull Request with lint fixes
+        if: github.ref == 'refs/heads/main'
+        uses: peter-evans/create-pull-request@v7
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "chore(frontend): apply linting fixes"
+          title: "chore(frontend): apply linting fixes"
+          body: "Automated linting fixes."
+          branch: "chore/frontend-lint-fixes"
+          base: main
+          signoff: true
