@@ -13,18 +13,23 @@ export function Home() {
   const dragCounter = useRef(0);
   const navigate = useNavigate();
 
+
+  const handleNavigation = (nextUUID?: string) => {
+    setVisible(false);
+    setTimeout(() => navigate(`/note/${nextUUID ?? uuid}`), 500);
+  };
+
   const handleFileUpload = useCallback(async (file: File) => {
     try {
-      if (!file.name.endsWith(".qnote"))
-        throw new Error(`Invalid file: ${file.name}`);
+      if (!file.name.endsWith(".qnote")) throw new Error(`Invalid file: ${file.name}`);
       await importNote(file);
-      setUUID(file.name.replace(/\.qnote$/, ""));
-      toast.success("Note imported successfully.");
+      handleNavigation(file.name.replace(/\.qnote$/, ""));
     } catch (error) {
       console.error(error);
       toast.error("Failed to import note");
     }
   }, []);
+
 
   const handleDrop = useCallback(
     (e: DragEvent) => {
@@ -69,11 +74,6 @@ export function Home() {
     return () => clearTimeout(t);
   }, []);
 
-  const handleNavigation = () => {
-    setVisible(false);
-    setTimeout(() => navigate(`/note/${uuid}`), 500);
-  };
-
   return (
     <>
       <Watermark text={uuid} fontSize={20} gapX={150} gapY={150} />
@@ -114,7 +114,10 @@ export function Home() {
               onChange={(e) => setUUID(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && handleNavigation()}
             />
-            <button className="submit-btn" onClick={handleNavigation}>
+            <button className="submit-btn" onClick={(e) => {
+              e.preventDefault();
+              handleNavigation();
+            }}>
               &rarr;
             </button>
           </div>
