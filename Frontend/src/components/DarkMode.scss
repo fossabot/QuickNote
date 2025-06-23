@@ -13,8 +13,7 @@
           string.index($val, '.jpg') or
           string.index($val, '.jpeg') or
           string.index($val, '/')
-      )
-    {
+      ) {
       --#{$prop}: url('#{$val}');
     } @else {
       --#{$prop}: #{$val};
@@ -51,9 +50,8 @@
   color: var(--text-primary);
   z-index: variables.$z-index-top;
   border-radius: 50%;
-  transition:
-    variables.$transform-transition,
-    filter 0.3s ease;
+  transition: variables.$transform-transition,
+  filter 0.3s ease;
   -webkit-tap-highlight-color: transparent;
 
   &:hover {
@@ -80,9 +78,8 @@
 
     .sun-beams {
       transform-origin: center center;
-      transition:
-        transform 0.5s cubic-bezier(0.5, 1.5, 0.75, 1.25),
-        variables.$opacity-transition;
+      transition: transform 0.5s cubic-bezier(0.5, 1.5, 0.75, 1.25),
+      variables.$opacity-transition;
     }
 
     .moon-mask {
