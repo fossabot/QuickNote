@@ -11,8 +11,6 @@
     "build": "eslint . && tsc -b && vite build",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "format": "prettier --check .",
-    "format:fix": "prettier --write .",
     "preview": "vite preview",
     "eslint": "eslint"
   },
