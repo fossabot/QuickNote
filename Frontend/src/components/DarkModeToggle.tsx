@@ -1,39 +1,39 @@
-import { useState, useRef } from 'react'
-import { useDarkMode } from '../hooks/useDarkMode'
-import './DarkMode.scss'
+import { useRef, useState } from "react";
+import { useDarkMode } from "../hooks/useDarkMode";
+import "./DarkMode.scss";
 
 type Ripple = {
-  key: number
-  x: number
-  y: number
-}
+  key: number;
+  x: number;
+  y: number;
+};
 
 export function DarkModeToggle() {
-  const { isDarkMode, toggleDarkMode } = useDarkMode()
-  const [ripples, setRipples] = useState<Ripple[]>([])
-  const buttonRef = useRef<HTMLButtonElement>(null)
+  const { isDarkMode, toggleDarkMode } = useDarkMode();
+  const [ripples, setRipples] = useState<Ripple[]>([]);
+  const buttonRef = useRef<HTMLButtonElement>(null);
 
   const handleClick = () => {
     if (buttonRef.current) {
-      const rect = buttonRef.current.getBoundingClientRect()
-      const centerX = rect.left + rect.width / 2
-      const centerY = rect.top + rect.height / 2
+      const rect = buttonRef.current.getBoundingClientRect();
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height / 2;
 
       setRipples((prevRipples) => [
         ...prevRipples,
         {
           key: Date.now(),
           x: centerX,
-          y: centerY,
-        },
-      ])
+          y: centerY
+        }
+      ]);
     }
-    toggleDarkMode()
-  }
+    toggleDarkMode();
+  };
 
   const handleAnimationEnd = (key: number) => {
-    setRipples((prevRipples) => prevRipples.filter((r) => r.key !== key))
-  }
+    setRipples((prevRipples) => prevRipples.filter((r) => r.key !== key));
+  };
 
   return (
     <>
@@ -41,7 +41,7 @@ export function DarkModeToggle() {
         ref={buttonRef}
         className="theme-toggle"
         onClick={handleClick}
-        aria-label={isDarkMode ? 'Activate light mode' : 'Activate dark mode'}
+        aria-label={isDarkMode ? "Activate light mode" : "Activate dark mode"}
       >
         <div className="icon-container">
           <svg
@@ -85,5 +85,5 @@ export function DarkModeToggle() {
         />
       ))}
     </>
-  )
+  );
 }
