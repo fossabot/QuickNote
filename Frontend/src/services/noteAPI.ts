@@ -1,52 +1,67 @@
-import { toast } from 'react-hot-toast'
-
-const API_BASE = '/v1'
+const API_BASE = import.meta.env.VITE_API_URL;
 
 export interface NoteData {
-  nid: string
-  title: string
-  content: string
+  nid: string;
+  title: string;
+  content: string;
 }
 
 export const getNote = async (nid: string): Promise<NoteData | null> => {
-  try {
-    const response = await fetch(`${API_BASE}/notes/${nid}`)
-    if (!response.ok) {
-      throw new Error('Failed to fetch note')
-    }
-    const data = await response.json()
-    return {
-      nid: data.data.nid,
-      title: data.data.title,
-      content: data.data.content,
-    }
-  } catch (error) {
-    console.error('Fetch error:', error)
-    toast.error('Failed to load note')
-    return null
+  const response = await fetch(`${API_BASE}/notes/${nid}`);
+  if (!response.ok) {
+    throw new Error("Failed to fetch note");
   }
-}
+  const data = await response.json();
+  return {
+    nid: data.data.nid,
+    title: data.data.title,
+    content: data.data.content
+  };
+};
 
-export const saveNote = async (nid: string, title: string, content: string): Promise<boolean> => {
-  try {
-    const response = await fetch(`${API_BASE}/notes/${nid}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        title,
-        content,
-      }),
+export const saveNote = async (nid: string, title: string, content: string) => {
+  const response = await fetch(`${API_BASE}/notes/${nid}`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      title,
+      content
     })
+  });
 
-    if (!response.ok) {
-      throw new Error('Failed to save note')
-    }
-    return true
-  } catch (error) {
-    console.error('Save error:', error)
-    toast.error('Failed to save note')
-    return false
+  if (!response.ok) {
+    throw new Error("Failed to create note");
   }
-}
+};
+
+export const deleteNote = async (id: string) => {
+  const response = await fetch(`${API_BASE}/notes/${id}`, {
+    method: "DELETE"
+  });
+  if (!response.ok) {
+    throw new Error("Failed to delete note");
+  }
+  return true;
+};
+
+export const exportNote = async (id: string) => {
+  const response = await fetch(`${API_BASE}/export/${id}`);
+  if (!response.ok) {
+    throw new Error("Failed to export note");
+  }
+  window.open(`${API_BASE}/export/${id}`, "_blank");
+};
+
+export const importNote = async (file: File) => {
+  const formData = new FormData();
+  formData.append("import", file);
+  const response = await fetch(`${API_BASE}/import`, {
+    method: "POST",
+    body: formData
+  });
+  if (!response.ok) {
+    throw new Error("Failed to import note");
+  }
+};
