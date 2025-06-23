@@ -28,12 +28,12 @@ jobs:
           bun-version: latest
 
       - name: Install frontend dependencies
-        run: bun install
         working-directory: Frontend
+        run: bun install
 
       - name: Build Frontend
-        run: bun run build
         working-directory: Frontend
+        run: bun run build
 
       - name: Run GoReleaser
         uses: goreleaser/goreleaser-action@v6
