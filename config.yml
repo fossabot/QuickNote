@@ -1,5 +1,6 @@
 listener:
   address: :3000
+  static: ./static
 logger:
   level: debug
 database:

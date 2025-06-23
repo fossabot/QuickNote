@@ -6,12 +6,17 @@ import (
 	"strings"
 
 	"github.com/Sn0wo2/QuickNote/pkg/common"
+	"github.com/Sn0wo2/QuickNote/pkg/config"
 	"github.com/Sn0wo2/QuickNote/pkg/log"
 	"github.com/gofiber/fiber/v2"
 	"go.uber.org/zap"
 )
 
 func Setup(router fiber.Router) {
+	staticRoot := config.Instance.Listener.Static
+	if staticRoot == "" {
+		return
+	}
 	// router.Static("/", staticRoot, fiber.Static{
 	// 	Compress:      true,
 	// 	ByteRange:     true,
@@ -29,7 +34,7 @@ func Setup(router fiber.Router) {
 			return ctx.Next()
 		}
 
-		if path := GetStaticFile("index.html", "./static", ctx.Path()); path != "" {
+		if path := GetStaticFile("index.html", staticRoot, ctx.Path()); path != "" {
 			log.Instance.Info("Send static file",
 				zap.String("file", path),
 				zap.String("ctx", common.FiberContextString(ctx)))
