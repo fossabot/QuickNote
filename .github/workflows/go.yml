@@ -7,12 +7,14 @@ on:
       - '**.go'
       - 'go.mod'
       - 'go.sum'
+      - '.golangci.yml'
       - '.github/workflows/go.yml'
   pull_request:
     paths:
       - '**.go'
       - 'go.mod'
       - 'go.sum'
+      - '.golangci.yml'
       - '.github/workflows/go.yml'
   workflow_dispatch:
 
