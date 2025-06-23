@@ -14,6 +14,7 @@ import (
 	"github.com/Sn0wo2/QuickNote/pkg/database/table"
 	"github.com/Sn0wo2/QuickNote/pkg/log"
 	"github.com/gofiber/fiber/v2"
+	"github.com/joho/godotenv"
 	"go.uber.org/zap"
 )
 
@@ -21,13 +22,15 @@ func init() {
 	runtime.GOMAXPROCS(runtime.NumCPU())
 	// stw
 	debug.SetGCPercent(50)
-}
 
-func main() {
 	defer func() {
 		_ = log.Instance.Sync()
 	}()
 
+	_ = godotenv.Load()
+}
+
+func main() {
 	err := config.Init()
 	if err != nil {
 		log.Instance.Fatal("Failed to load config",
