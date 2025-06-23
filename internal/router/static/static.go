@@ -12,18 +12,18 @@ import (
 )
 
 func Setup(router fiber.Router) {
-	/*router.Static("/", staticRoot, fiber.Static{
-		Compress:      true,
-		ByteRange:     true,
-		CacheDuration: 60 * time.Second,
-		MaxAge:        60,
-		Index:         index,
-		Next: func(ctx *fiber.Ctx) bool {
-			log.Instance.Info("Send static file",
-				zap.String("ctx", common.FiberContextString(ctx)))
-			return false
-		},
-	})*/
+	// router.Static("/", staticRoot, fiber.Static{
+	// 	Compress:      true,
+	// 	ByteRange:     true,
+	// 	CacheDuration: 60 * time.Second,
+	// 	MaxAge:        60,
+	// 	Index:         index,
+	// 	Next: func(ctx *fiber.Ctx) bool {
+	// 		log.Instance.Info("Send static file",
+	// 			zap.String("ctx", common.FiberContextString(ctx)))
+	// 		return false
+	// 	},
+	// })
 	router.Use("*", func(ctx *fiber.Ctx) error {
 		if ctx.Method() != fiber.MethodGet {
 			return ctx.Next()
