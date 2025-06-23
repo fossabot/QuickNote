@@ -39,17 +39,23 @@ a {
   position: relative;
   opacity: 0;
   transform: scale(0.9);
-  transition:
-    variables.$opacity-transition,
-    transform 0.5s ease,
-    variables.$color-transition;
+  transition: variables.$opacity-transition,
+  transform 0.5s ease,
+  variables.$color-transition,
+  border-color 0.3s ease;
   overflow: hidden;
   font-size: 2.2vmin;
-}
+  border: 2px solid transparent;
 
-.background.visible {
-  opacity: 1;
-  transform: scale(1);
+  &.dragging {
+    border-color: var(--accent-primary);
+    box-shadow: 0 0 0 4px rgba(var(--accent-primary-rgb), 0.2);
+  }
+
+  &.visible {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 .title {
@@ -60,11 +66,9 @@ a {
   height: 15%;
   background-color: var(--accent-primary);
   font-family: variables.$font-ui;
-  box-sizing: border-box;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  z-index: variables.$z-index-base;
   border-radius: 3vmin 3vmin 0 0;
 
   .logo {
@@ -78,8 +82,6 @@ a {
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
-    pointer-events: none;
-    user-select: none;
   }
 
   .github {
@@ -88,15 +90,11 @@ a {
     top: 50%;
     transform: translateY(-50%);
     width: 5%;
-    height: 5%;
     min-width: 24px;
-    min-height: 24px;
-    background-image: url('/github-mark.svg');
+    aspect-ratio: 1;
+    background-image: var(--github);
     background-size: contain;
     background-repeat: no-repeat;
-    background-position: center;
-    pointer-events: auto;
-    user-select: none;
     cursor: pointer;
     transition: transform 0.2s ease;
 
@@ -112,9 +110,7 @@ a {
   font-family: variables.$font-ui;
   color: var(--text-secondary);
   padding: 0 2vmin;
-  box-sizing: border-box;
   line-height: 1.5;
-  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
   flex-grow: 1;
   display: flex;
   flex-direction: column;
@@ -122,26 +118,33 @@ a {
   margin: 20% 0 0;
   gap: 1vmin;
 
+  .drag-hint {
+    color: var(--accent-primary);
+    font-size: 1.8vmin;
+    opacity: 0.8;
+    transition: opacity 0.3s ease;
+
+    .dragging & {
+      color: red;
+      opacity: 1;
+    }
+  }
+
   .highlight {
     color: var(--accent-primary);
     font-size: 5vmin;
     font-weight: bold;
-    display: block;
-    margin-bottom: 1vmin;
-    white-space: nowrap;
   }
 
   .note {
-    color: #013f87;
+    color: var(--text-tertiary);
     font-size: 1.8vmin;
-    display: block;
   }
 
   .warning {
-    color: #ff0000;
-    font-size: 2vmin;
-    display: block;
-    margin-top: 4vmin;
+    color: red;
+    font-size: 1.6vmin;
+    opacity: 0.7;
   }
 }
 
@@ -152,15 +155,11 @@ a {
   background: var(--bg-surface);
   border: 1px solid var(--border-primary);
   transition: variables.$color-transition;
-  box-sizing: border-box;
   display: flex;
   align-items: center;
   padding-right: 0.5vmin;
 
-  &:hover {
-    border-color: var(--interactive);
-  }
-
+  &:hover,
   &:focus-within {
     border-color: var(--interactive);
   }
@@ -168,7 +167,6 @@ a {
 
 .uuid-input {
   flex: 1;
-  min-width: 0;
   width: 100%;
   border: none;
   padding: 1vmin 1.5vmin;
@@ -176,7 +174,6 @@ a {
   font-size: 2.2vmin;
   color: var(--text-primary);
   background: transparent;
-  transition: variables.$color-transition;
   height: 5.5vmin;
 
   &:focus {
@@ -187,7 +184,6 @@ a {
 .submit-btn {
   width: 6.5vmin;
   height: 6.5vmin;
-  flex-shrink: 0;
   border: none;
   border-radius: 50%;
   background-color: var(--interactive);
@@ -197,12 +193,8 @@ a {
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  z-index: variables.$z-index-base;
   box-shadow: variables.$shadow-sm;
-  user-select: none;
-  transition:
-    background-color 0.2s ease,
-    transform 0.2s ease;
+  transition: background-color 0.2s ease, transform 0.2s ease;
 
   &:hover {
     background-color: var(--interactive-hover);

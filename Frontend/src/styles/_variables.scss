@@ -1,82 +1,68 @@
 $light-colors: (
-  bg-primary: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%),
-  bg-secondary: #ffffff,
-  bg-surface: #f8f9fa,
-  bg-elevated: #ffffff,
-  text-primary: #212529,
-  text-secondary: #495057,
-  text-tertiary: #6c757d,
-  text-on-accent: #ffffff,
-  link-primary: #646cff,
-  link-hover: #535bf2,
-  link-visited: #9146ff,
-  interactive: #646cff,
-  interactive-hover: #535bf2,
-  interactive-pressed: #4249db,
-  interactive-disabled: #adb5bd,
-  accent-primary: #00ffff,
-  accent-secondary: #00e6e6,
-  border-primary: #e9ecef,
-  border-secondary: #dee2e6,
-  success: #28a745,
-  warning: #ffc107,
-  danger: #dc3545,
-  info: #17a2b8,
-  github: '/github-mark.svg',
+        bg-primary: linear-gradient(135deg, #e8ecf1 0%, #cfd8e3 100%),
+        bg-secondary: #ffffff,
+        bg-surface: #f5f7fa,
+        bg-elevated: #ffffff,
+        text-primary: #212529,
+        text-secondary: #495057,
+        text-tertiary: #6c757d,
+        text-on-accent: #ffffff,
+        link-primary: #007bff,
+        link-hover: #0056b3,
+        link-visited: #6610f2,
+        interactive: #007bff,
+        interactive-hover: #0056b3,
+        interactive-pressed: #004085,
+        interactive-disabled: #adb5bd,
+        accent-primary: #17a2b8,
+        accent-secondary: #138496,
+        border-primary: #dee2e6,
+        border-secondary: #ced4da,
+        success: #28a745,
+        warning: #ffc107,
+        danger: #dc3545,
+        info: #17a2b8,
+        github: '/github-mark.svg',
 );
 
 $dark-colors: (
-  bg-primary: linear-gradient(135deg, #0d1117 0%, #161b22 100%),
-  bg-secondary: #242424,
-  bg-surface: #1e1e1e,
-  bg-elevated: #2d2d2d,
-  text-primary: #f0f6fc,
-  text-secondary: #c9d1d9,
-  text-tertiary: #8b949e,
-  text-on-accent: #212529,
-  link-primary: #bb86fc,
-  link-hover: #9d65fc,
-  link-visited: #b197fc,
-  interactive: #bb86fc,
-  interactive-hover: #9d65fc,
-  interactive-pressed: #7d4dfc,
-  interactive-disabled: #495057,
-  accent-primary: #00c8c8,
-  accent-secondary: #00aaaa,
-  border-primary: #30363d,
-  border-secondary: #8b949e,
-  success: #38d9a9,
-  warning: #ffd43b,
-  danger: #ff6b6b,
-  info: #4dabf7,
-  github: '/github-mark-white.svg',
+        bg-primary: linear-gradient(135deg, #0d1117 0%, #161b22 100%),
+        bg-secondary: #1f2937,
+        bg-surface: #1e1e1e,
+        bg-elevated: #2c3e50,
+        text-primary: #e5e7eb,
+        text-secondary: #c9d1d9,
+        text-tertiary: #8b949e,
+        text-on-accent: #ffffff,
+        link-primary: #58a6ff,
+        link-hover: #1f6feb,
+        link-visited: #bb86fc,
+        interactive: #58a6ff,
+        interactive-hover: #1f6feb,
+        interactive-pressed: #0d419d,
+        interactive-disabled: #495057,
+        accent-primary: #17a2b8,
+        accent-secondary: #138496,
+        border-primary: #30363d,
+        border-secondary: #495057,
+        success: #28a745,
+        warning: #ffc107,
+        danger: #dc3545,
+        info: #17a2b8,
+        github: '/github-mark-white.svg',
 );
 
-$font-stack:
-  -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+$font-stack: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue',
+Arial, sans-serif;
 $font-ui: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 
-$color-transition:
-  color 0.3s ease,
-  background-color 0.3s ease,
-  border-color 0.3s ease,
-  box-shadow 0.3s ease;
+$color-transition: color 0.3s ease,
+background-color 0.3s ease,
+border-color 0.3s ease,
+box-shadow 0.3s ease;
 
 $transform-transition: transform 0.3s ease;
 $opacity-transition: opacity 0.3s ease;
-
-$full-transition:
-  color 0.3s ease,
-  background-color 0.3s ease,
-  border-color 0.3s ease,
-  box-shadow 0.3s ease,
-  transform 0.3s ease,
-  opacity 0.3s ease;
-
-$border-radius: 12px;
-$border-radius-small: 6px;
-$border-radius-large: 25px;
-$border-radius-full: 9999px;
 
 $shadow-sm: 0 2px 5px rgba(0, 0, 0, 0.2);
 $shadow-md: 0 4px 10px rgba(0, 0, 0, 0.3);

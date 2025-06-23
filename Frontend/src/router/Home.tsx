@@ -1,62 +1,118 @@
-import { useEffect, useState } from 'react'
-import { DarkModeToggle } from '../components/DarkModeToggle'
-import './Home.scss'
-import { useNavigate } from 'react-router-dom'
-import * as React from 'react'
-import Watermark from '../components/Watermark.tsx'
+import { useCallback, useEffect, useRef, useState } from "react";
+import { DarkModeToggle } from "../components/DarkModeToggle";
+import "./Home.scss";
+import { useNavigate } from "react-router-dom";
+import Watermark from "../components/Watermark.tsx";
+import { toast, Toaster } from "react-hot-toast";
+import { importNote } from "../services/noteAPI.ts";
 
 export function Home() {
-  const [visible, setVisible] = useState(false)
-  const [uuid, setUUID] = useState<string>(crypto.randomUUID())
-  const navigate = useNavigate()
+  const [visible, setVisible] = useState(false);
+  const [isDragging, setIsDragging] = useState(false);
+  const [uuid, setUUID] = useState<string>(crypto.randomUUID());
+  const dragCounter = useRef(0);
+  const navigate = useNavigate();
+
+  const handleFileUpload = useCallback(async (file: File) => {
+    try {
+      if (!file.name.endsWith(".qnote"))
+        throw new Error(`Invalid file: ${file.name}`);
+      await importNote(file);
+      setUUID(file.name.replace(/\.qnote$/, ""));
+      toast.success("Note imported successfully.");
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed to import note");
+    }
+  }, []);
+
+  const handleDrop = useCallback(
+    (e: DragEvent) => {
+      e.preventDefault();
+      dragCounter.current = 0;
+      setIsDragging(false);
+      const files = e.dataTransfer?.files;
+      if (files?.length) handleFileUpload(files[0]);
+      else toast.error("No note dropped");
+    },
+    [handleFileUpload]
+  );
 
   useEffect(() => {
-    const timer = setTimeout(() => setVisible(true), 100)
-    return () => clearTimeout(timer)
-  }, [])
+    const handleDragEnter = (e: DragEvent) => {
+      if (e.dataTransfer?.types.includes("Files")) {
+        dragCounter.current++;
+        setIsDragging(true);
+      }
+    };
+    const handleDragLeave = () => {
+      dragCounter.current--;
+      if (dragCounter.current <= 0) setIsDragging(false);
+    };
+    const handleDragOver = (e: DragEvent) => e.preventDefault();
+
+    window.addEventListener("dragenter", handleDragEnter);
+    window.addEventListener("dragleave", handleDragLeave);
+    window.addEventListener("dragover", handleDragOver);
+    window.addEventListener("drop", handleDrop);
+
+    return () => {
+      window.removeEventListener("dragenter", handleDragEnter);
+      window.removeEventListener("dragleave", handleDragLeave);
+      window.removeEventListener("dragover", handleDragOver);
+      window.removeEventListener("drop", handleDrop);
+    };
+  }, [handleDrop]);
+
+  useEffect(() => {
+    const t = setTimeout(() => setVisible(true), 100);
+    return () => clearTimeout(t);
+  }, []);
 
   const handleNavigation = () => {
-    setVisible(false)
-    setTimeout(() => {
-      navigate(`/note/${uuid}`)
-    }, 500)
-  }
-
-  const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === 'Enter') {
-      handleNavigation()
-    }
-  }
+    setVisible(false);
+    setTimeout(() => navigate(`/note/${uuid}`), 500);
+  };
 
   return (
     <>
       <Watermark text={uuid} fontSize={20} gapX={150} gapY={150} />
       <DarkModeToggle />
-      <div className="content">
-        <div className={`background ${visible ? 'visible' : ''}`}>
+      <div className={`content`}>
+        <div
+          className={`background ${visible ? "visible" : ""} ${isDragging ? "dragging" : ""}`}
+        >
+          <Toaster position="top-right" />
           <div className="title">
             <div className="logo" />
-            <div
+            <a
               className="github"
-              onClick={() => window.open('https://github.com/Sn0wo2/QuickNote', '_blank')}
-            />
+              href="https://github.com/Sn0wo2/QuickNote"
+              target="_blank"
+              rel="noopener noreferrer"
+            ></a>
           </div>
-
           <p className="subtitle">
             <span className="highlight">QuickNote</span>
-            <span className="note">Create and share notes quickly and easily.</span>
+            <span className="note">
+              Instantly write and share your thoughts.
+            </span>
+            <span className="drag-hint">
+              {isDragging
+                ? "Drop your note here!"
+                : "Drag a .qnote file here to import."}
+            </span>
             <span className="warning">
-              Do not upload any content that violates laws and regulations.
+              ⚠️ Please don’t upload illegal or sensitive content.
             </span>
           </p>
-
           <div className="input-container">
             <input
               className="uuid-input"
               type="text"
               value={uuid}
               onChange={(e) => setUUID(e.target.value)}
-              onKeyDown={handleKeyPress}
+              onKeyDown={(e) => e.key === "Enter" && handleNavigation()}
             />
             <button className="submit-btn" onClick={handleNavigation}>
               &rarr;
@@ -65,5 +121,5 @@ export function Home() {
         </div>
       </div>
     </>
-  )
+  );
 }
