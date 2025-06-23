@@ -50,23 +50,17 @@ changelog:
   use: github
   sort: asc
   groups:
-    - title: "✨ Features"
-      regexp: "^feat"
+    - title: Features
+      regexp: "^.*feat[(\\w)]*:+.*$"
       order: 0
-    - title: "🐛 Bug Fixes"
-      regexp: "^fix"
+    - title: "Bug fixes"
+      regexp: "^.*fix[(\\w)]*:+.*$"
       order: 1
-    - title: "🛠️ Refactoring"
-      regexp: "^refactor"
+    - title: "Enhancements"
+      regexp: "^.*chore[(\\w)]*:+.*$"
       order: 2
-    - title: "📦 Chores"
-      regexp: "^chore"
+    - title: "Refactor"
+      regexp: "^.*refactor[(\\w)]*:+.*$"
       order: 3
-    - title: "📄 Documentation"
-      regexp: "^docs"
-      order: 4
-    - title: "✅ Tests"
-      regexp: "^test"
-      order: 5
     - title: Others
       order: 999
