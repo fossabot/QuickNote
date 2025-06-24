@@ -1,6 +1,6 @@
 module github.com/Sn0wo2/QuickNote
 
-go 1.24.4
+go 1.25rc1
 
 require (
 	github.com/glebarez/sqlite v1.11.0
