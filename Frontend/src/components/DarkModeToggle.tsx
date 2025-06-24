@@ -1,5 +1,5 @@
-import { useRef, useState } from "react";
-import { useDarkMode } from "../hooks/useDarkMode";
+import {useRef, useState} from "react";
+import {useDarkMode} from "../hooks/useDarkMode";
 import "./DarkMode.scss";
 
 type Ripple = {
@@ -8,7 +8,7 @@ type Ripple = {
   y: number;
 };
 
-export function DarkModeToggle() {
+export const DarkModeToggle = () => {
   const { isDarkMode, toggleDarkMode } = useDarkMode();
   const [ripples, setRipples] = useState<Ripple[]>([]);
   const buttonRef = useRef<HTMLButtonElement>(null);
@@ -86,4 +86,4 @@ export function DarkModeToggle() {
       ))}
     </>
   );
-}
+};
