@@ -8,7 +8,7 @@ interface WatermarkProps {
   gapY: number;
 }
 
-const Watermark: React.FC<WatermarkProps> = ({ text, fontSize, gapX, gapY }) => {
+export const Watermark: React.FC<WatermarkProps> = ({ text, fontSize, gapX, gapY }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   const drawWatermark = useCallback(() => {
@@ -27,7 +27,7 @@ const Watermark: React.FC<WatermarkProps> = ({ text, fontSize, gapX, gapY }) => 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     ctx.font = `${fontSize}px 'Helvetica Neue', Arial, sans-serif`;
-    ctx.fillStyle = "rgba(0, 0, 0, 0.01)";
+    ctx.fillStyle = "rgb(255,183,0, 0.05)";
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
 
@@ -58,5 +58,3 @@ const Watermark: React.FC<WatermarkProps> = ({ text, fontSize, gapX, gapY }) => 
 
   return <canvas ref={canvasRef} className="watermark-canvas" />;
 };
-
-export default Watermark;
