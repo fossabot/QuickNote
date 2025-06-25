@@ -5,8 +5,11 @@
 [![GitHub License](https://img.shields.io/github/license/Sn0wo2/QuickNote)](LICENSE)
 ![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/Sn0wo2/QuickNote/total)
 
-[![Build](https://github.com/Sn0wo2/QuickNote/actions/workflows/build.yml/badge.svg)](https://github.com/Sn0wo2/QuickNote/actions/workflows/Build.yml)
+[![CodeQL](https://github.com/Sn0wo2/QuickNote/actions/workflows/codeql.yml/badge.svg)](https://github.com/Sn0wo2/QuickNote/actions/workflows/codeql.yml)
 [![Dependabot Updates](https://github.com/Sn0wo2/QuickNote/actions/workflows/dependabot/dependabot-updates/badge.svg)](https://github.com/Sn0wo2/QuickNote/actions/workflows/dependabot/dependabot-updates)
+[![Go CI](https://github.com/Sn0wo2/QuickNote/actions/workflows/go.yml/badge.svg)](https://github.com/Sn0wo2/QuickNote/actions/workflows/go.yml)
+[![React CI](https://github.com/Sn0wo2/QuickNote/actions/workflows/react.yml/badge.svg)](https://github.com/Sn0wo2/QuickNote/actions/workflows/react.yml)
+[![Release](https://github.com/Sn0wo2/QuickNote/actions/workflows/release.yml/badge.svg)](https://github.com/Sn0wo2/QuickNote/actions/workflows/release.yml)
 
 ---
 
@@ -71,7 +74,7 @@
 
 Check:
 
-* [`build.yml`](https://github.com/Sn0wo2/QuickNote/blob/main/.github/workflows/build.yml)
+* [`release.yml`](https://github.com/Sn0wo2/QuickNote/blob/main/.github/workflows/release.yml)
 * [`.goreleaser.yml`](https://github.com/Sn0wo2/QuickNote/blob/main/LICENSE)
 
 ---
