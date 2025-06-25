@@ -1,10 +1,10 @@
-import {useCallback, useEffect, useRef, useState} from "react";
 import MDEditor from "@uiw/react-md-editor";
-import {useNavigate, useParams} from "react-router-dom";
+import {useCallback, useEffect, useRef, useState} from "react";
 import {toast, Toaster} from "react-hot-toast";
+import {useNavigate, useParams} from "react-router-dom";
 import {DarkModeToggle} from "../components/DarkModeToggle.tsx";
-import {Watermark} from "../components/Watermark.tsx";
 import {ImportNote} from "../components/ImportNote.tsx";
+import {Watermark} from "../components/Watermark.tsx";
 import {exportNote, getNote, saveNote} from "../services/noteAPI";
 import "./Note.scss";
 
@@ -24,6 +24,8 @@ function useCtrlS(callback: () => void) {
 export function Note() {
     const {id} = useParams<{ id: string }>();
     if (!id) throw new Error("Invalid note id");
+
+    const [visible, setVisible] = useState(false);
 
     const navigate = useNavigate();
     const [title, setTitle] = useState("");
@@ -55,6 +57,7 @@ export function Note() {
             }
         };
         void loadNote();
+        setVisible(true)
         return () => controller.abort();
     }, [id]);
 
@@ -86,7 +89,7 @@ export function Note() {
                 <DarkModeToggle/>
                 <Toaster position="top-right"/>
                 <ImportNote callback={(to: string) => navigate(`/note/${to}`, {replace: true})}/>
-                <div className="note-container visible">
+                <div className={`note-container ${visible ? "visible" : ""}`}>
                     <div className="note-mode-toggle">
                         {["edit", "preview", "both"].map((m) => (
                             <button key={m} onClick={() => setMode(m as typeof mode)}>
