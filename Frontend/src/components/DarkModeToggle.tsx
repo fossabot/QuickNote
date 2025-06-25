@@ -1,5 +1,5 @@
-import {useRef, useState} from "react";
-import {useDarkMode} from "../hooks/useDarkMode";
+import { useRef, useState } from "react";
+import { useDarkMode } from "../hooks/useDarkMode";
 import "./DarkMode.scss";
 
 type Ripple = {

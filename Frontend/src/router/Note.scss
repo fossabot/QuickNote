@@ -42,10 +42,10 @@
   transition: vars.$color-transition, vars.$transform-transition;
 }
 
-.note-mode-toggle button {
+@mixin button-style {
   background: var(--bg-secondary);
   border: 1px solid var(--border-primary);
-  border-radius: 15px 15px 15px 15px;
+  border-radius: 15px;
   padding: 6px 14px;
   font-size: 14px;
   color: var(--text-primary);
@@ -58,6 +58,17 @@
     border-color: var(--interactive-hover);
     transform: translateX(2px);
   }
+}
+
+.note-mode-toggle button {
+  @include button-style;
+}
+
+.export {
+  @include button-style;
+  position: absolute;
+  right: 50px;
+  top: 10px;
 }
 
 .note-logo {
@@ -133,6 +144,12 @@
   scrollbar-width: thin;
   scrollbar-color: var(--text-primary) transparent;
   transition: vars.$color-transition, vars.$transform-transition;
+
+  &:focus {
+    box-shadow: 0 0 0 2px rgba(var(--interactive-rgb), 0.2);
+    transform: translateY(-1px);
+    transition: all 0.2s ease-in-out;
+  }
 
   &::-webkit-scrollbar {
     width: 8px;

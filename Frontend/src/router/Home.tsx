@@ -1,16 +1,14 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { DarkModeToggle } from "../components/DarkModeToggle";
 import "./Home.scss";
 import { useNavigate } from "react-router-dom";
-import Watermark from "../components/Watermark.tsx";
-import { toast, Toaster } from "react-hot-toast";
-import { importNote } from "../services/noteAPI.ts";
+import { Watermark } from "../components/Watermark.tsx";
+import { ImportNote } from "../components/ImportNote.tsx";
 
 export function Home() {
   const [visible, setVisible] = useState(false);
-  const [isDragging, setIsDragging] = useState(false);
+
   const [uuid, setUUID] = useState<string>(crypto.randomUUID());
-  const dragCounter = useRef(0);
   const navigate = useNavigate();
 
 
@@ -19,55 +17,6 @@ export function Home() {
     setTimeout(() => navigate(`/note/${nextUUID ?? uuid}`), 500);
   };
 
-  const handleFileUpload = useCallback(async (file: File) => {
-    try {
-      if (!file.name.endsWith(".qnote")) throw new Error(`Invalid file: ${file.name}`);
-      await importNote(file);
-      handleNavigation(file.name.replace(/\.qnote$/, ""));
-    } catch (error) {
-      console.error(error);
-      toast.error("Failed to import note");
-    }
-  }, []);
-
-
-  const handleDrop = useCallback(
-    (e: DragEvent) => {
-      e.preventDefault();
-      dragCounter.current = 0;
-      setIsDragging(false);
-      const files = e.dataTransfer?.files;
-      if (files?.length) handleFileUpload(files[0]);
-      else toast.error("No note dropped");
-    },
-    [handleFileUpload]
-  );
-
-  useEffect(() => {
-    const handleDragEnter = (e: DragEvent) => {
-      if (e.dataTransfer?.types.includes("Files")) {
-        dragCounter.current++;
-        setIsDragging(true);
-      }
-    };
-    const handleDragLeave = () => {
-      dragCounter.current--;
-      if (dragCounter.current <= 0) setIsDragging(false);
-    };
-    const handleDragOver = (e: DragEvent) => e.preventDefault();
-
-    window.addEventListener("dragenter", handleDragEnter);
-    window.addEventListener("dragleave", handleDragLeave);
-    window.addEventListener("dragover", handleDragOver);
-    window.addEventListener("drop", handleDrop);
-
-    return () => {
-      window.removeEventListener("dragenter", handleDragEnter);
-      window.removeEventListener("dragleave", handleDragLeave);
-      window.removeEventListener("dragover", handleDragOver);
-      window.removeEventListener("drop", handleDrop);
-    };
-  }, [handleDrop]);
 
   useEffect(() => {
     const t = setTimeout(() => setVisible(true), 100);
@@ -78,11 +27,13 @@ export function Home() {
     <>
       <Watermark text={uuid} fontSize={20} gapX={150} gapY={150} />
       <DarkModeToggle />
+      <ImportNote callback={(to: string) => {
+        handleNavigation(to);
+      }} />
       <div className={`content`}>
         <div
-          className={`background ${visible ? "visible" : ""} ${isDragging ? "dragging" : ""}`}
+          className={`background ${visible ? "visible" : ""}`}
         >
-          <Toaster position="top-right" />
           <div className="title">
             <div className="logo" />
             <a
@@ -96,11 +47,6 @@ export function Home() {
             <span className="highlight">QuickNote</span>
             <span className="note">
               Instantly write and share your thoughts.
-            </span>
-            <span className="drag-hint">
-              {isDragging
-                ? "Drop your note here!"
-                : "Drag a .qnote file here to import."}
             </span>
             <span className="warning">
               ⚠️ Please don’t upload illegal or sensitive content.

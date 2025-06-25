@@ -1,0 +1,63 @@
+@use "../styles/variables" as vars;
+
+.import {
+  display: none;
+
+  &.dragging {
+    display: flex;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    background-color: rgba(10, 255, 0, 0.3) !important;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    pointer-events: auto;
+    opacity: 1 !important;
+    visibility: visible !important;
+    transition: all 0.3s ease-out;
+    transform: scale(0.95);
+    animation: scaleIn 0.3s ease-out forwards;
+
+    @keyframes scaleIn {
+      from {
+        transform: scale(0);
+        opacity: 0;
+      }
+      to {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    .drop-zone-text {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 2rem;
+      font-weight: bold;
+      color: var(--text-primary);
+      text-align: center;
+      z-index: 9999;
+      pointer-events: none;
+      animation: fadeIn 0.5s ease-out forwards;
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+    }
+  }
+}
