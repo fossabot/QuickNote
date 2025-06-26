@@ -10,8 +10,8 @@ RUN mkdir -p /app/static && \
     sh -c 'mv * /app/static/ 2>/dev/null || true'
 
 RUN find /app -type d -print0 | xargs -0 chmod 555 && \
-    find /app -type f -print0 | xargs -0 chmod 444
-
+    find /app -type f -print0 | xargs -0 chmod 444 && \
+    chmod 555 /app/QuickNote
 
 FROM scratch
 
