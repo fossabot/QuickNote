@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect, useRef, useState} from "react";
-import {importNote} from "../services/noteAPI.ts";
 import {toast, Toaster} from "react-hot-toast";
+import {importNote} from "../services/noteAPI.ts";
 import "./ImportNote.scss";
 
 interface ImportNoteProps {

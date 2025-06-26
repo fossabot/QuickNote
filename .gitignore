@@ -167,3 +167,6 @@ go.work.sum
 
 # Air
 tmp/
+
+# QuickNote frontend build
+static/

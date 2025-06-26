@@ -71,7 +71,7 @@ Only frontend preview
 
 ## ⚙️ **Build Instructions**
 
-### ✅ **Using GitHub Actions**
+### ✅ **Using `GitHub Actions` and `goreleaser`**
 
 Check:
 
@@ -83,6 +83,7 @@ Check:
 ### 🔧 **Manual Build**
 
 ```bash
+# Frontend not embedded in the binary
 go build -mod=readonly -trimpath \
   -tags="mysql postgres sqlite sqlserver" \
   -o="QuickNote" \
@@ -95,7 +96,7 @@ cd Frontend
 bun install
 bun run build
 
-mv dist/* ../
+mv static/* ../
 
 cd ../ && ./QuickNote(.exe)
 ```

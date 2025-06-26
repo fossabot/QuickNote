@@ -42,7 +42,7 @@ archives:
         dst: config.yml
       - src: ./LICENSE
         dst: LICENSE
-      - src: ./Frontend/dist
+      - src: ./Frontend/static
         dst: static
 
 changelog:
