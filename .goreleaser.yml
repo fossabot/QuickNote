@@ -41,6 +41,37 @@ archives:
         dst: LICENSE
       - src: ./Frontend/static
         dst: static
+
+dockers:
+  - goos: linux
+    goarch: amd64
+    image_templates:
+      - "me0wo/quicknote:{{ .Tag }}-amd64"
+    dockerfile: Dockerfile.goreleaser
+    use: buildx
+    extra_files:
+      - config.yml
+      - Frontend/static
+
+  - goos: linux
+    goarch: arm64
+    image_templates:
+      - "me0wo/quicknote:{{ .Tag }}-arm64"
+    dockerfile: Dockerfile.goreleaser
+    use: buildx
+    extra_files:
+      - config.yml
+      - Frontend/static
+
+docker_manifests:
+  - name_template: "me0wo/quicknote:{{ .Tag }}"
+    image_templates:
+      - "me0wo/quicknote:{{ .Tag }}-amd64"
+      - "me0wo/quicknote:{{ .Tag }}-arm64"
+  - name_template: "me0wo/quicknote:latest"
+    image_templates:
+      - "me0wo/quicknote:{{ .Tag }}-amd64"
+      - "me0wo/quicknote:{{ .Tag }}-arm64"
 changelog:
   disable: false
   use: github
