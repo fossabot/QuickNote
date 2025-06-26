@@ -6,4 +6,4 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - ./prod.db:/app/prod.db
+      - ./prod.db:/opt/quicknote/prod.db
