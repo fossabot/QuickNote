@@ -1,0 +1,17 @@
+.git
+.gitignore
+.gitattributes
+
+.dockerignore
+Dockerfile
+Dockerfile.goreleaser
+
+dist/
+
+.vscode/
+.idea/
+*.swp
+*~
+.DS_Store
+
+Frontend/node_modules
