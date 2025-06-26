@@ -1,6 +1,7 @@
 services:
   QuickNote:
     image: me0wo/quicknote:latest
+    init: true
     container_name: quick_note_container
     ports:
       - "3000:3000"
