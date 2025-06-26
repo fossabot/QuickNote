@@ -70,5 +70,5 @@ changelog:
     - title: "📦 Dependencies"
       regexp: "^.*deps(\\w*):+.*$"
       order: 7
-    - title: Others
+    - title: 📍 Others
       order: 999
