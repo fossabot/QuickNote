@@ -1,7 +1,5 @@
 version: 2
-
 project_name: QuickNote
-
 builds:
   - id: QuickNote
     main: ./main.go
@@ -28,7 +26,6 @@ builds:
       - -X main.version={{.Version}}
       - -X main.commit={{.Commit}}
       - -X main.date={{.Date}}
-
 archives:
   - id: default
     format_overrides:
@@ -44,23 +41,34 @@ archives:
         dst: LICENSE
       - src: ./Frontend/static
         dst: static
-
 changelog:
   disable: false
   use: github
   sort: asc
   groups:
-    - title: Features
-      regexp: "^.*feat[(\\w)]*:+.*$"
+    - title: 🚀 New Features
+      regexp: "^.*feat(\\w*):+.*$"
       order: 0
-    - title: "Bug fixes"
-      regexp: "^.*fix[(\\w)]*:+.*$"
+    - title: "🐛 Bug Fixes"
+      regexp: "^.*fix(\\w*):+.*$"
       order: 1
-    - title: "Enhancements"
-      regexp: "^.*chore[(\\w)]*:+.*$"
+    - title: "⚡️ Performance"
+      regexp: "^.*perf(\\w*):+.*$"
       order: 2
-    - title: "Refactor"
-      regexp: "^.*refactor[(\\w)]*:+.*$"
+    - title: "📝 Documentation"
+      regexp: "^.*docs(\\w*):+.*$"
       order: 3
+    - title: "🔧 Enhancements"
+      regexp: "^.*chore(\\w*):+.*$"
+      order: 4
+    - title: "♻️ Refactor"
+      regexp: "^.*refactor(\\w*):+.*$"
+      order: 5
+    - title: "🧪 Tests"
+      regexp: "^.*test(\\w*):+.*$"
+      order: 6
+    - title: "📦 Dependencies"
+      regexp: "^.*deps(\\w*):+.*$"
+      order: 7
     - title: Others
       order: 999
