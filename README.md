@@ -21,6 +21,16 @@ Only frontend preview
 
 ---
 
+## 📦 **Docker**
+
+`docker pull me0wo/quicknote`
+
+* [DockerHub](https://hub.docker.com/r/me0wo/quicknote)
+
+* [docker-compose.yml](docker-compose.yml)
+
+---
+
 ## 🚀 **Project Status**
 
 | Status | `Developing` |
@@ -71,16 +81,19 @@ Only frontend preview
 
 ## ⚙️ **Build Instructions**
 
-### ✅ **Using `GitHub Actions` and `goreleaser`**
+### ✅ **Using `GitHub Actions` and `goreleaser`**(RECOMMEND)
 
 Check:
 
-* [`release.yml`](https://github.com/Sn0wo2/QuickNote/blob/main/.github/workflows/release.yml)
-* [`.goreleaser.yml`](https://github.com/Sn0wo2/QuickNote/blob/main/LICENSE)
+* [`release.yml`](.github/workflows/release.yml)
+* [`.goreleaser.yml`](LICENSE)
+* [`Dockerfile.goreleaser`](Dockerfile.goreleaser)
 
 ---
 
 ### 🔧 **Manual Build**
+
+> Local docker build coming soon
 
 ```bash
 # Frontend not embedded in the binary
