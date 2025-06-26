@@ -13,6 +13,14 @@
 
 ---
 
+## 🎉 **Demo**
+
+https://demo.qn.me0wo.top
+
+Only frontend preview
+
+---
+
 ## 🚀 **Project Status**
 
 | Status | `Developing` |
@@ -45,13 +53,6 @@
     * PostgreSQL, CockroachDB, AlloyDB
     * SQLite3
     * Microsoft SQL Server
-
----
-
-## 🎉 **Demo**
-
-| Status | `Developing` |
-|--------|--------------|
 
 ---
 
