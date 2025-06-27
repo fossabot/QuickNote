@@ -7,6 +7,7 @@ type Config struct {
 	} `yaml:"listener"`
 	Logger struct {
 		Level string `optional:"true" yaml:"level"`
+		Dir   string `yaml:"dir"`
 	} `yaml:"logger"`
 	Database struct {
 		Type string `yaml:"type"`

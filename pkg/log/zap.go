@@ -15,8 +15,7 @@ import (
 )
 
 var Instance = func() *zap.Logger {
-	logDir := "./logs"
-	if err := os.MkdirAll(logDir, 0o755); err != nil {
+	if err := os.MkdirAll(config.Instance.Logger.Dir, 0o755); err != nil {
 		panic("failed to create log directory: " + err.Error())
 	}
 
@@ -82,7 +81,7 @@ var Instance = func() *zap.Logger {
 		EncodeDuration: zapcore.SecondsDurationEncoder,
 		EncodeCaller:   zapcore.ShortCallerEncoder,
 	}), zapcore.AddSync(&lumberjack.Logger{
-		Filename:   filepath.Join(logDir, time.Now().Format("2006-01-02")+".log"),
+		Filename:   filepath.Join(config.Instance.Logger.Dir, time.Now().Format("2006-01-02")+".log"),
 		MaxSize:    10,
 		MaxBackups: 5,
 		MaxAge:     30,
