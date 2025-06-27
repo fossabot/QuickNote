@@ -92,7 +92,7 @@ Check:
 
 ### 🔧 **Manual Build**
 
-> Local docker build coming soon
+> _Build docker image please use goreleaser!_
 
 ```bash
 # Frontend not embedded in the binary
