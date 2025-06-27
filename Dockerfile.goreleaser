@@ -5,13 +5,13 @@ RUN addgroup -S appgroup && adduser -S appuser -G appgroup
 COPY . /build/
 WORKDIR /build/
 
-RUN mkdir -p /app/static && \
-    mv QuickNote /app/ && \
-    mv config.yml /app/data && \
-    mv * /app/static/ && \
-    find /app -type d -print0 | xargs -0 chmod 555 && \
-    find /app -type f -print0 | xargs -0 chmod 444 && \
-    chmod 555 /app/QuickNote
+RUN mkdir -p /app && cp -a . /app/
+
+RUN ls -la /app
+
+RUN find /app -type d -print0 | xargs -0 chmod 555
+RUN find /app -type f -print0 | xargs -0 chmod 444
+RUN chmod 555 /app/QuickNote
 
 FROM scratch
 
@@ -21,6 +21,5 @@ COPY --from=builder /etc/group /group
 COPY --from=builder --chown=appuser:appgroup /app /opt/quicknote
 
 USER appuser
-WORKDIR /opt/quicknote
 EXPOSE 3000
 CMD ["/opt/quicknote/QuickNote"]

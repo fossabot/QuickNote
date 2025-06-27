@@ -52,8 +52,8 @@ dockers:
     dockerfile: Dockerfile.goreleaser
     use: buildx
     extra_files:
-      - data/config.yml
-      - Frontend/static
+      - ./data/config.yml
+      - ./Frontend/static
 
   - goos: linux
     goarch: arm64
@@ -62,8 +62,8 @@ dockers:
     dockerfile: Dockerfile.goreleaser
     use: buildx
     extra_files:
-      - data/config.yml
-      - Frontend/static
+      - ./data/config.yml
+      - ./Frontend/static
 
 docker_manifests:
   - name_template: "me0wo/quicknote:{{ .Tag }}"
