@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { DarkModeToggle } from "../components/DarkModeToggle";
 import "./Home.scss";
 import { ImportNote } from "../components/ImportNote.tsx";
-import { Watermark } from "../components/Watermark.tsx";
 
 export function Home() {
   const [visible, setVisible] = useState(false);
@@ -25,7 +24,6 @@ export function Home() {
 
   return (
     <>
-      <Watermark text={uuid} fontSize={20} gapX={150} gapY={150} />
       <DarkModeToggle />
       <ImportNote callback={(to: string) => {
         handleNavigation(to);
@@ -41,7 +39,7 @@ export function Home() {
               href="https://github.com/Sn0wo2/QuickNote"
               target="_blank"
               rel="noopener noreferrer"
-            ></a>
+            />
           </div>
           <p className="subtitle">
             <span className="highlight">QuickNote</span>
