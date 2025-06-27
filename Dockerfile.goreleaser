@@ -9,13 +9,14 @@ RUN mkdir -p /app && cp -a . /app/
 
 RUN chmod 555 /app/QuickNote
 
-FROM scratch
+FROM alpine:latest
 
 COPY --from=builder /etc/passwd /etc/passwd
-
 COPY --from=builder /etc/group /etc/group
 
-COPY --from=builder --chown=appuser:appgroup /app /opt/quicknote
+COPY --from=builder /app /opt/quicknote
+
+RUN chown -R appuser:appgroup /opt/quicknote
 
 USER appuser
 EXPOSE 3000
