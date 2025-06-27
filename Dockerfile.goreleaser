@@ -7,19 +7,19 @@ WORKDIR /build/
 
 RUN mkdir -p /app && cp -a . /app/
 
-RUN ls -la /app
-
-RUN find /app -type d -print0 | xargs -0 chmod 555
-RUN find /app -type f -print0 | xargs -0 chmod 444
 RUN chmod 555 /app/QuickNote
 
 FROM scratch
 
 COPY --from=builder /etc/passwd /etc/passwd
-COPY --from=builder /etc/group /group
+
+COPY --from=builder /etc/group /etc/group
 
 COPY --from=builder --chown=appuser:appgroup /app /opt/quicknote
 
 USER appuser
 EXPOSE 3000
-CMD ["/opt/quicknote/QuickNote"]
+
+WORKDIR /opt/quicknote
+
+CMD ["./QuickNote"]
