@@ -1,26 +1,16 @@
-FROM alpine:latest AS builder
-
-RUN addgroup -S appgroup && adduser -S appuser -G appgroup
-
-COPY . /build/
-WORKDIR /build/
-
-RUN mkdir -p /app && cp -a . /app/
-
-RUN chmod 555 /app/QuickNote
-
 FROM alpine:latest
 
-COPY --from=builder /etc/passwd /etc/passwd
-COPY --from=builder /etc/group /etc/group
-
-COPY --from=builder /app /opt/quicknote
-
-RUN chown -R appuser:appgroup /opt/quicknote
-
-USER appuser
-EXPOSE 3000
+RUN addgroup -S appgroup && adduser -S appuser -G appgroup && \
+    mkdir -p /opt/quicknote
 
 WORKDIR /opt/quicknote
+
+COPY --chown=appuser:appgroup . /opt/quicknote
+RUN mv /opt/quicknote/Frontend/static /opt/quicknote/static && \
+    rm -rf /opt/quicknote/Frontend
+
+USER appuser
+
+EXPOSE 3000
 
 CMD ["./QuickNote"]
