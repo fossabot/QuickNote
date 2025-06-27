@@ -6,7 +6,7 @@ COPY . /build/
 WORKDIR /build/
 
 RUN mkdir -p /app/static && \
-    mv QuickNote config.yml /app/ && \
+    mv QuickNote ./data/config.yml /app/ && \
     mv * /app/static/ && \
     find /app -type d -print0 | xargs -0 chmod 555 && \
     find /app -type f -print0 | xargs -0 chmod 444 && \
