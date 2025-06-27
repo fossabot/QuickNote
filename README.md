@@ -15,19 +15,24 @@
 
 ## 🎉 **Demo**
 
-https://demo.qn.me0wo.top
-
-Only frontend preview
+https://demo.qn.me0wo.top  
+**_Only frontend preview_**
 
 ---
 
-## 📦 **Docker**
+## 📦 **Docker** (RECOMMEND)
 
 `docker pull me0wo/quicknote`
 
 * [DockerHub](https://hub.docker.com/r/me0wo/quicknote)
 
 * [docker-compose.yml](docker-compose.yml)
+
+---
+
+## 📥 **Download**
+
+[![GitHub release](https://img.shields.io/github/v/release/Sn0wo2/QuickNote?logo=github)](https://github.com/Sn0wo2/QuickNote/releases)
 
 ---
 
@@ -73,15 +78,9 @@ Only frontend preview
 
 ---
 
-## 📥 **Download**
-
-[![GitHub release](https://img.shields.io/github/v/release/Sn0wo2/QuickNote?logo=github)](https://github.com/Sn0wo2/QuickNote/releases)
-
----
-
 ## ⚙️ **Build Instructions**
 
-### ✅ **Using `GitHub Actions` and `goreleaser`**(RECOMMEND)
+### ✅ **Using `GitHub Actions` and `goreleaser`** (RECOMMEND)
 
 Check:
 
