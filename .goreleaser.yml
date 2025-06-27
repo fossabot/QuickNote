@@ -37,8 +37,8 @@ archives:
     files:
       - src: ./README.md
         dst: README.md
-      - src: ./config.yml
-        dst: config.yml
+      - src: ./data/config.yml
+        dst: data/config.yml
       - src: ./LICENSE
         dst: LICENSE
       - src: ./Frontend/static

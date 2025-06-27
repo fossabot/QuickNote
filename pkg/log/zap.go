@@ -14,8 +14,15 @@ import (
 	"gopkg.in/natefinch/lumberjack.v2"
 )
 
-var Instance = func() *zap.Logger {
-	if err := os.MkdirAll(config.Instance.Logger.Dir, 0o755); err != nil {
+var Instance *zap.Logger
+
+func Init() {
+	logDir, err := filepath.Abs(config.Instance.Logger.Dir)
+	if err != nil {
+		panic("failed to resolve log dir path: " + err.Error())
+	}
+
+	if err := os.MkdirAll(logDir, 0o755); err != nil {
 		panic("failed to create log directory: " + err.Error())
 	}
 
@@ -38,7 +45,7 @@ var Instance = func() *zap.Logger {
 		}
 	}()
 
-	return zap.New(zapcore.NewTee(zapcore.NewCore(zapcore.NewConsoleEncoder(zapcore.EncoderConfig{
+	Instance = zap.New(zapcore.NewTee(zapcore.NewCore(zapcore.NewConsoleEncoder(zapcore.EncoderConfig{
 		TimeKey:          "time",
 		LevelKey:         "level",
 		NameKey:          "logger",
@@ -81,11 +88,11 @@ var Instance = func() *zap.Logger {
 		EncodeDuration: zapcore.SecondsDurationEncoder,
 		EncodeCaller:   zapcore.ShortCallerEncoder,
 	}), zapcore.AddSync(&lumberjack.Logger{
-		Filename:   filepath.Join(config.Instance.Logger.Dir, time.Now().Format("2006-01-02")+".log"),
+		Filename:   filepath.Join(logDir, time.Now().Format("2006-01-02")+".log"),
 		MaxSize:    10,
 		MaxBackups: 5,
 		MaxAge:     30,
 		Compress:   true,
 		LocalTime:  true,
 	}), level)), zap.AddCaller(), zap.AddStacktrace(zapcore.ErrorLevel))
-}()
+}

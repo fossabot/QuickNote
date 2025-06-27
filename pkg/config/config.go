@@ -14,7 +14,7 @@ var Instance Config
 
 // Init contains validation config
 func Init() error {
-	cf, err := os.ReadFile("config.yml")
+	cf, err := os.ReadFile("./data/config.yml")
 	if err != nil {
 		return err
 	}

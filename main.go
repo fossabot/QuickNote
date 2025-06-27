@@ -23,20 +23,21 @@ func init() {
 	// stw
 	debug.SetGCPercent(50)
 
-	defer func() {
-		_ = log.Instance.Sync()
-	}()
-
 	_ = godotenv.Load()
 }
 
 func main() {
 	err := config.Init()
 	if err != nil {
-		log.Instance.Fatal("Failed to load config",
-			zap.Error(err),
-		)
+		// log not init~
+		panic(err)
 	}
+
+	log.Init()
+
+	defer func() {
+		_ = log.Instance.Sync()
+	}()
 
 	err = orm.Init(config.Instance.Database.Type, config.Instance.Database.URL)
 	if err != nil {
