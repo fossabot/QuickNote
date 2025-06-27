@@ -1,0 +1,9 @@
+listener:
+  address: :3000
+  static: ./static
+logger:
+  level: debug
+  dir: ./data/logs
+database:
+  type: sqlite
+  url: file:./data/prod.db?cache=shared&_journal_mode=WAL&_sync=NORMAL&_foreign_keys=on&_busy_timeout=5000
