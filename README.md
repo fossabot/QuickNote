@@ -86,7 +86,7 @@ Check:
 
 * [`release.yml`](.github/workflows/release.yml)
 * [`.goreleaser.yml`](LICENSE)
-* [`Dockerfile.goreleaser`](Dockerfile.goreleaser)
+* [`Dockerfile`](Dockerfile)
 
 ---
 

@@ -49,7 +49,7 @@ dockers:
     goarch: amd64
     image_templates:
       - "me0wo/quicknote:{{ .Tag }}-amd64"
-    dockerfile: Dockerfile.goreleaser
+    dockerfile: Dockerfile
     use: buildx
     extra_files:
       - data/config.yml
@@ -59,7 +59,7 @@ dockers:
     goarch: arm64
     image_templates:
       - "me0wo/quicknote:{{ .Tag }}-arm64"
-    dockerfile: Dockerfile.goreleaser
+    dockerfile: Dockerfile
     use: buildx
     extra_files:
       - data/config.yml

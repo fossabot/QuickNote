@@ -4,7 +4,6 @@
 
 .dockerignore
 Dockerfile
-Dockerfile.goreleaser
 
 dist/
 
