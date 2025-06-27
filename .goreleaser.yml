@@ -52,7 +52,7 @@ dockers:
     dockerfile: Dockerfile.goreleaser
     use: buildx
     extra_files:
-      - config.yml
+      - data/config.yml
       - Frontend/static
 
   - goos: linux
@@ -62,7 +62,7 @@ dockers:
     dockerfile: Dockerfile.goreleaser
     use: buildx
     extra_files:
-      - config.yml
+      - data/config.yml
       - Frontend/static
 
 docker_manifests:
