@@ -46,7 +46,15 @@ jobs:
         run: go vet $(go list ./...)
 
       - name: Build
-        run: go build -v ./...
+        run: |
+          mkdir -p dist
+          go build -v -o dist/QuickNote .
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: QuickNote Artifact
+          path: dist/QuickNote
 
   lint-and-fix:
     name: Go Lint and Auto-fix
@@ -59,12 +67,15 @@ jobs:
         uses: actions/setup-go@v5
         with:
           go-version-file: 'go.mod'
+          cache: true
 
       - name: Run golangci-lint with auto-fix
         uses: golangci/golangci-lint-action@v8
         with:
           version: latest
           args: --fix
+          cache-key: golangci-lint
+          cache: true
 
       - name: Check for file changes
         id: git-check
