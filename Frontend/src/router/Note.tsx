@@ -4,7 +4,6 @@ import { toast, Toaster } from "react-hot-toast";
 import { useNavigate, useParams } from "react-router-dom";
 import { DarkModeToggle } from "../components/DarkModeToggle.tsx";
 import { ImportNote } from "../components/ImportNote.tsx";
-import { Watermark } from "../components/Watermark.tsx";
 import { exportNote, getNote, saveNote } from "../services/noteAPI";
 import "./Note.scss";
 
@@ -84,9 +83,8 @@ export function Note() {
 
   return (
     <>
-      <Watermark text={id} fontSize={10} gapX={150} gapY={150} />
+      <DarkModeToggle />
       <div className="content">
-        <DarkModeToggle />
         <Toaster position="top-right" />
         <ImportNote callback={(to: string) => navigate(`/note/${to}`, { replace: true })} />
         <div className={`note-container ${visible ? "visible" : ""}`}>
