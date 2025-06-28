@@ -62,5 +62,3 @@ jobs:
           base: main
           signoff: true
           sign-commits: true
-          reviewers: "Sn0wo2"
-          labels: "bot,lint"
