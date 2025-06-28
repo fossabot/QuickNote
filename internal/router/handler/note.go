@@ -27,11 +27,7 @@ func Note() func(ctx *fiber.Ctx) error {
 	method:
 		switch ctx.Method() {
 		case fiber.MethodPost:
-			// postNote NID will be ignored.
-			// Always use path NID
-			var postNote note.DisplayNote
-
-			if err := ctx.BodyParser(&postNote); err != nil {
+			if err := ctx.BodyParser(&n); err != nil {
 				log.Instance.Error("Failed to parse note",
 					zap.String("nid", nid),
 					zap.Error(err),
@@ -40,8 +36,8 @@ func Note() func(ctx *fiber.Ctx) error {
 				return ctx.Status(fiber.StatusBadRequest).JSON(response.New("failed to parse note"))
 			}
 
-			n.Title = helper.StringToBytes(postNote.Title)
-			n.Content = helper.StringToBytes(postNote.Content)
+			n.Title = helper.StringToBytes(n.DisplayTitle)
+			n.Content = helper.StringToBytes(n.DisplayContent)
 
 			if len(n.Title) == 0 && len(n.Content) == 0 {
 				log.Instance.Warn("Empty note, override method -> DELETE",
@@ -99,11 +95,10 @@ func Note() func(ctx *fiber.Ctx) error {
 				zap.String("nid", nid),
 				zap.String("ctx", common.FiberContextString(ctx)))
 
-			return ctx.Status(fiber.StatusOK).JSON(response.New(msg, note.DisplayNote{
-				NID:     n.NID,
-				Title:   helper.BytesToString(n.Title),
-				Content: helper.BytesToString(n.Content),
-			}))
+			n.DisplayTitle = helper.BytesToString(n.Title)
+			n.DisplayContent = helper.BytesToString(n.Content)
+
+			return ctx.Status(fiber.StatusOK).JSON(response.New(msg, n))
 		// TODO: Too late for fallback method...
 		default:
 			log.Instance.Warn("Invalid method",

@@ -1,22 +1,25 @@
 package note
 
 import (
+	"time"
+
 	"gorm.io/gorm"
 )
 
 type Note struct {
-	gorm.Model
-	NID  string `gorm:"index"`
-	Data []byte // Encoded Payload
+	// gorm.Model
+	ID        uint           `json:"-" gorm:"primarykey"`
+	CreatedAt time.Time      `json:"-"`
+	UpdatedAt time.Time      `json:"-"`
+	DeletedAt gorm.DeletedAt `json:"-" gorm:"index"`
 
-	Title   []byte `gorm:"-"` // Decoded Title
-	Content []byte `gorm:"-"` // Decoded Content
-}
+	NID  string `json:"nid" gorm:"index"`
+	Data []byte `json:"-"` // Encoded Payload
 
-type DisplayNote struct {
-	// Return sql NID, because may Input NID != SQL NID
-	NID string `json:"nid"`
+	Title   []byte `json:"-" gorm:"-"` // Decoded Title
+	Content []byte `json:"-" gorm:"-"` // Decoded Content
 
-	Title   string `json:"title"`
-	Content string `json:"content"`
+	// TODO: REFACTOR THIS
+	DisplayTitle   string `json:"title,omitempty"`
+	DisplayContent string `json:"content,omitempty"`
 }
