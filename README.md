@@ -22,8 +22,9 @@
 
 ## 🎉 **Demo**
 
-https://demo.qn.me0wo.top  
-**_Only frontend preview_**
+Preview(release version): https://note.me0wo.top  **_Full features_**
+
+Vercel(build version): https://demo.qn.me0wo.top **_Only frontend preview(cant save)_**
 
 ---
 
