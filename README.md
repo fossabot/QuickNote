@@ -1,4 +1,7 @@
-# 📒 **QuickNote**
+<h1 style="display: flex; align-items: center; gap: 10px;">
+  <img src="https://raw.githubusercontent.com/Sn0wo2/QuickNote/refs/heads/main/Frontend/public/logo.png" alt="Logo" width="30">
+  <span><strong>QuickNote</strong></span>
+</h1>
 
 > Create and share notes quickly and easily.
 
