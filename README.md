@@ -7,6 +7,10 @@
 
 [![GitHub License](https://img.shields.io/github/license/Sn0wo2/QuickNote)](LICENSE)
 ![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/Sn0wo2/QuickNote/total)
+![Docker Pulls](https://img.shields.io/docker/pulls/me0wo/quicknote)
+![Docker Stars](https://img.shields.io/docker/stars/me0wo/quicknote)
+![Docker Image Size](https://img.shields.io/docker/image-size/me0wo/quicknote)
+
 
 [![CodeQL](https://github.com/Sn0wo2/QuickNote/actions/workflows/codeql.yml/badge.svg)](https://github.com/Sn0wo2/QuickNote/actions/workflows/codeql.yml)
 [![Dependabot Updates](https://github.com/Sn0wo2/QuickNote/actions/workflows/dependabot/dependabot-updates/badge.svg)](https://github.com/Sn0wo2/QuickNote/actions/workflows/dependabot/dependabot-updates)
