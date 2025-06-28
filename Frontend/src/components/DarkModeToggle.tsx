@@ -1,5 +1,5 @@
-import { useRef, useState } from "react";
-import { useDarkMode } from "../hooks/useDarkMode";
+import {useRef, useState} from "react";
+import {useDarkMode} from "../hooks/useDarkMode";
 import "./DarkMode.scss";
 
 type Ripple = {
@@ -16,15 +16,14 @@ export const DarkModeToggle = () => {
   const handleClick = () => {
     if (buttonRef.current) {
       const rect = buttonRef.current.getBoundingClientRect();
-      const centerX = rect.left + rect.width / 2;
-      const centerY = rect.top + rect.height / 2;
 
       setRipples((prevRipples) => [
         ...prevRipples,
         {
           key: Date.now(),
-          x: centerX,
-          y: centerY
+          // center of the button
+          x: rect.left + rect.width / 2,
+          y: rect.top + rect.height / 2,
         }
       ]);
     }

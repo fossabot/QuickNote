@@ -1,6 +1,6 @@
-import React, {useCallback, useEffect, useRef, useState} from "react";
-import {toast, Toaster} from "react-hot-toast";
-import {importNote} from "../services/noteAPI.ts";
+import React, { useCallback, useEffect, useRef, useState } from "react";
+import { toast, Toaster } from "react-hot-toast";
+import { importNote } from "../services/noteAPI.ts";
 import "./ImportNote.scss";
 
 interface ImportNoteProps {
@@ -22,14 +22,13 @@ export const ImportNote: React.FC<ImportNoteProps> = ({callback}) => {
         }
     }, []);
 
-
     const handleDrop = useCallback(
         (e: DragEvent) => {
             e.preventDefault();
             dragCounter.current = 0;
             setIsDragging(false);
             const files = e.dataTransfer?.files;
-            if (files?.length) handleFileUpload(files[0]);
+          if (files?.length) void handleFileUpload(files[0]);
             else toast.error("No note dropped");
         },
         [handleFileUpload]

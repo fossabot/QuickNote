@@ -1,3 +1,6 @@
+// .env.development
+// .env.production
+// .env
 const API_BASE = import.meta.env.VITE_API_URL;
 
 export interface NoteData {
@@ -11,11 +14,11 @@ export const getNote = async (nid: string, signal?: AbortSignal): Promise<NoteDa
   if (!response.ok) {
     throw new Error("Failed to fetch note");
   }
-  const data = await response.json();
+  const result = await response.json();
   return {
-    nid: data.data.nid,
-    title: data.data.title,
-    content: data.data.content
+    nid: result.data.nid,
+    title: result.data.title,
+    content: result.data.content
   };
 };
 
@@ -34,8 +37,10 @@ export const saveNote = async (nid: string, title: string, content: string) => {
   if (!response.ok) {
     throw new Error("Failed to create note");
   }
+  return true;
 };
 
+// save an empty title and content note can be deleted...(idk why create this api)
 export const deleteNote = async (id: string) => {
   const response = await fetch(`${API_BASE}/notes/${id}`, {
     method: "DELETE"
@@ -51,17 +56,18 @@ export const exportNote = async (id: string) => {
   if (!response.ok) {
     throw new Error("Failed to export note");
   }
-  window.open(`${API_BASE}/export/${id}`);
+  return window.open(`${API_BASE}/export/${id}`);
 };
 
 export const importNote = async (file: File) => {
-  const formData = new FormData();
-  formData.append("import", file);
+  const fileData = new FormData();
+  fileData.append("import", file);
   const response = await fetch(`${API_BASE}/import`, {
     method: "POST",
-    body: formData
+    body: fileData
   });
   if (!response.ok) {
     throw new Error("Failed to import note");
   }
+  return true;
 };
