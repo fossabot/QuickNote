@@ -47,6 +47,16 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
+      - name: Zip frontend file
+        working-directory: Frontend
+        run: zip -r ../frontend-dist.zip static
+
+      - name: Upload frontend artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: frontend-dist
+          path: frontend-dist.zip
+
       - name: Run GoReleaser
         uses: goreleaser/goreleaser-action@v6
         with:
