@@ -12,10 +12,6 @@ on:
       - '.github/workflows/react.yml'
   workflow_dispatch:
 
-permissions:
-  contents: write
-  pull-requests: write
-
 defaults:
   run:
     working-directory: Frontend
@@ -24,6 +20,9 @@ jobs:
   build:
     name: Build and Type-Check
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      actions: write
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -51,6 +50,10 @@ jobs:
   lint:
     name: Lint and Auto-fix
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+      actions: write
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
