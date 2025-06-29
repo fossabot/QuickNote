@@ -57,7 +57,7 @@ func Note() func(ctx *fiber.Ctx) error {
 				return ctx.Status(fiber.StatusInternalServerError).JSON(response.New("failed to write note"))
 			}
 
-			log.Instance.Info("Note updated",
+			log.Instance.Debug("Note updated",
 				zap.String("nid", nid),
 				zap.String("ctx", common.FiberContextString(ctx)))
 
@@ -74,7 +74,7 @@ func Note() func(ctx *fiber.Ctx) error {
 				return ctx.Status(fiber.StatusInternalServerError).JSON(response.New("failed to delete note"))
 			}
 
-			log.Instance.Info("Note deleted",
+			log.Instance.Debug("Note deleted",
 				zap.String("nid", nid),
 				zap.String("ctx", common.FiberContextString(ctx)))
 
@@ -91,7 +91,7 @@ func Note() func(ctx *fiber.Ctx) error {
 				msg = "note not found"
 			}
 
-			log.Instance.Info("Note found",
+			log.Instance.Debug("Note found",
 				zap.String("nid", nid),
 				zap.String("ctx", common.FiberContextString(ctx)))
 
@@ -101,7 +101,7 @@ func Note() func(ctx *fiber.Ctx) error {
 			return ctx.Status(fiber.StatusOK).JSON(response.New(msg, n))
 		// TODO: Too late for fallback method...
 		default:
-			log.Instance.Warn("Invalid method",
+			log.Instance.Warn("Invalid note method",
 				zap.String("nid", nid),
 				zap.String("ctx", common.FiberContextString(ctx)))
 

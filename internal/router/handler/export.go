@@ -46,7 +46,7 @@ func Export() func(ctx *fiber.Ctx) error {
 		ctx.Set("Content-Type", "application/x-qnote")
 		ctx.Set("Content-Disposition", fmt.Sprintf("attachment; filename=\"%s.qnote\"", n.NID))
 
-		log.Instance.Info("Note exported",
+		log.Instance.Debug("Note exported",
 			zap.String("nid", nid),
 			zap.String("ctx", common.FiberContextString(ctx)))
 
