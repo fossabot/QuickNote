@@ -9,8 +9,8 @@ export interface NoteData {
   content: string;
 }
 
-export const getNote = async (nid: string, signal?: AbortSignal): Promise<NoteData | null> => {
-  const response = await fetch(`${API_BASE}/notes/${nid}`, { signal });
+export const getNote = async (nid: string): Promise<NoteData | null> => {
+  const response = await fetch(`${API_BASE}/notes/${nid}`);
   if (!response.ok) {
     throw new Error("Failed to fetch note");
   }

@@ -2,44 +2,22 @@
 
 .note-container {
   position: fixed;
-  top: 10px;
-  bottom: 30px;
-  left: 10px;
-  right: 10px;
+  inset: 10px 10px 30px 10px;
   display: flex;
   flex-direction: column;
   background-color: var(--bg-secondary);
-  border-radius: 15px 15px 15px 15px;
+  border-radius: 15px;
   box-shadow: vars.$shadow-md;
   font-family: vars.$font-stack;
   overflow: hidden;
   opacity: 0;
   transform: scale(0.9);
-  transition: vars.$opacity-transition,
-  transform 0.3s ease,
-  vars.$color-transition,
-  vars.$transform-transition;
-}
+  transition: vars.$opacity-transition, vars.$transform-transition, vars.$color-transition;
 
-.note-container.visible {
-  opacity: 1;
-  transform: scale(1);
-}
-
-.note-mode-toggle {
-  display: flex;
-  gap: 10px;
-  padding: 12px 16px;
-  background: var(--bg-secondary);
-  border-bottom: 1px solid var(--border-primary);
-  justify-content: flex-start;
-  align-items: center;
-  height: 30px;
-  overflow: visible;
-  z-index: vars.$z-index-middle;
-  position: sticky;
-  top: 0;
-  transition: vars.$color-transition, vars.$transform-transition;
+  &.visible {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 @mixin button-style {
@@ -60,31 +38,45 @@
   }
 }
 
-.note-mode-toggle button {
-  @include button-style;
-}
 
-.export {
-  @include button-style;
-  position: absolute;
-  right: 50px;
-  top: 10px;
+.note-mode-toggle {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  background: var(--bg-secondary);
+  border-bottom: 1px solid var(--border-primary);
+  height: 30px;
+  position: sticky;
+  top: 0;
+  z-index: vars.$z-index-middle;
+  transition: vars.$color-transition;
+
+  .left-buttons,
+  .right-buttons {
+    display: flex;
+    gap: 10px;
+  }
+
+  .right-buttons {
+    margin-right: 5vh;
+  }
+
+  button {
+    @include button-style;
+  }
 }
 
 .note-logo {
   position: absolute;
   left: 50%;
   top: -10px;
-  transform: translateX(calc(-50% - 10px));
+  transform: translateX(-50%);
   height: 80px;
   width: 80px;
-  background-image: url('/logo.png');
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
+  background: url('/logo.png') no-repeat center/contain;
   pointer-events: none;
   z-index: vars.$z-index-top;
-  background-origin: content-box;
 
   @media (max-width: 650px) {
     display: none;
@@ -97,7 +89,7 @@
   padding: 12px 16px;
   background: var(--bg-secondary);
   border-bottom: 1px solid var(--border-primary);
-  transition: vars.$color-transition, vars.$transform-transition;
+  transition: vars.$color-transition;
 }
 
 .note-title {
@@ -105,7 +97,7 @@
   padding: 8px 12px;
   font-size: 16px;
   border: 1px solid var(--border-primary);
-  border-radius: 15px 15px 15px 15px;
+  border-radius: 15px;
   background: var(--bg-surface);
   color: var(--text-primary);
   outline: none;
@@ -120,30 +112,33 @@
 .note-content {
   flex: 1;
   display: flex;
-  height: 100%;
-  background-color: var(--bg-surface);
-  transition: vars.$color-transition, vars.$transform-transition;
+  background: var(--bg-surface);
+  transition: vars.$color-transition;
+
+  &.mode-edit .note-preview,
+  &.mode-preview .note-editor {
+    display: none;
+  }
 }
 
-.note-content.mode-edit .note-preview,
-.note-content.mode-preview .note-editor {
-  display: none;
+.note-editor,
+.note-preview {
+  flex: 1;
+  font-family: vars.$font-stack;
+  background: var(--bg-surface);
+  color: var(--text-primary);
+  transition: vars.$color-transition;
 }
 
 .note-editor {
-  flex: 1;
   border: none;
   outline: none;
   padding: 20px;
   font-size: 16px;
-  font-family: vars.$font-stack;
   resize: none;
-  background-color: var(--bg-surface);
-  color: var(--text-primary);
   border-right: 1px solid var(--border-primary);
   scrollbar-width: thin;
   scrollbar-color: var(--text-primary) transparent;
-  transition: vars.$color-transition, vars.$transform-transition;
 
   &:focus {
     box-shadow: 0 0 0 2px rgba(var(--interactive-rgb), 0.2);
@@ -154,105 +149,91 @@
   &::-webkit-scrollbar {
     width: 8px;
   }
-
-  &::-webkit-scrollbar-track {
-    background: transparent;
-  }
-
   &::-webkit-scrollbar-thumb {
     background-color: rgba(255, 255, 255, 0.2);
     border-radius: 4px;
-    transition: vars.$color-transition;
-  }
 
-  &::-webkit-scrollbar-thumb:hover {
-    background-color: rgba(255, 255, 255, 0.3);
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.3);
+    }
+  }
+  &::-webkit-scrollbar-track {
+    background: transparent;
   }
 }
 
 .note-preview {
-  flex: 1;
   overflow-y: auto;
-  background-color: var(--bg-surface);
-  color: var(--text-primary);
-  scrollbar-width: thin;
-  scrollbar-color: var(--text-primary) transparent;
-  transition: vars.$color-transition, vars.$transform-transition;
   padding: 1px 20px 20px;
-}
 
-.note-preview .wmde-markdown {
-  background-color: var(--bg-surface);
-  color: var(--text-primary);
-  transition: vars.$color-transition, vars.$transform-transition;
-}
+  .wmde-markdown {
+    background: inherit;
+    color: inherit;
 
-.note-preview h1 {
-  margin-top: 0;
-  padding-bottom: 0.3em;
-  border-bottom: 1px solid var(--border-primary);
-  transition: vars.$color-transition, vars.$transform-transition;
+    h1 {
+      margin-top: 0;
+      padding-bottom: 0.3em;
+      border-bottom: 1px solid var(--border-primary);
 
-  &:hover {
-    transform: translateX(4px);
+      &:hover {
+        transform: translateX(4px);
+      }
+
+      & + h1,
+      & + h2,
+      & + h3 {
+        margin-top: 1.5em;
+      }
+    }
+
+    code {
+      background: var(--bg-elevated);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: monospace;
+      font-size: 0.95em;
+    }
+
+    pre {
+      background: var(--bg-elevated);
+      padding: 12px;
+      border-radius: 6px;
+      overflow-x: auto;
+    }
+
+    blockquote {
+      border-left: 4px solid var(--interactive);
+      padding-left: 12px;
+      font-style: italic;
+      background: var(--bg-elevated);
+
+      &:hover {
+        transform: translateX(4px);
+      }
+    }
+
+    ul,
+    ol {
+      padding-left: 1.5em;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1em;
+    }
+
+    th,
+    td {
+      border: 1px solid var(--border-primary);
+      padding: 8px;
+      text-align: left;
+    }
+
+    th {
+      background-color: var(--bg-elevated);
+    }
   }
-}
-
-.note-preview code {
-  background: var(--bg-elevated);
-  padding: 2px 6px;
-  border-radius: 4px;
-  font-family: monospace;
-  font-size: 0.95em;
-  color: var(--text-primary);
-  transition: vars.$color-transition, vars.$transform-transition;
-}
-
-.note-preview pre {
-  background: var(--bg-elevated);
-  padding: 12px;
-  border-radius: 6px;
-  overflow-x: auto;
-  color: var(--text-primary);
-  transition: vars.$color-transition, vars.$transform-transition;
-}
-
-.note-preview blockquote {
-  border-left: 4px solid var(--interactive);
-  padding-left: 12px;
-  font-style: italic;
-  background: var(--bg-elevated);
-  transition: vars.$color-transition, vars.$transform-transition;
-
-  &:hover {
-    transform: translateX(4px);
-  }
-}
-
-.note-preview ul,
-.note-preview ol {
-  padding-left: 1.5em;
-}
-
-.note-preview table {
-  border-collapse: collapse;
-  width: 100%;
-  margin-top: 1em;
-  background-color: var(--bg-surface);
-  transition: vars.$color-transition, vars.$transform-transition;
-}
-
-.note-preview th,
-.note-preview td {
-  border: 1px solid var(--border-primary);
-  padding: 8px;
-  text-align: left;
-  transition: vars.$color-transition, vars.$transform-transition;
-}
-
-.note-preview th {
-  background-color: var(--bg-elevated);
-  transition: vars.$color-transition, vars.$transform-transition;
 }
 
 .url {
@@ -262,15 +243,13 @@
   right: 0;
   text-align: center;
   padding: 6px 0;
-  margin: 0;
-  color: var(--text-tertiary);
   font-size: 0.8em;
   font-weight: 600;
+  color: var(--text-tertiary);
   background: transparent;
   border: none;
   cursor: pointer;
-  text-decoration: none;
-  transition: vars.$color-transition, vars.$transform-transition;
+  transition: vars.$color-transition;
 
   &:hover {
     text-decoration: underline;
@@ -278,10 +257,4 @@
     opacity: 0.7;
     transform: translateY(-2px);
   }
-}
-
-.note-preview .wmde-markdown h1 + h1,
-.note-preview .wmde-markdown h2 + h2,
-.note-preview .wmde-markdown h3 + h3 {
-  margin-top: 1.5em;
 }
