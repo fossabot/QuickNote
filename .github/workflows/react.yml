@@ -21,8 +21,8 @@ defaults:
     working-directory: Frontend
 
 jobs:
-  lint-and-fix:
-    name: Frontend Lint and Auto-fix
+  build:
+    name: Build and Type-Check
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -33,8 +33,44 @@ jobs:
         with:
           bun-version: latest
 
+      - name: Get dependencies cache
+        uses: actions/cache@v4
+        id: bun-cache
+        with:
+          path: Frontend/node_modules
+          key: ${{ runner.os }}-bun-${{ hashFiles('**/bun.lockb') }}
+          restore-keys: |
+            ${{ runner.os }}-bun-
+
       - name: Install dependencies
-        run: bun install
+        run: bun install --frozen-lockfile
+
+      - name: Build project
+        run: bun run build
+
+  lint:
+    name: Lint and Auto-fix
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Get dependencies cache
+        uses: actions/cache@v4
+        id: bun-cache
+        with:
+          path: Frontend/node_modules
+          key: ${{ runner.os }}-bun-${{ hashFiles('**/bun.lockb') }}
+          restore-keys: |
+            ${{ runner.os }}-bun-
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
 
       - name: Run ESLint with auto-fix
         run: bun run lint:fix
@@ -44,10 +80,8 @@ jobs:
         working-directory: .
         run: |
           if git diff --exit-code; then
-            echo "No changes from linter."
             echo "changed=false" >> $GITHUB_OUTPUT
           else
-            echo "Linter made changes."
             echo "changed=true" >> $GITHUB_OUTPUT
           fi
 
