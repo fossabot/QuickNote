@@ -1,6 +1,7 @@
 package static
 
 import (
+	"errors"
 	"os"
 	"path/filepath"
 	"strings"
@@ -39,7 +40,14 @@ func Setup(router fiber.Router) {
 				zap.String("file", path),
 				zap.String("ctx", common.FiberContextString(ctx)))
 
-			return ctx.SendFile(path, true)
+			err := ctx.SendFile(path)
+			var fiberErr *fiber.Error
+			switch {
+			case errors.As(err, &fiberErr) && fiberErr.Code == fiber.StatusNotFound:
+				return ctx.Next()
+			default:
+				return err
+			}
 		}
 
 		return ctx.Next()
