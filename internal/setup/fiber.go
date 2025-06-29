@@ -4,6 +4,7 @@ import (
 	"time"
 
 	"github.com/Sn0wo2/QuickNote/internal/router/errorhandler"
+	"github.com/Sn0wo2/QuickNote/pkg/debug"
 	"github.com/gofiber/fiber/v2"
 )
 
@@ -16,7 +17,7 @@ func Fiber() *fiber.App {
 		DisableStartupMessage: false,
 		ErrorHandler:          errorhandler.Error,
 		IdleTimeout:           5 * time.Second,
-		Prefork:               true,
+		Prefork:               !debug.IsDebugging,
 		ReadTimeout:           10 * time.Second,
 		ReduceMemoryUsage:     true,
 		StrictRouting:         true,
