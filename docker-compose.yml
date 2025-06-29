@@ -6,7 +6,4 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - quicknote_data:/opt/quicknote/data
-
-volumes:
-  quicknote_data:
+      - ./data:/opt/quicknote/data
