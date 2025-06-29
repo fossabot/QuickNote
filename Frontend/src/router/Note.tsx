@@ -36,6 +36,7 @@ export function Note() {
         skipSave.current = true;
       }
     } catch (e) {
+      console.error(e);
       toast.error("Failed to load note");
     }
   }, [id]);
