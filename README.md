@@ -96,30 +96,26 @@ Check:
 * [`.goreleaser.yml`](LICENSE)
 * [`Dockerfile`](Dockerfile)
 
+Release download: _https://github.com/Sn0wo2/QuickNote/releases_
+
 ---
 
 ### 🔧 **Manual Build**
 
-> _Build docker image please use goreleaser!_
+Requires:
 
-```bash
-# Frontend not embedded in the binary
-go build -mod=readonly -trimpath \
-  -tags="mysql postgres sqlite sqlserver" \
-  -o="QuickNote" \
-  -ldflags="-s -w -buildid= -extldflags=-static" \
-  -gcflags="all=-d=ssa/check_bce/debug=0" \
-  -asmflags="-trimpath" main.go
+* [`Go SDK`](https://go.dev/dl/) latest version
+* [`Bun`](https://bun.sh/) latest version(or NPM latest version(NO RECOMMEND))
+* [`GoReleaser`](https://github.com/goreleaser/goreleaser/releases) latest version
 
-cd Frontend
+Check:
 
-bun install
-bun run build
+* [`Makefile`](Makefile)
 
-mv static/* ../
-
-cd ../ && ./QuickNote(.exe)
-```
+> Run:
+> ```bash
+> make test_release
+> ```
 
 ---
 
