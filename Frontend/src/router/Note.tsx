@@ -1,10 +1,10 @@
 import MDEditor from "@uiw/react-md-editor";
-import { useCallback, useEffect, useRef, useState } from "react";
-import { toast, Toaster } from "react-hot-toast";
-import { useNavigate, useParams } from "react-router-dom";
-import { DarkModeToggle } from "../components/DarkModeToggle.tsx";
-import { ImportNote } from "../components/ImportNote.tsx";
-import { exportNote, getNote, saveNote } from "../services/noteAPI";
+import {useCallback, useEffect, useRef, useState} from "react";
+import {toast, Toaster} from "react-hot-toast";
+import {useNavigate, useParams} from "react-router-dom";
+import {DarkModeToggle} from "../components/DarkModeToggle.tsx";
+import {ImportNote} from "../components/ImportNote.tsx";
+import {exportNote, getNote, saveNote} from "../services/noteAPI";
 import "./Note.scss";
 
 export function Note() {
@@ -35,6 +35,7 @@ export function Note() {
         setContent(note.content);
         skipSave.current = true;
       }
+      toast.success("Note loaded");
     } catch (e) {
       console.error(e);
       toast.error("Failed to load note");
