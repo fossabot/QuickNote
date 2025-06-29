@@ -19,8 +19,8 @@ on:
   workflow_dispatch:
 
 jobs:
-  test:
-    name: Test
+  vet-test-build-update:
+    name: Vet, Test and Build
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -34,42 +34,17 @@ jobs:
           go-version-file: 'go.mod'
           cache: true
 
-      - name: Run tests
-        run: go test -vet=off $(go list ./...)
+      - name: Update dependencies
+        run: go get all
 
-  vet:
-    name: Vet
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Setup Go
-        uses: actions/setup-go@v5
-        with:
-          go-version-file: 'go.mod'
-          cache: true
+      - name: Update go.sum
+        run: go mod tidy
 
       - name: Run vet
         run: go vet $(go list ./...)
 
-  build:
-    name: Build
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      actions: write
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Setup Go
-        uses: actions/setup-go@v5
-        with:
-          go-version-file: 'go.mod'
-          cache: true
+      - name: Run tests
+        run: go test -vet=off $(go list ./...)
 
       - name: Build binary
         run: go build -v -o dist/QuickNote .
@@ -79,6 +54,27 @@ jobs:
         with:
           name: QuickNote-Binary
           path: dist/QuickNote
+
+      - name: Check for file changes
+        id: git-check
+        run: |
+          if git diff --exit-code; then
+            echo "changed=false" >> $GITHUB_OUTPUT
+          else
+            echo "changed=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Create Pull Request with update dependencies
+        if: steps.git-check.outputs.changed == 'true' && github.ref == 'refs/heads/main'
+        uses: peter-evans/create-pull-request@v7
+        with:
+          commit-message: "chore(backend): update dependencies"
+          title: "chore(backend): update dependencies"
+          body: "The `Update dependencies` action wants to apply these fixes."
+          branch: "chore/go-dependencies"
+          base: main
+          signoff: true
+          sign-commits: true
 
   lint:
     name: Lint and Auto-fix
@@ -118,7 +114,7 @@ jobs:
         uses: peter-evans/create-pull-request@v7
         with:
           commit-message: "chore(backend): fix lint issues"
-          title: "Fix: Apply Go linting fixes"
+          title: "chore(backend): fix lint issues"
           body: "The `golangci-lint` action wants to apply these fixes."
           branch: "chore/go-lint-fixes"
           base: main

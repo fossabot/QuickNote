@@ -93,7 +93,7 @@ jobs:
         uses: peter-evans/create-pull-request@v7
         with:
           commit-message: "chore(frontend): fix lint issues"
-          title: "Fix: Apply React linting fixes"
+          title: "chore(frontend): fix lint issues"
           body: "The `ESLint` action wants to apply these fixes."
           branch: "chore/es-lint-fixes"
           base: main
