@@ -30,7 +30,7 @@ func (n *Note) Encode() error {
 
 	writeField := func(id byte, data []byte) {
 		buf.WriteByte(id)
-		_ = binary.Write(buf, binary.LittleEndian, len(data))
+		_ = binary.Write(buf, binary.LittleEndian, len(data)) //nolint:staticcheck
 		buf.Write(data)
 	}
 
