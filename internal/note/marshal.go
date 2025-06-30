@@ -10,30 +10,27 @@ import (
 	"github.com/Sn0wo2/QuickNote/pkg/compress"
 )
 
-const (
-	fieldTitle   = 1
-	fieldContent = 2
-	magicVersion = 1
-)
-
 // magicHeader First 2 bytes of SHA-256 hash of "QuickNote"
 var magicHeader = [...]byte{0x34, 0x19}
+
+const (
+	magicVersion = 1
+	fieldTitle   = 1
+	fieldContent = 2
+)
 
 func (n *Note) Encode() error {
 	if n == nil {
 		return errors.New("nil note")
 	}
 
-	buf := bytes.NewBuffer(make([]byte, 0, 256))
-	buf.Grow(len(magicHeader) + 1 + 1 + 4 + len(n.Title) + 1 + 4 + len(n.Content))
+	buf := bytes.NewBuffer(magicHeader[:])
 
-	buf.Write(magicHeader[:])
 	buf.WriteByte(magicVersion)
 
 	writeField := func(id byte, data []byte) {
 		buf.WriteByte(id)
-		//nolint:gosec
-		_ = binary.Write(buf, binary.LittleEndian, uint32(len(data)))
+		_ = binary.Write(buf, binary.LittleEndian, len(data))
 		buf.Write(data)
 	}
 
@@ -43,7 +40,6 @@ func (n *Note) Encode() error {
 	var err error
 	n.Data, err = compress.FlateCompress(buf.Bytes())
 	n.Title, n.Content = nil, nil
-
 	return err
 }
 
@@ -88,9 +84,8 @@ func (n *Note) Decode(data []byte) error {
 			return fmt.Errorf("read field %d length: %w", id, err)
 		}
 
-		length := binary.LittleEndian.Uint32(buf)
-
-		value := make([]byte, length)
+		// read length b4 field
+		value := make([]byte, binary.LittleEndian.Uint32(buf))
 		if _, err = io.ReadFull(r, value); err != nil {
 			return fmt.Errorf("read field %d: %w", id, err)
 		}
