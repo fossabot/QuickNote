@@ -33,13 +33,14 @@ func FiberContextString(ctx *fiber.Ctx) string {
 
 	var headers []string
 
-	ctx.Request().Header.VisitAll(func(key, value []byte) {
+	ctx.Request().Header.All()(func(key, value []byte) bool {
 		v := helper.BytesToString(value)
 		if len(v) > 20 {
-			v = v[:17] + "..."
+			v = v[:12] + "..."
 		}
 
 		headers = append(headers, fmt.Sprintf("%s:%s", helper.BytesToString(key), v))
+		return true
 	})
 
 	if len(headers) > 0 {
