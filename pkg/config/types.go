@@ -5,6 +5,10 @@ type Config struct {
 		Address string `yaml:"address"`
 		Static  string `optional:"true" yaml:"static"`
 	} `yaml:"listener"`
+	TLS struct {
+		Cert string `yaml:"cert"`
+		Key  string `yaml:"key"`
+	} `yaml:"tls"`
 	Logger struct {
 		Level string `optional:"true" yaml:"level"`
 		Dir   string `yaml:"dir"`
