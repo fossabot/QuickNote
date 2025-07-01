@@ -6,8 +6,8 @@ type Config struct {
 		Static  string `optional:"true" yaml:"static"`
 	} `yaml:"listener"`
 	TLS struct {
-		Cert string `yaml:"cert"`
-		Key  string `yaml:"key"`
+		Cert string `optional:"true" yaml:"cert"`
+		Key  string `optional:"true" yaml:"key"`
 	} `yaml:"tls"`
 	Logger struct {
 		Level string `optional:"true" yaml:"level"`
