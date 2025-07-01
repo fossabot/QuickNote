@@ -14,6 +14,7 @@ RUN chmod -R a-w /opt/quicknote && \
 
 USER quicknoteuser
 
-EXPOSE 3000 # default port
+# default port
+EXPOSE 3000
 
 CMD ["./QuickNote"]
