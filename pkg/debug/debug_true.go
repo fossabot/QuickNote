@@ -2,4 +2,4 @@
 
 package debug
 
-const IsDebugging = true
+const isDebugBuild = true

@@ -17,7 +17,7 @@ func Fiber() *fiber.App {
 		DisableStartupMessage: false,
 		ErrorHandler:          errorhandler.Error,
 		IdleTimeout:           5 * time.Second,
-		Prefork:               !debug.IsDebugging,
+		Prefork:               !debug.IsDebug(),
 		ReadTimeout:           10 * time.Second,
 		ReduceMemoryUsage:     true,
 		StrictRouting:         true,
