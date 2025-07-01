@@ -170,3 +170,9 @@ tmp/
 
 # QuickNote frontend build
 static/
+
+# certificates
+*.pem
+
+# QuickNote test config
+config_test.yml
