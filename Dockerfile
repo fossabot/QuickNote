@@ -8,12 +8,12 @@ WORKDIR /opt/quicknote
 
 COPY --chown=quicknoteuser:quicknotegroup . /opt/quicknote
 
-RUN mv /opt/quicknote/Frontend/static /opt/quicknote/static && \
+RUN chmod -R a-w /opt/quicknote && \
+    mv /opt/quicknote/Frontend/static /opt/quicknote/static && \
     rm -rf /opt/quicknote/Frontend
 
 USER quicknoteuser
 
-# default open port
-EXPOSE 3000
+EXPOSE 3000 # default port
 
 CMD ["./QuickNote"]
