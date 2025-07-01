@@ -48,7 +48,8 @@ func Export() func(ctx *fiber.Ctx) error {
 
 		log.Instance.Debug("Note exported",
 			zap.String("nid", nid),
-			zap.String("ctx", common.FiberContextString(ctx)))
+			zap.String("ctx", common.FiberContextString(ctx)),
+		)
 
 		return ctx.SendStream(bytes.NewReader(n.Data))
 	}

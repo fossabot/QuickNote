@@ -9,7 +9,7 @@ import (
 )
 
 func Error(ctx *fiber.Ctx, err error) error {
-	log.Instance.Error("Fiber error handler caught error",
+	log.Instance.Error("Error handler caught error",
 		zap.Error(err),
 		zap.String("ctx", common.FiberContextString(ctx)),
 	)

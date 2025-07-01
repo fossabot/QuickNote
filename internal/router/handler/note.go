@@ -15,7 +15,8 @@ func Note() func(ctx *fiber.Ctx) error {
 		nid := ctx.Params("*")
 		if nid == "" {
 			log.Instance.Warn("Invalid nid",
-				zap.String("ctx", common.FiberContextString(ctx)))
+				zap.String("ctx", common.FiberContextString(ctx)),
+			)
 
 			return ctx.Status(fiber.StatusBadRequest).JSON(response.New("invalid nid"))
 		}

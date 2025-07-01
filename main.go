@@ -7,6 +7,7 @@ import (
 	"runtime/debug"
 	"syscall"
 
+	"github.com/Sn0wo2/QuickNote/internal/listener"
 	"github.com/Sn0wo2/QuickNote/internal/router"
 	"github.com/Sn0wo2/QuickNote/internal/setup"
 	"github.com/Sn0wo2/QuickNote/pkg/config"
@@ -67,7 +68,7 @@ func main() {
 	signal.Notify(shutdownChan, os.Interrupt, syscall.SIGTERM)
 
 	go func() {
-		if err = app.Listen(config.Instance.Listener.Address); err != nil {
+		if err = listener.Start(app); err != nil {
 			log.Instance.Fatal("Server failed to start",
 				zap.Error(err),
 			)
