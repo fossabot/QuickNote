@@ -20,6 +20,6 @@ type Note struct {
 	Content []byte `gorm:"-" json:"-"` // Decoded Content
 
 	// TODO: REFACTOR THIS
-	DisplayTitle   string `json:"title,omitempty"`
-	DisplayContent string `json:"content,omitempty"`
+	DisplayTitle   string `gorm:"-" json:"title,omitempty"`
+	DisplayContent string `gorm:"-" json:"content,omitempty"`
 }
