@@ -6,6 +6,7 @@ import (
 	"reflect"
 	"strings"
 
+	"github.com/Sn0wo2/QuickNote/pkg/debug"
 	"github.com/Sn0wo2/QuickNote/pkg/helper"
 	"gopkg.in/yaml.v3"
 )
@@ -14,7 +15,11 @@ var Instance Config
 
 // Init contains validation config
 func Init() error {
-	cf, err := os.ReadFile("./data/config.yml")
+	cfgPath := "./data/config.yml"
+	if debug.IsDebug() {
+		cfgPath = "./data/config_test.yml"
+	}
+	cf, err := os.ReadFile(cfgPath)
 	if err != nil {
 		return err
 	}
