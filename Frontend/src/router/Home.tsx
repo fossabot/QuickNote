@@ -1,8 +1,10 @@
-import { useEffect, useState } from "react";
+import { type ChangeEvent, useEffect, useRef, useState } from "react";
+import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { DarkModeToggle } from "../components/DarkModeToggle";
 import "./Home.scss";
 import { ImportNote } from "../components/ImportNote.tsx";
+import { importNote } from "../services/noteAPI.ts";
 
 export function Home() {
   const [visible, setVisible] = useState(false);
@@ -21,6 +23,8 @@ export function Home() {
     const t = setTimeout(() => setVisible(true), 100);
     return () => clearTimeout(t);
   }, []);
+
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   return (
     <>
@@ -49,6 +53,32 @@ export function Home() {
             <span className="warning">
               ⚠️ Please don’t upload illegal or sensitive content.
             </span>
+            <label className="upload">
+              <input
+                type="file"
+                accept=".qnote"
+                style={{ display: 'none' }}
+                ref={fileInputRef}
+                onChange={async (e: ChangeEvent<HTMLInputElement>) => {
+                  try {
+                    const file = e.target.files?.[0];
+                    if (!file) return;
+                    const success = await importNote(file);
+                    if (!success) {
+                      toast.error("Failed to import note");
+                      return;
+                    }
+
+                    navigate(`/note/${file.name.replace(/\.qnote$/, "")}`);
+
+                  } catch (error) {
+                    console.error(error);
+                    toast.error("Failed to import note");
+                  }
+                }}
+              />
+              <img src="/file-pencil-alt-svgrepo-com.svg" alt="upload icon" />
+            </label>
           </p>
           <div className="input-container">
             <input
