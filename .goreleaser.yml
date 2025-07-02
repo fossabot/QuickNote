@@ -4,8 +4,6 @@ builds:
   - id: QuickNote
     main: ./main.go
     binary: QuickNote
-    env:
-      - CGO_ENABLED=0
     goos:
       - windows
       - linux
@@ -25,9 +23,9 @@ builds:
       - -s -w -buildid=
       - -extldflags=-static
       - -linkmode internal
-      - -X main.version={{.Version}}
-      - -X main.commit={{.Commit}}
-      - -X main.date={{.Date}}
+      - -X github.com/Sn0wo2/QuickNote/pkg/version.version={{.Version}}
+      - -X github.com/Sn0wo2/QuickNote/pkg/version.commit={{.Commit}}
+      - -X github.com/Sn0wo2/QuickNote/pkg/version.date={{.Date}}
 archives:
   - id: default
     format_overrides:
@@ -79,29 +77,29 @@ changelog:
   use: github
   sort: asc
   groups:
-    - title: 🚀 New Features
-      regexp: "^.*feat(\\w*):+.*$"
+    - title: "🚀 Features"
+      regexp: "^.*feat(?:\\([^)]+\\))?:+.*$"
       order: 0
     - title: "🐛 Bug Fixes"
-      regexp: "^.*fix(\\w*):+.*$"
+      regexp: "^.*fix(?:\\([^)]+\\))?:+.*$"
       order: 1
-    - title: "⚡️ Performance"
-      regexp: "^.*perf(\\w*):+.*$"
+    - title: "⚡️ Performance Improvements"
+      regexp: "^.*perf(?:\\([^)]+\\))?:+.*$"
       order: 2
     - title: "📝 Documentation"
-      regexp: "^.*docs(\\w*):+.*$"
+      regexp: "^.*docs(?:\\([^)]+\\))?:+.*$"
       order: 3
-    - title: "🔧 Enhancements"
-      regexp: "^.*chore(\\w*):+.*$"
+    - title: "🔧 Maintenance & Chores"
+      regexp: "^.*chore(?:\\([^)]+\\))?:+.*$"
       order: 4
-    - title: "♻️ Refactor"
-      regexp: "^.*refactor(\\w*):+.*$"
+    - title: "♻️ Code Refactoring"
+      regexp: "^.*refactor(?:\\([^)]+\\))?:+.*$"
       order: 5
     - title: "🧪 Tests"
-      regexp: "^.*test(\\w*):+.*$"
+      regexp: "^.*test(?:\\([^)]+\\))?:+.*$"
       order: 6
-    - title: "📦 Dependencies"
-      regexp: "^.*deps(\\w*):+.*$"
+    - title: "📦 Dependency Updates"
+      regexp: "^.*deps(?:\\([^)]+\\))?:+.*$"
       order: 7
-    - title: 📍 Others
+    - title: "📍 Others"
       order: 999
