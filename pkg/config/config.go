@@ -15,9 +15,12 @@ var Instance Config
 
 // Init contains validation config
 func Init() error {
-	cfgPath := "./data/config.yml"
+	cfgPath := os.Getenv("CONFIG_PATH")
 	if debug.IsDebug() {
-		cfgPath = "./data/config_test.yml"
+		cfgPath = os.Getenv("CONFIG_PATH_DEBUG")
+	}
+	if cfgPath == "" {
+		cfgPath = "./data/config.yml"
 	}
 
 	cf, err := os.ReadFile(cfgPath)
