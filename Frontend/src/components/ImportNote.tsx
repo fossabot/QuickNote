@@ -13,14 +13,13 @@ export const ImportNote: React.FC<ImportNoteProps> = ({callback}) => {
 
     const handleFileUpload = useCallback(async (file: File) => {
         try {
-            if (!file.name.endsWith(".qnote")) throw new Error(`Invalid file: ${file.name}`);
             await importNote(file);
             callback(file.name.replace(/\.qnote$/, ""));
         } catch (error) {
             console.error(error);
             toast.error("Failed to import note");
         }
-    }, []);
+    }, [callback]);
 
     const handleDrop = useCallback(
         (e: DragEvent) => {

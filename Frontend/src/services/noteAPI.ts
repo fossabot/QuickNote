@@ -60,6 +60,7 @@ export const exportNote = async (id: string) => {
 };
 
 export const importNote = async (file: File) => {
+  if (!file.name.endsWith(".qnote")) throw new Error(`Invalid file: ${file.name}`);
   const fileData = new FormData();
   fileData.append("import", file);
   const response = await fetch(`${API_BASE}/import`, {

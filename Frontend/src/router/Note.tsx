@@ -1,10 +1,10 @@
 import MDEditor from "@uiw/react-md-editor";
-import {useCallback, useEffect, useRef, useState} from "react";
-import {toast, Toaster} from "react-hot-toast";
-import {useNavigate, useParams} from "react-router-dom";
-import {DarkModeToggle} from "../components/DarkModeToggle.tsx";
-import {ImportNote} from "../components/ImportNote.tsx";
-import {exportNote, getNote, saveNote} from "../services/noteAPI";
+import { type ChangeEvent, useCallback, useEffect, useRef, useState } from "react";
+import { toast, Toaster } from "react-hot-toast";
+import { useNavigate, useParams } from "react-router-dom";
+import { DarkModeToggle } from "../components/DarkModeToggle.tsx";
+import { ImportNote } from "../components/ImportNote.tsx";
+import { exportNote, getNote, importNote, saveNote } from "../services/noteAPI";
 import "./Note.scss";
 
 export function Note() {
@@ -31,9 +31,12 @@ export function Note() {
     try {
       const note = await getNote(id);
       if (note) {
-        setTitle(note.title);
-        setContent(note.content);
         skipSave.current = true;
+        setTitle(note.title ?? "");
+        setContent(note.content ?? "");
+      } else {
+        setTitle("");
+        setContent("");
       }
       toast.success("Note loaded");
     } catch (e) {
@@ -43,7 +46,7 @@ export function Note() {
   }, [id]);
 
   useEffect(() => {
-    load();
+    void load();
   }, [load]);
 
   useEffect(() => {
@@ -68,19 +71,26 @@ export function Note() {
     const onKey = (e: KeyboardEvent) => {
       if ((e.ctrlKey || e.metaKey) && e.key === "s") {
         e.preventDefault();
-        save();
+        void save();
       }
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, [save]);
 
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+
   return (
     <>
       <DarkModeToggle />
       <div className="content">
         <Toaster position="top-right" />
-        <ImportNote callback={(to: string) => navigate(`/note/${to}`, { replace: true })} />
+        <ImportNote callback={async (to: string) => {
+          navigate(`/note/${to}`, { replace: true });
+          if (to === id) {
+            await load();
+          }
+        }}/>
         <div className="note-container visible">
           <div className="note-mode-toggle">
             <div className="left-buttons">
@@ -93,6 +103,37 @@ export function Note() {
             <div className="note-logo" />
             <div className="right-buttons">
               <button className="sync" onClick={load}>Sync</button>
+              <input
+                type="file"
+                accept=".qnote"
+                style={{ display: 'none' }}
+                ref={fileInputRef}
+                onChange={async (e: ChangeEvent<HTMLInputElement>) => {
+                  try {
+                    const file = e.target.files?.[0];
+                    if (!file) return;
+                    const success = await importNote(file);
+                    if (!success) {
+                      toast.error("Failed to import note");
+                      return;
+                    }
+
+                    const newId = file.name.replace(/\.qnote$/, "");
+                    navigate(`/note/${newId}`);
+                    if (newId === id) {
+                      await load();
+                    }
+
+                  } catch (error) {
+                    console.error(error);
+                    toast.error("Failed to import note");
+                  }
+                }}
+              />
+
+              <button className="importButton" onClick={() => {
+                fileInputRef.current?.click();
+              }}>Import</button>
               <button className="export" onClick={() => exportNote(id)}>Export</button>
             </div>
           </div>
