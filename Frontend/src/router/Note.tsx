@@ -100,7 +100,7 @@ export function Note() {
                 </button>
               ))}
             </div>
-            <div className="note-logo" />
+            <img className="note-logo" src="/logo.png" alt="logo"/>
             <div className="right-buttons">
               <button className="sync" onClick={load}>Sync</button>
               <input

@@ -38,49 +38,56 @@
   }
 }
 
-
 .note-mode-toggle {
+  position: relative;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 12px 16px;
+  padding: 1px 16px;
   background: var(--bg-secondary);
   border-bottom: 1px solid var(--border-primary);
-  height: 30px;
-  position: sticky;
-  top: 0;
   z-index: vars.$z-index-middle;
-  transition: vars.$color-transition;
+  transition: all 0.3s ease;
 
   .left-buttons,
   .right-buttons {
     display: flex;
+    flex-wrap: wrap;
     gap: 10px;
-  }
-
-  .right-buttons {
-    margin-right: 5vh;
+    align-items: center;
   }
 
   button {
     @include button-style;
   }
+
+  @media (max-width: 768px) {
+    gap: 15px;
+    padding-top: 40px;
+    padding-bottom: 20px;
+
+    .left-buttons,
+    .right-buttons {
+      justify-content: center;
+    }
+
+    .note-logo {
+      position: absolute;
+      top: -15px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+  }
 }
 
 .note-logo {
-  position: absolute;
-  left: 50%;
-  top: -10px;
-  transform: translateX(-50%);
+  position: relative;
   height: 80px;
   width: 80px;
-  background: url('/logo.png') no-repeat center/contain;
-  pointer-events: none;
-  z-index: vars.$z-index-top;
-
-  @media (max-width: 650px) {
-    display: none;
-  }
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.3s ease;
 }
 
 .note-header {
