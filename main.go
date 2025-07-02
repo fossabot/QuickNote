@@ -1,13 +1,11 @@
 package main
 
 import (
-	"fmt"
 	"os"
 	"os/signal"
 	"runtime"
 	"runtime/debug"
 	"syscall"
-	"time"
 
 	"github.com/Sn0wo2/QuickNote/internal/listener"
 	"github.com/Sn0wo2/QuickNote/internal/router"
@@ -43,8 +41,9 @@ func main() {
 		_ = log.Instance.Sync()
 	}()
 
-	log.Instance.Info("Starting QuickNote...", zap.String("version", fmt.Sprintf("%s-%s(%s)", version.GetVersion(), version.GetCommit(), version.GetDateTime().Format(time.DateTime))))
-
+	if !fiber.IsChild() {
+		log.Instance.Info("Starting QuickNote...", zap.String("version", version.GetFormatVersion()))
+	}
 	if err := orm.Init(config.Instance.Database.Type, config.Instance.Database.URL); err != nil {
 		log.Instance.Fatal("Failed to initialize database",
 			zap.Error(err),
