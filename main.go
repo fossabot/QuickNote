@@ -1,11 +1,13 @@
 package main
 
 import (
+	"fmt"
 	"os"
 	"os/signal"
 	"runtime"
 	"runtime/debug"
 	"syscall"
+	"time"
 
 	"github.com/Sn0wo2/QuickNote/internal/listener"
 	"github.com/Sn0wo2/QuickNote/internal/router"
@@ -14,6 +16,7 @@ import (
 	"github.com/Sn0wo2/QuickNote/pkg/database/orm"
 	"github.com/Sn0wo2/QuickNote/pkg/database/table"
 	"github.com/Sn0wo2/QuickNote/pkg/log"
+	"github.com/Sn0wo2/QuickNote/pkg/version"
 	"github.com/gofiber/fiber/v2"
 	"github.com/joho/godotenv"
 	"go.uber.org/zap"
@@ -25,9 +28,7 @@ func init() {
 	debug.SetGCPercent(50)
 
 	_ = godotenv.Load()
-}
 
-func main() {
 	err := config.Init()
 	if err != nil {
 		// log not init~
@@ -35,20 +36,22 @@ func main() {
 	}
 
 	log.Init()
+}
 
+func main() {
 	defer func() {
 		_ = log.Instance.Sync()
 	}()
 
-	err = orm.Init(config.Instance.Database.Type, config.Instance.Database.URL)
-	if err != nil {
+	log.Instance.Info("Starting QuickNote...", zap.String("version", fmt.Sprintf("%s-%s(%s)", version.GetVersion(), version.GetCommit(), version.GetDateTime().Format(time.DateTime))))
+
+	if err := orm.Init(config.Instance.Database.Type, config.Instance.Database.URL); err != nil {
 		log.Instance.Fatal("Failed to initialize database",
 			zap.Error(err),
 		)
 	}
 
-	err = table.Init()
-	if err != nil {
+	if err := table.Init(); err != nil {
 		log.Instance.Fatal("Failed to initialize tables",
 			zap.Error(err),
 		)
@@ -68,7 +71,7 @@ func main() {
 	signal.Notify(shutdownChan, os.Interrupt, syscall.SIGTERM)
 
 	go func() {
-		if err = listener.Start(app); err != nil {
+		if err := listener.Start(app); err != nil {
 			log.Instance.Fatal("Server failed to start",
 				zap.Error(err),
 			)
@@ -77,7 +80,7 @@ func main() {
 
 	<-shutdownChan
 
-	if err = app.Shutdown(); err != nil {
+	if err := app.Shutdown(); err != nil {
 		log.Instance.Error("Server shutdown error",
 			zap.Error(err),
 		)
