@@ -1,25 +1,22 @@
 {
-  "name": "quick_note",
+  "name": "quicknote",
   "description": "QuickNote",
   "author": "Sn0wo2",
   "license": "GPL-3.0",
-  "private": true,
-  "version": "1.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "eslint . && tsc -b && vite build",
-    "lint": "eslint .",
-    "lint:fix": "eslint . --fix",
     "preview": "vite preview",
-    "eslint": "eslint"
+    "lint": "eslint . && tsc -b",
+    "lint:fix": "eslint . --fix && tsc -b"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/Sn0wo2/QuickNote-WEB"
+    "url": "https://github.com/Sn0wo2/QuickNote/tree/main/Frontend"
   },
   "bugs": {
-    "url": "https://github.com/Sn0wo2/QuickNote-WEB/issues"
+    "url": "https://github.com/Sn0wo2/QuickNote/issues"
   },
   "dependencies": {
     "@uiw/react-markdown-preview": "^5.1.4",
@@ -31,10 +28,10 @@
     "react-hot-toast": "^2.5.2",
     "react-quill": "^2.0.0",
     "react-router-dom": "^7.6.3",
-    "typescript-eslint": "^8.35.1",
     "use-dark-mode": "^2.3.1"
   },
   "devDependencies": {
+    "typescript-eslint": "^8.35.1",
     "@eslint/js": "^9.30.1",
     "@types/node": "^24.0.10",
     "@types/react": "^19.1.8",
@@ -52,6 +49,6 @@
     "prettier": "^3.6.2",
     "sass-embedded": "^1.89.2",
     "typescript": "~5.8.3",
-    "vite": "^7.0.0"
+    "vite": "^7.0.1"
   }
 }
