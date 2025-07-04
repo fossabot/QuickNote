@@ -4,6 +4,8 @@ builds:
   - id: QuickNote
     main: ./main.go
     binary: QuickNote
+    env:
+      - CGO_ENABLED=0
     goos:
       - windows
       - linux
