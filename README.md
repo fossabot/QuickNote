@@ -20,17 +20,23 @@
 
 ---
 
-## 🎉 **Demo**
+## 🎉 **Demo**·
 
-Preview(release version): https://note.me0wo.top  **_Full features_**
+**🔗 Preview (Release Version):** [https://note.me0wo.top](https://note.me0wo.top)
+*✨ Full features available (updated manually, may be slightly delayed)*
 
-Vercel(build version): https://demo.qn.me0wo.top **_Only frontend preview(cant save)_**
+> We’re working on enabling **automatic deployment** for this preview demo.
+
+**🛠 Vercel (Build Preview):** [https://demo.qn.me0wo.top](https://demo.qn.me0wo.top)
+*🚧 Frontend-only preview — saving is not supported*
 
 ---
 
 ## 📦 **Docker** (RECOMMEND)
-
-`docker pull me0wo/quicknote`
+```
+docker pull me0wo/quicknote
+docker compose up -d
+```
 
 * [DockerHub](https://hub.docker.com/r/me0wo/quicknote)
 
