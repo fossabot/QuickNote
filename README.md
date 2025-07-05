@@ -20,20 +20,21 @@
 
 ---
 
-## 🎉 **Demo**·
+## 🎉 **Demo**
 
-**🔗 Preview (Release Version):** [https://note.me0wo.top](https://note.me0wo.top)
+**🔗 Preview (Release Version):** [https://note.me0wo.top](https://note.me0wo.top)  
+如果你在中国大陆，可以使用这个加速CDN访问：[https://qnote.me0wo.top](https://qnote.me0wo.top)  
 *✨ Full features available (updated manually, may be slightly delayed)*
 
 > We’re working on enabling **automatic deployment** for this preview demo.
 
-**🛠 Vercel (Build Preview):** [https://demo.qn.me0wo.top](https://demo.qn.me0wo.top)
+**🛠 Vercel (Build Preview):** [https://demo.qn.me0wo.top](https://demo.qn.me0wo.top)  
 *🚧 Frontend-only preview — saving is not supported*
 
 ---
 
 ## 📦 **Docker** (RECOMMEND)
-```
+```bash
 docker pull me0wo/quicknote
 docker compose up -d
 ```
@@ -146,3 +147,7 @@ Check:
 ## 📄 **License**
 
 Licensed under [GPL 3.0](LICENSE).
+
+## Infrastructure
+
+- CDN powered by [EdgeOne](https://edgeone.ai) (self-funded)
