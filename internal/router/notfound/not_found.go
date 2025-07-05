@@ -5,6 +5,7 @@ import (
 
 	"github.com/Sn0wo2/QuickNote/pkg/common"
 	"github.com/Sn0wo2/QuickNote/pkg/log"
+	"github.com/Sn0wo2/QuickNote/pkg/response"
 	"github.com/gofiber/fiber/v2"
 	"go.uber.org/zap"
 )
@@ -18,9 +19,6 @@ func Setup(msg string, router fiber.Router) {
 		log.Instance.Warn(common.TitleCase(msg),
 			zap.String("ctx", common.FiberContextString(ctx)))
 
-		return ctx.Status(fiber.StatusNotFound).JSON(fiber.Map{
-			"success": false,
-			"message": msg,
-		})
+		return ctx.Status(fiber.StatusNotFound).JSON(response.New(msg))
 	})
 }

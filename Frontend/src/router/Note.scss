@@ -1,4 +1,4 @@
-@use '../styles/variables' as vars;
+@use '../styles/variables';
 
 .note-container {
   position: fixed;
@@ -7,12 +7,12 @@
   flex-direction: column;
   background-color: var(--bg-secondary);
   border-radius: 15px;
-  box-shadow: vars.$shadow-md;
-  font-family: vars.$font-stack;
+  box-shadow: variables.$shadow-md;
+  font-family: variables.$font-stack;
   overflow: hidden;
   opacity: 0;
   transform: scale(0.9);
-  transition: vars.$opacity-transition, vars.$transform-transition, vars.$color-transition;
+  transition: variables.$opacity-transition, variables.$transform-transition, variables.$color-transition;
 
   &.visible {
     opacity: 1;
@@ -28,7 +28,7 @@
   font-size: 14px;
   color: var(--text-primary);
   cursor: pointer;
-  transition: vars.$color-transition, vars.$transform-transition;
+  transition: variables.$color-transition, variables.$transform-transition;
 
   &:hover {
     background: var(--interactive);
@@ -46,7 +46,7 @@
   padding: 1px 16px;
   background: var(--bg-secondary);
   border-bottom: 1px solid var(--border-primary);
-  z-index: vars.$z-index-middle;
+  z-index: variables.$z-index-middle;
   transition: all 0.3s ease;
 
   .left-buttons,
@@ -96,7 +96,7 @@
   padding: 12px 16px;
   background: var(--bg-secondary);
   border-bottom: 1px solid var(--border-primary);
-  transition: vars.$color-transition;
+  transition: variables.$color-transition;
 }
 
 .note-title {
@@ -108,7 +108,7 @@
   background: var(--bg-surface);
   color: var(--text-primary);
   outline: none;
-  transition: vars.$color-transition, vars.$transform-transition;
+  transition: variables.$color-transition, variables.$transform-transition;
 
   &:focus {
     border-color: var(--interactive);
@@ -120,7 +120,7 @@
   flex: 1;
   display: flex;
   background: var(--bg-surface);
-  transition: vars.$color-transition;
+  transition: variables.$color-transition;
 
   &.mode-edit .note-preview,
   &.mode-preview .note-editor {
@@ -131,10 +131,10 @@
 .note-editor,
 .note-preview {
   flex: 1;
-  font-family: vars.$font-stack;
+  font-family: variables.$font-stack;
   background: var(--bg-surface);
   color: var(--text-primary);
-  transition: vars.$color-transition;
+  transition: variables.$color-transition;
 }
 
 .note-editor {
@@ -256,7 +256,7 @@
   background: transparent;
   border: none;
   cursor: pointer;
-  transition: vars.$color-transition;
+  transition: variables.$color-transition;
 
   &:hover {
     text-decoration: underline;

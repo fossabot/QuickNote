@@ -41,10 +41,11 @@ func Note() func(ctx *fiber.Ctx) error {
 			n.Content = helper.StringToBytes(n.DisplayContent)
 
 			if len(n.Title) == 0 && len(n.Content) == 0 {
-				log.Instance.Warn("Empty note, override method -> DELETE",
+				log.Instance.Warn("Empty note! Override method -> DELETE",
 					zap.String("nid", nid),
 					zap.String("ctx", common.FiberContextString(ctx)))
 
+				// override to DELETE!
 				ctx.Method(fiber.MethodDelete)
 
 				goto method
@@ -65,7 +66,6 @@ func Note() func(ctx *fiber.Ctx) error {
 			return ctx.Status(fiber.StatusOK).JSON(response.New("success"))
 
 		case fiber.MethodDelete:
-			// if note not found don't return error
 			if err := n.Delete(); err != nil {
 				log.Instance.Warn("Failed to delete note",
 					zap.String("nid", nid),
@@ -100,7 +100,6 @@ func Note() func(ctx *fiber.Ctx) error {
 			n.DisplayContent = helper.BytesToString(n.Content)
 
 			return ctx.Status(fiber.StatusOK).JSON(response.New(msg, n))
-		// TODO: Too late for fallback method...
 		default:
 			log.Instance.Warn("Invalid note method",
 				zap.String("nid", nid),
