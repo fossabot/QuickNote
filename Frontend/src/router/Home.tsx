@@ -1,41 +1,32 @@
-import { type ChangeEvent, useEffect, useRef, useState } from "react";
-import { toast } from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
-import { DarkModeToggle } from "../components/DarkModeToggle";
+import {type ChangeEvent, useEffect, useRef, useState} from "react";
+import {toast} from "react-hot-toast";
+import {useNavigate} from "react-router-dom";
+import {DarkModeToggle} from "../components/DarkModeToggle";
+import {ImportNote} from "../components/ImportNote.tsx";
+import {importNote} from "../services/noteAPI.ts";
 import "./Home.scss";
-import { ImportNote } from "../components/ImportNote.tsx";
-import { importNote } from "../services/noteAPI.ts";
 
 export function Home() {
   const [visible, setVisible] = useState(false);
-
-  const [uuid, setUUID] = useState<string>(crypto.randomUUID());
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const [input, setInput] = useState<string>(crypto.randomUUID());
   const navigate = useNavigate();
-
 
   const handleNavigation = (nextUUID?: string) => {
     setVisible(false);
-    setTimeout(() => navigate(`/note/${nextUUID ?? uuid}`), 500);
+    setTimeout(() => navigate(`/note/${nextUUID ?? input}`), 500);
   };
 
-
   useEffect(() => {
-    const t = setTimeout(() => setVisible(true), 100);
-    return () => clearTimeout(t);
+    const timeout = setTimeout(() => setVisible(true), 100);
+    return () => clearTimeout(timeout);
   }, []);
-
-  const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   return (
     <>
       <DarkModeToggle />
-      <ImportNote callback={(to: string) => {
-        handleNavigation(to);
-      }} />
-      <div className={`content`}>
-        <div
-          className={`background ${visible ? "visible" : ""}`}
-        >
+      <ImportNote callback={handleNavigation} />
+        <div className={`background ${visible ? "visible" : ""}`}>
           <div className="title">
             <div className="logo" />
             <a
@@ -57,20 +48,15 @@ export function Home() {
               <input
                 type="file"
                 accept=".qnote"
-                style={{ display: 'none' }}
+                style={{ display: "none" }}
                 ref={fileInputRef}
                 onChange={async (e: ChangeEvent<HTMLInputElement>) => {
                   try {
                     const file = e.target.files?.[0];
                     if (!file) return;
                     const success = await importNote(file);
-                    if (!success) {
-                      toast.error("Failed to import note");
-                      return;
-                    }
-
+                    if (!success) throw new Error("Import failed");
                     navigate(`/note/${file.name.replace(/\.qnote$/, "")}`);
-
                   } catch (error) {
                     console.error(error);
                     toast.error("Failed to import note");
@@ -84,19 +70,15 @@ export function Home() {
             <input
               className="uuid-input"
               type="text"
-              value={uuid}
-              onChange={(e) => setUUID(e.target.value)}
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && handleNavigation()}
             />
-            <button className="submit-btn" onClick={(e) => {
-              e.preventDefault();
-              handleNavigation();
-            }}>
+            <button className="submit-btn" onClick={() => handleNavigation()}>
               &rarr;
             </button>
           </div>
         </div>
-      </div>
     </>
   );
 }
