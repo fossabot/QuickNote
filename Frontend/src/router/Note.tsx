@@ -1,10 +1,10 @@
+import { DarkModeToggle } from "@/components/DarkModeToggle.tsx";
+import { ImportNote } from "@/components/ImportNote.tsx";
+import { exportNote, getNote, importNote, saveNote } from "@/services/noteAPI";
 import MDEditor from "@uiw/react-md-editor";
 import { type ChangeEvent, useCallback, useEffect, useRef, useState } from "react";
 import { toast, Toaster } from "react-hot-toast";
 import { useNavigate, useParams } from "react-router-dom";
-import { DarkModeToggle } from "../components/DarkModeToggle.tsx";
-import { ImportNote } from "../components/ImportNote.tsx";
-import { exportNote, getNote, importNote, saveNote } from "../services/noteAPI";
 import "./Note.scss";
 
 export function Note() {
@@ -90,23 +90,23 @@ export function Note() {
           if (to === id) {
             await load();
           }
-        }}/>
+        }} />
         <div className="note-container visible">
           <div className="note-mode-toggle">
             <div className="left-buttons">
-              {['edit', 'preview', 'both'].map(m => (
+              {["edit", "preview", "both"].map(m => (
                 <button key={m} onClick={() => setMode(m as typeof mode)}>
                   {m.charAt(0).toUpperCase() + m.slice(1)}
                 </button>
               ))}
             </div>
-            <img className="note-logo" src="/logo.png" alt="logo"/>
+            <img className="note-logo" src="/logo.png" alt="logo" />
             <div className="right-buttons">
               <button className="sync" onClick={load}>Sync</button>
               <input
                 type="file"
                 accept=".qnote"
-                style={{ display: 'none' }}
+                style={{ display: "none" }}
                 ref={fileInputRef}
                 onChange={async (e: ChangeEvent<HTMLInputElement>) => {
                   try {
@@ -133,7 +133,8 @@ export function Note() {
 
               <button className="importButton" onClick={() => {
                 fileInputRef.current?.click();
-              }}>Import</button>
+              }}>Import
+              </button>
               <button className="export" onClick={() => exportNote(id)}>Export</button>
             </div>
           </div>
@@ -146,7 +147,7 @@ export function Note() {
             />
           </div>
           <div className="note-content">
-            {(mode === 'edit' || mode === 'both') && (
+            {(mode === "edit" || mode === "both") && (
               <textarea
                 className="note-editor"
                 value={content}
@@ -154,7 +155,7 @@ export function Note() {
                 placeholder="Write your note here (Markdown)..."
               />
             )}
-            {(mode === 'preview' || mode === 'both') && (
+            {(mode === "preview" || mode === "both") && (
               <div className="note-preview" data-color-mode="light">
                 <h1>{title}</h1>
                 <MDEditor.Markdown source={content} />

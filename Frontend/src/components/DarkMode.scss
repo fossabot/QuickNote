@@ -1,7 +1,7 @@
 @use 'sass:map';
 @use 'sass:string';
 @use 'sass:meta';
-@use '../styles/variables';
+@use '@/styles/variables';
 
 @mixin set-css-vars($map) {
   @each $prop, $val in $map {
@@ -28,13 +28,11 @@
 
 :root[data-theme='dark'] {
   @include set-css-vars(variables.$dark-colors);
-  --ripple-bg: #{map.get(variables.$light-colors, bg-primary)};
 }
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme='light']) {
     @include set-css-vars(variables.$dark-colors);
-    --ripple-bg: #{map.get(variables.$light-colors, bg-primary)};
   }
 }
 
@@ -120,7 +118,7 @@
   width: 0;
   height: 0;
   border-radius: 50%;
-  background: var(--ripple-bg);
+  background: var(--text -primary);
   pointer-events: none;
   z-index: variables.$z-index-high;
   transform: translate(-50%, -50%);

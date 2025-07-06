@@ -1,5 +1,5 @@
-import {useRef, useState} from "react";
-import {useDarkMode} from "../hooks/useDarkMode";
+import { useDarkMode } from "@/hooks/useDarkMode";
+import { useRef, useState } from "react";
 import "./DarkMode.scss";
 
 type Ripple = {
@@ -23,7 +23,7 @@ export const DarkModeToggle = () => {
           key: Date.now(),
           // center of the button
           x: rect.left + rect.width / 2,
-          y: rect.top + rect.height / 2,
+          y: rect.top + rect.height / 2
         }
       ]);
     }

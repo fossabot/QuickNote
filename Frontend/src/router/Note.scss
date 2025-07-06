@@ -1,4 +1,4 @@
-@use '../styles/variables';
+@use '@/styles/variables';
 
 .note-container {
   position: fixed;
@@ -156,6 +156,7 @@
   &::-webkit-scrollbar {
     width: 8px;
   }
+
   &::-webkit-scrollbar-thumb {
     background-color: rgba(255, 255, 255, 0.2);
     border-radius: 4px;
@@ -164,6 +165,7 @@
       background-color: rgba(255, 255, 255, 0.3);
     }
   }
+
   &::-webkit-scrollbar-track {
     background: transparent;
   }
