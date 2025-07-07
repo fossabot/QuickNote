@@ -61,7 +61,7 @@ export const ImportNote: React.FC<ImportNoteProps> = ({ callback }) => {
 
   return (
     <>
-      <Toaster position="top-right" />
+      <Toaster position="bottom-right" />
       <div className={`import ${isDragging ? "dragging" : ""}`}>
         <span className="drop-zone-text">Drop note here</span>
       </div>
