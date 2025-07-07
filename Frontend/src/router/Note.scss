@@ -20,24 +20,6 @@
   }
 }
 
-@mixin button-style {
-  background: var(--bg-secondary);
-  border: 1px solid var(--border-primary);
-  border-radius: 15px;
-  padding: 6px 14px;
-  font-size: 14px;
-  color: var(--text-primary);
-  cursor: pointer;
-  transition: variables.$color-transition, variables.$transform-transition;
-
-  &:hover {
-    background: var(--interactive);
-    color: var(--text-on-accent);
-    border-color: var(--interactive-hover);
-    transform: translateX(2px);
-  }
-}
-
 .note-mode-toggle {
   position: relative;
   display: flex;
@@ -62,7 +44,21 @@
   }
 
   button {
-    @include button-style;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-primary);
+    border-radius: 15px;
+    padding: 6px 14px;
+    font-size: 14px;
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: variables.$color-transition, variables.$transform-transition;
+
+    &:hover {
+      background: var(--interactive);
+      color: var(--text-on-accent);
+      border-color: var(--interactive-hover);
+      transform: translateX(2px);
+    }
   }
 
   @media (max-width: 768px) {
