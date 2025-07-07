@@ -57,6 +57,10 @@
     align-items: center;
   }
 
+  .right-buttons {
+    padding-right: 35px;
+  }
+
   button {
     @include button-style;
   }
@@ -69,6 +73,10 @@
     .left-buttons,
     .right-buttons {
       justify-content: center;
+    }
+
+    .right-buttons {
+      padding-right: 0;
     }
 
     .note-logo {

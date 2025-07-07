@@ -3,7 +3,7 @@ import { ImportNote } from "@/components/ImportNote.tsx";
 import { exportNote, getNote, importNote, saveNote } from "@/services/noteAPI";
 import MDEditor from "@uiw/react-md-editor";
 import { type ChangeEvent, useCallback, useEffect, useRef, useState } from "react";
-import { toast, Toaster } from "react-hot-toast";
+import { toast } from "react-hot-toast";
 import { useNavigate, useParams } from "react-router-dom";
 import "./Note.scss";
 
@@ -83,8 +83,6 @@ export function Note() {
   return (
     <>
       <DarkModeToggle />
-      <div className="content">
-        <Toaster position="top-right" />
         <ImportNote callback={async (to: string) => {
           navigate(`/note/${to}`, { replace: true });
           if (to === id) {
@@ -171,7 +169,6 @@ export function Note() {
         }}>
           {window.location.host + window.location.pathname}
         </button>
-      </div>
     </>
   );
 }
