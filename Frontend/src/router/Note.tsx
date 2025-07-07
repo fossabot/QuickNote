@@ -83,92 +83,92 @@ export function Note() {
   return (
     <>
       <DarkModeToggle />
-        <ImportNote callback={async (to: string) => {
-          navigate(`/note/${to}`, { replace: true });
-          if (to === id) {
-            await load();
-          }
-        }} />
-        <div className="note-container visible">
-          <div className="note-mode-toggle">
-            <div className="left-buttons">
-              {["edit", "preview", "both"].map(m => (
-                <button key={m} onClick={() => setMode(m as typeof mode)}>
-                  {m.charAt(0).toUpperCase() + m.slice(1)}
-                </button>
-              ))}
-            </div>
-            <img className="note-logo" src="/logo.png" alt="logo" />
-            <div className="right-buttons">
-              <button className="sync" onClick={load}>Sync</button>
-              <input
-                type="file"
-                accept=".qnote"
-                style={{ display: "none" }}
-                ref={fileInputRef}
-                onChange={async (e: ChangeEvent<HTMLInputElement>) => {
-                  try {
-                    const file = e.target.files?.[0];
-                    if (!file) return;
-                    const success = await importNote(file);
-                    if (!success) {
-                      toast.error("Failed to import note");
-                      return;
-                    }
-
-                    const newId = file.name.replace(/\.qnote$/, "");
-                    navigate(`/note/${newId}`);
-                    if (newId === id) {
-                      await load();
-                    }
-
-                  } catch (error) {
-                    console.error(error);
-                    toast.error("Failed to import note");
-                  }
-                }}
-              />
-
-              <button className="importButton" onClick={() => {
-                fileInputRef.current?.click();
-              }}>Import
+      <ImportNote callback={async (to: string) => {
+        navigate(`/note/${to}`, { replace: true });
+        if (to === id) {
+          await load();
+        }
+      }} />
+      <div className="note-container visible">
+        <div className="note-mode-toggle">
+          <div className="left-buttons">
+            {["edit", "preview", "both"].map(m => (
+              <button key={m} onClick={() => setMode(m as typeof mode)}>
+                {m.charAt(0).toUpperCase() + m.slice(1)}
               </button>
-              <button className="export" onClick={() => exportNote(id)}>Export</button>
-            </div>
+            ))}
           </div>
-          <div className="note-header">
+          <img className="note-logo" src="/logo.png" alt="logo" />
+          <div className="right-buttons">
+            <button className="sync" onClick={load}>Sync</button>
             <input
-              className="note-title"
-              value={title}
-              onChange={e => setTitle(e.target.value)}
-              placeholder="Note title"
+              type="file"
+              accept=".qnote"
+              style={{ display: "none" }}
+              ref={fileInputRef}
+              onChange={async (e: ChangeEvent<HTMLInputElement>) => {
+                try {
+                  const file = e.target.files?.[0];
+                  if (!file) return;
+                  const success = await importNote(file);
+                  if (!success) {
+                    toast.error("Failed to import note");
+                    return;
+                  }
+
+                  const newId = file.name.replace(/\.qnote$/, "");
+                  navigate(`/note/${newId}`);
+                  if (newId === id) {
+                    await load();
+                  }
+
+                } catch (error) {
+                  console.error(error);
+                  toast.error("Failed to import note");
+                }
+              }}
             />
-          </div>
-          <div className="note-content">
-            {(mode === "edit" || mode === "both") && (
-              <textarea
-                className="note-editor"
-                value={content}
-                onChange={e => setContent(e.target.value)}
-                placeholder="Write your note here (Markdown)..."
-              />
-            )}
-            {(mode === "preview" || mode === "both") && (
-              <div className="note-preview" data-color-mode="light">
-                <h1>{title}</h1>
-                <MDEditor.Markdown source={content} />
-              </div>
-            )}
+
+            <button className="importButton" onClick={() => {
+              fileInputRef.current?.click();
+            }}>Import
+            </button>
+            <button className="export" onClick={() => exportNote(id)}>Export</button>
           </div>
         </div>
-        <button className="url" onClick={() => {
-          navigator.clipboard
-            .writeText(window.location.href)
-            .then(() => toast.success("Copied to clipboard!"))
-            .catch(e => toast.error(String(e)));
-        }}>
-          {window.location.host + window.location.pathname}
-        </button>
+        <div className="note-header">
+          <input
+            className="note-title"
+            value={title}
+            onChange={e => setTitle(e.target.value)}
+            placeholder="Note title"
+          />
+        </div>
+        <div className="note-content">
+          {(mode === "edit" || mode === "both") && (
+            <textarea
+              className="note-editor"
+              value={content}
+              onChange={e => setContent(e.target.value)}
+              placeholder="Write your note here (Markdown)..."
+            />
+          )}
+          {(mode === "preview" || mode === "both") && (
+            <div className="note-preview" data-color-mode="light">
+              <h1>{title}</h1>
+              <MDEditor.Markdown source={content} />
+            </div>
+          )}
+        </div>
+      </div>
+      <button className="url" onClick={() => {
+        navigator.clipboard
+          .writeText(window.location.href)
+          .then(() => toast.success("Copied to clipboard!"))
+          .catch(e => toast.error(String(e)));
+      }}>
+        {window.location.host + window.location.pathname}
+      </button>
     </>
   );
 }
