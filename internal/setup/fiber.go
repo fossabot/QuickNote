@@ -5,6 +5,7 @@ import (
 
 	"github.com/Sn0wo2/QuickNote/internal/router/errorhandler"
 	"github.com/Sn0wo2/QuickNote/pkg/debug"
+	"github.com/goccy/go-json"
 	"github.com/gofiber/fiber/v2"
 )
 
@@ -22,5 +23,7 @@ func Fiber() *fiber.App {
 		ReduceMemoryUsage:     true,
 		StrictRouting:         true,
 		WriteTimeout:          10 * time.Second,
+		JSONEncoder:           json.Marshal,
+		JSONDecoder:           json.Unmarshal,
 	})
 }
