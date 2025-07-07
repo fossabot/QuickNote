@@ -103,21 +103,22 @@ Check:
 * [`.goreleaser.yml`](LICENSE)
 * [`Dockerfile`](Dockerfile)
 
-Release download: _https://github.com/Sn0wo2/QuickNote/releases_
-
 ---
 
 ### 🔧 **Manual Build**
 
 Requires:
 
-* [`Go SDK`](https://go.dev/dl/) latest version
-* [`Bun`](https://bun.sh/) latest version(or NPM latest version(NO RECOMMEND))
+* [`Go SDK`](https://go.dev/dl) latest version
+* [`Node.js`](https://nodejs.org/zh-cn/download) latest version
+* [`pnpm`](https://pnpm.io/installation) latest version
 * [`GoReleaser`](https://github.com/goreleaser/goreleaser/releases) latest version
 
 Check:
 
 * [`Makefile`](Makefile)
+* [`.goreleaser.yml`](LICENSE)
+* [`Dockerfile`](Dockerfile)
 
 > Run:
 > ```bash
@@ -147,7 +148,3 @@ Check:
 ## 📄 **License**
 
 Licensed under [GPL 3.0](LICENSE).
-
-## Infrastructure
-
-- CDN powered by [EdgeOne](https://edgeone.ai) (self-funded)
