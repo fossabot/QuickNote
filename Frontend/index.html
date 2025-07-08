@@ -2,28 +2,24 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8"/>
-    <link href="/logo.png" rel="icon" type="image/png"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-
     <title>QuickNote - Fast and Easy Note Taking</title>
-    <meta
-            content="QuickNote is a simple and fast note-taking application to capture your ideas and to-dos."
-            name="description"
-    />
-    <meta
-            content="QuickNote, notes, note taking app, productivity, to-do list"
-            name="keywords"
-    />
+    <meta content="QuickNote is a simple and fast note-taking application to capture your ideas and to-dos." name="description"/>
+    <meta content="QuickNote, notes, note taking app, productivity, to-do list" name="keywords"/>
+    <link href="/quicknote.svg" rel="icon" type="image/png"/>
 
-    <style>
-        #root .loader-container {
+    <style data-loader-style>
+        html, body {
+            margin: 0;
+            padding: 0;
+        }
+        #root > .loader-container {
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
         }
-
-        #root .loader {
+        #root > .loader-container > .loader {
             border: 5px solid #f3f3f3;
             border-top: 5px solid #3498db;
             border-radius: 50%;
@@ -31,19 +27,13 @@
             height: 50px;
             animation: spin 1s linear infinite;
         }
-
         @keyframes spin {
-            0% {
-                transform: rotate(0deg);
-            }
-            100% {
-                transform: rotate(360deg);
-            }
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
     </style>
 </head>
 <body>
-
 <div id="root">
     <div class="loader-container">
         <div class="loader"></div>
@@ -52,18 +42,15 @@
 
 <noscript>
     <style>
-        #root {
-            display: none;
-        }
-
-        html,
-        body {
+        html, body {
             height: 100%;
             margin: 0;
             font-family: system-ui, -apple-system, sans-serif;
             background-color: #f9f9f9;
         }
-
+        #root {
+            display: none;
+        }
         .noscript-container {
             height: 100vh;
             display: flex;
@@ -74,7 +61,6 @@
             padding: 20px;
             box-sizing: border-box;
         }
-
         .logo {
             display: block;
             width: 250px;
@@ -82,7 +68,6 @@
             height: auto;
             margin-bottom: 2rem;
         }
-
         .noscript-message {
             background-color: #fff0f0;
             border-radius: 10px;
@@ -93,24 +78,16 @@
             font-size: 1.25rem;
             max-width: 500px;
         }
-
         .noscript-message a {
             color: #337ab7;
             font-weight: bold;
         }
     </style>
-
     <div class="noscript-container">
-        <img alt="QuickNote Logo" class="logo" src="/logo.png"/>
+        <img alt="QuickNote Logo" class="logo" src="/quicknote.svg"/>
         <div class="noscript-message">
             ⚠️ JavaScript is disabled in your browser.<br/><br/>
-            Please
-            <a
-                    href="https://www.enable-javascript.com"
-                    rel="noopener noreferrer"
-                    target="_blank"
-            >enable JavaScript</a>
-            to use this application.
+            Please <a href="https://www.enable-javascript.com" rel="noopener noreferrer" target="_blank">enable JavaScript</a> to use this application.
         </div>
     </div>
 </noscript>

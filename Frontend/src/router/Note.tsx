@@ -98,7 +98,7 @@ export function Note() {
               </button>
             ))}
           </div>
-          <img className="note-logo" src="/logo.png" alt="logo" />
+          <img className="note-logo" src="/quicknote.svg" alt="logo" />
           <div className="right-buttons">
             <button className="sync" onClick={load}>Sync</button>
             <input
