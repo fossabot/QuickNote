@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="quicknote" data-name="quicknote" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1973.06 542.47">
+  <defs>
+    <style>
+      .cls-1 {
+        stroke: #261aff;
+      }
+
+      .cls-1, .cls-2, .cls-3 {
+        fill: none;
+      }
+
+      .cls-1, .cls-2, .cls-3, .cls-4, .cls-5 {
+        stroke-miterlimit: 10;
+        stroke-width: 30px;
+      }
+
+      .cls-2 {
+        stroke: #271fff;
+      }
+
+      .cls-3, .cls-4 {
+        stroke: #5ab6ff;
+      }
+
+      .cls-4 {
+        fill: url(#_未命名的渐变_296);
+      }
+
+      .cls-5 {
+        fill: #fefefe;
+        stroke: #2820ff;
+      }
+
+      .cls-6 {
+        fill: url(#_未命名的渐变_18);
+      }
+    </style>
+    <linearGradient id="_未命名的渐变_296" x1="194.75" y1="84.6" x2="428.65" y2="84.6" gradientTransform="translate(20.48 152.73) scale(.94 -1)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#2415ff"/>
+      <stop offset=".35" stop-color="#61cbff"/>
+      <stop offset=".4" stop-color="#d6ffff"/>
+    </linearGradient>
+    <radialGradient id="_未命名的渐变_18" cx="1181.99" cy="271.23" fx="1181.99" fy="271.23" r="591.33" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#2415ff"/>
+      <stop offset="1" stop-color="#5ab6ff"/>
+    </radialGradient>
+  </defs>
+  <rect class="cls-1" x="109.14" y="58.25" width="19.77" height="19.77" rx="9.88" ry="9.88"/>
+  <rect class="cls-4" x="204.41" y="59.89" width="220.92" height="16.47" rx="8.24" ry="8.24"/>
+  <rect class="cls-5" x="15" y="240.86" width="337.72" height="4.94" rx="2.47" ry="2.47"/>
+  <rect class="cls-2" x="196.79" y="391.9" width="97.19" height="11.74" rx="5.87" ry="5.87"/>
+  <rect class="cls-3" x="24.9" y="494.35" width="158.96" height="24" rx="12" ry="12"/>
+  <path class="cls-6" d="M1893.4,79.66C1842.03,28.29,1773.99,0,1701.82,0h-42.43c-7.09,3.85-11.9,11.37-11.9,20s4.82,16.15,11.92,20h42.42c127.5,0,231.23,103.73,231.23,231.23s-103.73,231.23-231.23,231.23H662.16c-127.5,0-231.23-103.73-231.23-231.23s103.73-231.23,231.23-231.23h542.44c7.13-3.83,11.97-11.35,11.97-20.02s-4.8-16.13-11.88-19.98h-542.53c-72.17,0-140.21,28.29-191.58,79.66s-79.66,119.4-79.66,191.58,28.29,140.21,79.66,191.58c51.37,51.37,119.4,79.66,191.58,79.66h1039.66c72.17,0,140.21-28.29,191.58-79.66,51.37-51.37,79.66-119.4,79.66-191.58s-28.29-140.21-79.66-191.58Z"/>
+</svg>
