@@ -7,3 +7,5 @@ logger:
 database:
   type: sqlite
   url: file:./data/prod.db?cache=shared&_journal_mode=WAL&_sync=NORMAL&_foreign_keys=on&_busy_timeout=5000
+other:
+  server: QuickNote-Backend

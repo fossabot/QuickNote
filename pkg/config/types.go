@@ -17,4 +17,7 @@ type Config struct {
 		Type string `yaml:"type"`
 		URL  string `yaml:"url"`
 	} `yaml:"database"`
+	Other struct {
+		Server string `optional:"true" yaml:"server"`
+	} `yaml:"other"`
 }
