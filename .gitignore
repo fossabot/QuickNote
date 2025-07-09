@@ -176,3 +176,6 @@ static/
 
 # QuickNote test config
 config_test.yml
+
+# QuickNote updater tags data
+/Updater/data/tags

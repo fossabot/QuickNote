@@ -1,10 +1,14 @@
 version: 2
 updates:
+  - package-ecosystem: "gomod"
+    directory: "/"
+    schedule:
+      interval: "daily"
   - package-ecosystem: "npm"
     directory: "/Frontend"
     schedule:
       interval: "daily"
-  - package-ecosystem: "gomod"
-    directory: "/"
+  - package-ecosystem: "pip"
+    directory: "/Updater"
     schedule:
       interval: "daily"

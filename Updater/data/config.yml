@@ -1,0 +1,6 @@
+path:
+    processPath: ../QuickNote.exe
+    tagPath: ./data/tags
+
+proxy:
+    url: env
