@@ -12,6 +12,10 @@ on:
       - '.github/workflows/python.yml'
   workflow_dispatch:
 
+defaults:
+  run:
+    working-directory: Updater
+
 jobs:
   lint:
     runs-on: ubuntu-latest
