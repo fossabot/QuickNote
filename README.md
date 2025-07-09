@@ -26,7 +26,7 @@
 如果你在中国大陆，可以使用这个加速CDN访问：[https://qnote.me0wo.top](https://qnote.me0wo.top)  
 *✨ Full features available (updated manually, may be slightly delayed)*
 
-> We’re working on enabling **automatic deployment** for this preview demo.
+> We’re working on enabling [**automatic deployment**](https://github.com/Sn0wo2/QuickNote/tree/main/Updater) for this preview demo.
 
 **🛠 Vercel (Build Preview):** [https://demo.qn.me0wo.top](https://demo.qn.me0wo.top)  
 *🚧 Frontend-only preview — saving is not supported*
