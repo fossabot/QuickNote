@@ -1,7 +1,7 @@
 path:
-    workPath: ../
-    processName: QuickNote.exe
-    tagPath: ./data/tags
+  workPath: ../
+  processName: QuickNote.exe
+  tagPath: ./data/tags
 
 proxy:
-    url: env
+  url: env

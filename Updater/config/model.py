@@ -6,8 +6,10 @@ class PathConfig(BaseModel):
     processName: str = "QuickNote"
     tagPath: str = "./tags"
 
+
 class ProxyConfig(BaseModel):
     url: str = ""
+
 
 class Config(BaseModel):
     path: PathConfig = PathConfig()

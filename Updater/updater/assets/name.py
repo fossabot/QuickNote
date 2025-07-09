@@ -16,6 +16,7 @@ def get_goos_goarch():
 
     return platform.system().lower(), goarch
 
+
 def get_package_name_from_current_machine():
     goos, goarch = get_goos_goarch()
 

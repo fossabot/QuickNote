@@ -17,6 +17,7 @@ def find_processes_by_path(target_path):
             continue
     return matches
 
+
 def try_terminate(proc):
     print(f"Trying to gracefully terminate PID {proc.pid} ({proc.name()})...")
     try:
