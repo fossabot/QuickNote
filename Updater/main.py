@@ -4,6 +4,7 @@ from pathlib import Path
 
 from Updater.config.yml_loader import get_config
 from Updater.updater.assets.name import get_package_name_from_current_machine
+from Updater.updater.downloader.temp import download_to_temp
 from Updater.updater.runner.process import find_processes_by_path, try_terminate
 from Updater.updater.tag.reader import read
 from fetch.github_release_api import fetch_latest_release
@@ -40,10 +41,13 @@ def main():
                 break
 
         if download_url is None:
-            print(f"Could not find asset for {get_package_name_from_current_machine()}")
+            print(
+                f"Could not find asset for {get_package_name_from_current_machine()}\nPlease update manually or send an issue.")
             return
 
-        print(download_url)
+        downloaded_path = download_to_temp(download_url)
+
+        print(downloaded_path)
 
     print("=" * 80)
     time.sleep(INTERVAL)
