@@ -5,6 +5,7 @@ from pathlib import Path
 from Updater.config.yml_loader import get_config
 from Updater.updater.assets.name import get_package_name_from_current_machine
 from Updater.updater.downloader.temp import download_to_temp
+from Updater.updater.extract.extract import extract_and_replace
 from Updater.updater.runner.process import find_processes_by_path, try_terminate
 from Updater.updater.tag.reader import read
 from fetch.github_release_api import fetch_latest_release
@@ -46,6 +47,10 @@ def main():
             return
 
         downloaded_path = download_to_temp(download_url)
+
+        extract_and_replace(downloaded_path, Path(get_config().path.workPath))
+
+        print(Path(get_config().path.workPath))
 
         print(downloaded_path)
 

@@ -1,5 +1,5 @@
 path:
-  workPath: ../
+  workPath: ./work
   processName: QuickNote.exe
   tagPath: ./data/tags
 
