@@ -1,11 +1,6 @@
+import json
 import os
 import sys
-
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-if BASE_DIR not in sys.path:
-    sys.path.insert(0, BASE_DIR)
-
-import json
 import time
 from pathlib import Path
 
@@ -19,6 +14,10 @@ from updater.downloader.temp import download_to_temp
 from updater.extract.extract import extract_and_replace
 from updater.runner.process import find_processes_by_path, try_terminate
 from updater.tag.reader import read
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+if BASE_DIR not in sys.path:
+    sys.path.insert(0, BASE_DIR)
 
 OWNER = "Sn0wo2"
 REPO = "QuickNote"
