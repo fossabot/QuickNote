@@ -1,7 +1,7 @@
 from pathlib import Path
 
-from Updater.updater.extract.tar_gz import _extract_tar
-from Updater.updater.extract.zip import _extract_zip
+from .tar_gz import _extract_tar
+from .zip import _extract_zip
 
 
 def extract_and_replace(archive_path: Path, extract_to: Path):

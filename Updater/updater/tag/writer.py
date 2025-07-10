@@ -1,4 +1,4 @@
-from Updater.config.yml_loader import get_config
+from config.yml_loader import get_config
 
 
 def write(tag: str):

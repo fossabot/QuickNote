@@ -1,15 +1,24 @@
+import os
+import sys
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+if BASE_DIR not in sys.path:
+    sys.path.insert(0, BASE_DIR)
+
 import json
 import time
 from pathlib import Path
 
-from Updater.config.yml_loader import get_config
-from Updater.updater.assets.name import get_package_name_from_current_machine
-from Updater.updater.downloader.temp import download_to_temp
-from Updater.updater.extract.extract import extract_and_replace
-from Updater.updater.runner.process import find_processes_by_path, try_terminate
-from Updater.updater.tag.reader import read
+from psutil import NoSuchProcess
+
+from config.yml_loader import get_config
 from fetch.github_release_api import fetch_latest_release
 from proxy.http import get_proxies
+from updater.assets.name import get_package_name_from_current_machine
+from updater.downloader.temp import download_to_temp
+from updater.extract.extract import extract_and_replace
+from updater.runner.process import find_processes_by_path, try_terminate
+from updater.tag.reader import read
 
 OWNER = "Sn0wo2"
 REPO = "QuickNote"
@@ -32,7 +41,12 @@ def main():
         if not procs:
             print("No matching processes found.")
         for proc in procs:
-            try_terminate(proc)
+            try:
+                if proc.is_running():
+                    try_terminate(proc)
+            # fiber prefork child process
+            except (NoSuchProcess, PermissionError):
+                pass
 
         download_url = None
 

@@ -3,7 +3,7 @@ from pathlib import Path
 
 import yaml
 
-from Updater.config.model import Config
+from .model import Config
 
 
 @lru_cache()

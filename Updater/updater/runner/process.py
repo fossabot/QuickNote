@@ -1,11 +1,13 @@
 import os
 import signal
+from pathlib import Path
+from typing import List
 
 import psutil
 
 
-def find_processes_by_path(target_path):
-    matches = []
+def find_processes_by_path(target_path: Path) -> list[psutil.Process]:
+    matches: List[psutil.Process] = []
     for proc in psutil.process_iter(['pid', 'exe', 'cmdline']):
         try:
             exe = proc.info['exe']
@@ -22,7 +24,7 @@ def try_terminate(proc):
     print(f"Trying to gracefully terminate PID {proc.pid} ({proc.name()})...")
     try:
         if os.name == 'nt':
-            os.kill(proc.pid, signal.CTRL_BREAK_EVENT)
+            proc.terminate()
         else:
             proc.send_signal(signal.SIGINT)
         proc.wait(timeout=5)

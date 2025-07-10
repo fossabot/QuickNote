@@ -1,10 +1,10 @@
 from typing import Optional, MutableMapping
 
 import requests
+from proxy.http import get_proxies
 
 
 def fetch_latest_release(owner: str, repo: str, proxies: Optional[MutableMapping[str, str]] = None) -> dict:
-    from Updater.proxy.http import get_proxies
     proxies = proxies or get_proxies()
 
     resp = requests.get(

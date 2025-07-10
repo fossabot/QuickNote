@@ -1,6 +1,6 @@
 from functools import lru_cache
 
-from Updater.config.yml_loader import get_config
+from config.yml_loader import get_config
 
 
 @lru_cache()
