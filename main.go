@@ -66,7 +66,7 @@ func main() {
 	router.Setup(app)
 
 	shutdownChan := make(chan os.Signal, 1)
-	signal.Notify(shutdownChan, os.Interrupt, syscall.SIGTERM)
+	signal.Notify(shutdownChan, os.Interrupt, syscall.SIGTERM, syscall.SIGINT)
 
 	go func() {
 		if err := listener.Start(app); err != nil {
